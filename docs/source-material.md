@@ -59,6 +59,10 @@ than relying on handwritten interface copy.
 Any third-party notice required for the passage must also be indexed in
 `../THIRD_PARTY_NOTICES.md`.
 
+The first selected and verified passage is recorded in
+`sources/first-passage.md`. Its structured source of truth is the corresponding
+JSON entry in `../src/content/passages/`, validated by Astro's content schema.
+
 ## Presentation and export
 
 Every finished piece should retain a discreet information view containing the

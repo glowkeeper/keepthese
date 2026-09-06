@@ -38,9 +38,13 @@ Vitest runs the fast unit and component suite in a lightweight DOM environment.
 Browser-level interaction automation is deliberately deferred to the meaningful
 creative surface in issue #8, where it will run separately from the fast suite.
 
-Astro content collections are a likely fit for typed passage and provenance
-records, but their schema belongs to issue #9. The foundation does not invent a
-source model before the first passage is selected and verified.
+Astro content collections own typed passage and provenance records. Each local
+JSON entry contains versioned clean text, source and edition details,
+jurisdiction-specific rights checks, credits, and the route back to the
+original. The schema rejects incomplete records during checks and builds;
+application attribution is generated from the same data rather than duplicated
+as interface copy. The first record and its selection and rights reasoning are
+documented in `sources/first-passage.md`.
 
 ## Staged architecture
 
@@ -134,10 +138,9 @@ trade-offs, and what would cause it to be reconsidered.
 
 ## Decisions still to record
 
-- Version 0's exact passage, interaction, and learning questions.
+- Version 0's interaction and learning questions.
 - The smallest suitable implementation for the playable sketch.
 - The quality, compatibility, and accessibility baseline for Version 0.
-- The text licensing and attribution rules that apply from the first passage.
 - Deployment choices when the sketch is ready to be shared.
 
 These questions should be answered before scaffolding an application stack.

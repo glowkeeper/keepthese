@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "passageId": "frankenstein-1831-chapter-4-life-and-death",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "Frankenstein; Or, The Modern Prometheus",
+    "author": {
+      "name": "Mary Wollstonecraft Shelley",
+      "birthYear": 1797,
+      "deathYear": 1851
+    },
+    "firstPublishedYear": 1818
+  },
+  "passageLocation": {
+    "edition": "1831 revised edition",
+    "chapter": "Chapter IV",
+    "openingWords": "No one can conceive the variety of feelings"
+  },
+  "text": [
+    "No one can conceive the variety of feelings which bore me onwards, like a hurricane, in the first enthusiasm of success. Life and death appeared to me ideal bounds, which I should first break through, and pour a torrent of light into our dark world. A new species would bless me as its creator and source; many happy and excellent natures would owe their being to me. No father could claim the gratitude of his child so completely as I should deserve theirs. Pursuing these reflections, I thought, that if I could bestow animation upon lifeless matter, I might in process of time (although I now found it impossible) renew life where death had apparently devoted the body to corruption."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "Transcription produced from a photo-reprint of the 1831 edition",
+    "publication": "London: Henry Colburn and Richard Bentley, 1831",
+    "ebookNumber": "42324",
+    "recordUrl": "https://www.gutenberg.org/ebooks/42324",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/42324/pg42324.txt",
+    "transcriptionUpdated": "2024-10-23",
+    "checkedAt": "2026-09-06",
+    "contributors": [
+      {
+        "name": "Greg Weeks",
+        "role": "transcription production"
+      },
+      {
+        "name": "Mary Meehan",
+        "role": "transcription production"
+      },
+      {
+        "name": "Online Distributed Proofreading Team",
+        "role": "distributed proofreading"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-06",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Shelley died in 1851 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this 1831 edition transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/42324"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This project record covers the clean English passage in the intended initial GB and US markets; reassess before adding markets or changing the sourced edition."
+  },
+  "attribution": {
+    "sourceLabel": "Read the 1831 edition at Project Gutenberg",
+    "requiredCredit": "Transcription produced by Greg Weeks, Mary Meehan and the Online Distributed Proofreading Team."
+  },
+  "curation": {
+    "rationale": "The paragraph offers vivid, opposing images and flexible language around life and death, light and darkness, creation and inheritance, ambition and corruption. It supports many possible poems without prescribing one reading.",
+    "motifs": [
+      "life and death",
+      "light and darkness",
+      "creation and kinship",
+      "ambition and consequence"
+    ]
+  }
+}

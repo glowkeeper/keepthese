@@ -1,8 +1,20 @@
 # Third-party notices
 
 Keep These is currently a private project. It contains application and
-development dependencies managed through npm, but no bundled literary passages,
-fonts, images, textures, or other third-party creative material.
+development dependencies managed through npm and one public-domain literary
+passage. It contains no bundled fonts, images, textures, or other third-party
+creative material.
+
+## Literary source material
+
+| Work | Material and location | Source and status |
+| --- | --- | --- |
+| *Frankenstein; Or, The Modern Prometheus* by Mary Wollstonecraft Shelley | One paragraph from Chapter IV of the 1831 revised edition, stored as `frankenstein-1831-chapter-4-life-and-death`, text version 1 | Project Gutenberg eBook #42324, checked 6 September 2026. Underlying English text assessed as public domain for the intended initial GB and US markets. Transcription produced by Greg Weeks, Mary Meehan, and the Online Distributed Proofreading Team. |
+
+The complete provenance, source links, edition considerations, rights evidence,
+limitations, and textual-verification record are in
+`docs/sources/first-passage.md`. Project Gutenberg's name and terms remain its
+own; this acknowledgement does not imply endorsement.
 
 ## Application dependencies
 
