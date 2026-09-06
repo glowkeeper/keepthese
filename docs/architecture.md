@@ -140,10 +140,9 @@ trade-offs, and what would cause it to be reconsidered.
 
 ## Decisions still to record
 
-- Version 0's learning outcome after people have tried the playable sketch.
 - Deployment choices when the sketch is ready to be shared.
 
-These questions should be answered before scaffolding an application stack.
+The deployment choice should be recorded before the sketch is shared publicly.
 
 ## Playable sketch decision
 
@@ -152,6 +151,11 @@ recorded in `playable-sketch.md`. Astro renders the verified passage into the
 static document and passes its typed record to one React studio. A pure
 TypeScript reducer owns selection history and blackout state. State lives only
 for the mounted page session; no persistence boundary is introduced.
+
+The maintainer's Version 0 evaluation supports progression to the static,
+local-first Version 1 architecture already described here. Its evidence and
+constraints are recorded in `evaluations/version-0.md`; the decision does not
+justify a backend, account system, or Version 2 infrastructure.
 
 ## Cross-stage requirements
 

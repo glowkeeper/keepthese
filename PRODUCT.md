@@ -143,3 +143,14 @@ Progression is not automatic:
 The project board should express independently deliverable work for the current
 agreed stage only. Later stages are context for decisions, not a backlog that
 must eventually be completed.
+
+## Version 0 stage decision
+
+On 6 September 2026, the maintainer completed a poem with the playable sketch
+and gave an unequivocal decision to **progress to Version 1**. The evidence,
+creative charter review, limitations, and constraints for refinement are
+recorded in [`docs/evaluations/version-0.md`](docs/evaluations/version-0.md).
+
+This decision makes the Version 1 parent eligible for refinement and explicit
+commitment through the project board. It does not commit all Version 1 work
+automatically, and it provides no evidence for progressing to Version 2.
