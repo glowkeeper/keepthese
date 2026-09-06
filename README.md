@@ -21,6 +21,8 @@ architecture decisions.
 - [Creative charter](CREATIVE_CHARTER.md)
 - [Architecture](docs/architecture.md)
 - [Source material and rights](docs/source-material.md)
+- [Licensing](LICENSING.md)
+- [Third-party notices](THIRD_PARTY_NOTICES.md)
 - [Project workflow](docs/project-workflow.md)
 - [AI collaboration guide](AGENTS.md)
 

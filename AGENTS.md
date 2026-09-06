@@ -11,6 +11,8 @@ Before changing product behaviour, architecture, or project process, read:
 - `CREATIVE_CHARTER.md` for the experience and authorship principles;
 - `docs/architecture.md` for current technical decisions and open questions;
 - `docs/source-material.md` for source rights, provenance, and attribution;
+- `LICENSING.md` before introducing code, documentation, assets, dependencies,
+  source material, or terms affecting maker-created work;
 - `docs/project-workflow.md` for issue, board, branch, and review practice;
 - the issue being implemented, including its acceptance criteria and comments.
 
@@ -62,6 +64,9 @@ from Backlog to Ready without an explicit maintainer decision.
 - Do not select a framework, persistence layer, hosting platform, account
   model, analytics service, or similar foundation until the relevant decision
   is recorded.
+- Do not assume that repository access or one material's licence applies to
+  code, documentation, branding, visual assets, source texts, third-party
+  material, or maker-created work as a whole.
 
 ## Branches and pull requests
 
