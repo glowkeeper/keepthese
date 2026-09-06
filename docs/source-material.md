@@ -9,6 +9,10 @@ of the product rather than administrative tasks.
 This document records project policy, not legal advice. Requirements should be
 reviewed for each jurisdiction and source before publication.
 
+The repository-wide material boundaries and intended public-release licences
+are recorded in `../LICENSING.md`. A software or documentation licence never
+applies automatically to a literary source passage.
+
 ## Initial collection
 
 Versions 0 and 1 should use a small, curated set of individually verified
@@ -51,6 +55,9 @@ Every bundled passage should record at least:
 
 The application should be able to generate attribution from this record rather
 than relying on handwritten interface copy.
+
+Any third-party notice required for the passage must also be indexed in
+`../THIRD_PARTY_NOTICES.md`.
 
 ## Presentation and export
 
