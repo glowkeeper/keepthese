@@ -1,0 +1,29 @@
+---
+import StudioFoundation from '../components/StudioFoundation';
+import '../styles/global.css';
+
+const title = 'Keep These';
+const description =
+  'A quiet instrument for finding poems within existing writing.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">A quiet blackout poetry studio</p>
+        <h1>{title}</h1>
+        <p class="introduction">{description}</p>
+      </header>
+
+      <StudioFoundation client:load />
+    </main>
+  </body>
+</html>

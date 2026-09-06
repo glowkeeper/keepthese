@@ -1,8 +1,27 @@
 # Third-party notices
 
-Keep These is currently a private, documentation-only project and contains no
-bundled application dependencies, literary passages, fonts, images, textures,
-or other third-party distributable material.
+Keep These is currently a private project. It contains application and
+development dependencies managed through npm, but no bundled literary passages,
+fonts, images, textures, or other third-party creative material.
+
+## Application dependencies
+
+The static application currently uses:
+
+| Component | Purpose | Licence |
+| --- | --- | --- |
+| Astro | Static site and build framework | MIT |
+| Astro React integration | React rendering and hydration | MIT |
+| React | Interactive studio component model | MIT |
+| React DOM | Browser rendering for React | MIT |
+
+Exact package names, versions, resolved dependencies, and integrity records are
+stored in `package.json` and `package-lock.json`. These records do not replace
+the upstream licence texts or notices that must accompany a public source or
+application distribution.
+
+Development-only quality tools are also declared and locked there. Their
+licences must be audited with the production bundle before public distribution.
 
 This file is the required index for third-party material as it is introduced.
 Each entry must identify:
