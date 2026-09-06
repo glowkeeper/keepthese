@@ -2,8 +2,9 @@
 
 ## Purpose
 
-The GitHub project board is the working plan for Keep These, not a retrospective
-status display. Add its URL here once the board exists.
+The [Keep These GitHub project board (Project 27)](https://github.com/users/glowkeeper/projects/27)
+is the working plan for the project, not a retrospective status display.
+Its description/README, status options, and custom fields should match this document.
 
 Product direction constrains the work, issues define agreed deliverables, and
 the board communicates what is happening now. Pull requests implement and
