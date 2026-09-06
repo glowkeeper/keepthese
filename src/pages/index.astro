@@ -1,10 +1,18 @@
 ---
-import StudioFoundation from '../components/StudioFoundation';
+import { getCollection } from 'astro:content';
+
+import BlackoutStudio from '../components/BlackoutStudio';
 import '../styles/global.css';
 
 const title = 'Keep These';
 const description =
   'A quiet instrument for finding poems within existing writing.';
+const passages = await getCollection('passages');
+const passage = passages[0];
+
+if (!passage) {
+  throw new Error('The playable sketch requires one verified passage.');
+}
 ---
 
 <!doctype html>
@@ -17,13 +25,13 @@ const description =
   </head>
   <body>
     <main>
-      <header>
+      <header class="site-header">
         <p class="eyebrow">A quiet blackout poetry studio</p>
         <h1>{title}</h1>
         <p class="introduction">{description}</p>
       </header>
 
-      <StudioFoundation client:load />
+      <BlackoutStudio passage={passage.data} client:load />
     </main>
   </body>
 </html>

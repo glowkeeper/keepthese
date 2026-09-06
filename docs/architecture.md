@@ -35,8 +35,10 @@ Library, and Vitest form one warning-free quality contract exposed through
 check on pull requests and pushes to `main`.
 
 Vitest runs the fast unit and component suite in a lightweight DOM environment.
-Browser-level interaction automation is deliberately deferred to the meaningful
-creative surface in issue #8, where it will run separately from the fast suite.
+Playwright runs the meaningful creative interaction separately against desktop
+Chromium and a representative narrow mobile viewport. Browser failures retain
+screenshots and traces. GitHub Actions keeps this slower browser suite in its
+own job rather than folding it into the fast `npm run check` contract.
 
 Astro content collections own typed passage and provenance records. Each local
 JSON entry contains versioned clean text, source and edition details,
@@ -138,12 +140,18 @@ trade-offs, and what would cause it to be reconsidered.
 
 ## Decisions still to record
 
-- Version 0's interaction and learning questions.
-- The smallest suitable implementation for the playable sketch.
-- The quality, compatibility, and accessibility baseline for Version 0.
+- Version 0's learning outcome after people have tried the playable sketch.
 - Deployment choices when the sketch is ready to be shared.
 
 These questions should be answered before scaffolding an application stack.
+
+## Playable sketch decision
+
+The Version 0 interaction and its accessibility and verification baselines are
+recorded in `playable-sketch.md`. Astro renders the verified passage into the
+static document and passes its typed record to one React studio. A pure
+TypeScript reducer owns selection history and blackout state. State lives only
+for the mounted page session; no persistence boundary is introduced.
 
 ## Cross-stage requirements
 
