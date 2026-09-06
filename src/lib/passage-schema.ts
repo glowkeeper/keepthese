@@ -1,5 +1,58 @@
 import { z } from 'astro/zod';
 
+const marketSchema = z.enum(['GB', 'US']);
+
+const rightsSchema = z
+  .object({
+    status: z.literal('public-domain'),
+    checkedAt: z.iso.date(),
+    intendedMarkets: z
+      .array(marketSchema)
+      .min(1)
+      .refine((markets) => new Set(markets).size === markets.length, {
+        message: 'Intended markets must be unique',
+      }),
+    assessments: z.array(
+      z.object({
+        jurisdiction: marketSchema,
+        conclusion: z.string().min(1),
+        evidenceUrl: z.url(),
+      }),
+    ),
+    translation: z.literal('not-applicable'),
+    annotations: z.literal('excluded'),
+    illustrations: z.literal('excluded'),
+    typographicalLayout: z.literal('not-reproduced'),
+    caveat: z.string().min(1),
+  })
+  .superRefine(({ intendedMarkets, assessments }, context) => {
+    const intended = new Set(intendedMarkets);
+    const assessed = new Set(
+      assessments.map(({ jurisdiction }) => jurisdiction),
+    );
+
+    if (assessed.size !== assessments.length) {
+      context.addIssue({
+        code: 'custom',
+        message: 'Each market must have exactly one rights assessment',
+        path: ['assessments'],
+      });
+    }
+
+    const hasSameMarkets =
+      intended.size === assessed.size &&
+      [...intended].every((market) => assessed.has(market));
+
+    if (!hasSameMarkets) {
+      context.addIssue({
+        code: 'custom',
+        message:
+          'Rights assessments must cover every intended market and no others',
+        path: ['assessments'],
+      });
+    }
+  });
+
 export const passageSchema = z.object({
   schemaVersion: z.literal(1),
   passageId: z.string().min(1),
@@ -36,23 +89,7 @@ export const passageSchema = z.object({
       }),
     ),
   }),
-  rights: z.object({
-    status: z.literal('public-domain'),
-    checkedAt: z.iso.date(),
-    intendedMarkets: z.array(z.enum(['GB', 'US'])).min(1),
-    assessments: z.array(
-      z.object({
-        jurisdiction: z.enum(['GB', 'US']),
-        conclusion: z.string().min(1),
-        evidenceUrl: z.url(),
-      }),
-    ),
-    translation: z.literal('not-applicable'),
-    annotations: z.literal('excluded'),
-    illustrations: z.literal('excluded'),
-    typographicalLayout: z.literal('not-reproduced'),
-    caveat: z.string().min(1),
-  }),
+  rights: rightsSchema,
   attribution: z.object({
     sourceLabel: z.string().min(1),
     requiredCredit: z.string().min(1),

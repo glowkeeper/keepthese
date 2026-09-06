@@ -5,13 +5,38 @@ import { passageSchema } from './passage-schema';
 import { formatPassageAttribution } from './passages';
 
 describe('first source passage', () => {
-  it('conforms to the passage schema and has one assessment per intended market', () => {
+  it('conforms to the passage schema', () => {
     const passage = passageSchema.parse(passageRecord);
 
-    expect(
-      passage.rights.assessments.map(({ jurisdiction }) => jurisdiction),
-    ).toEqual(passage.rights.intendedMarkets);
     expect(passage.text.join(' ')).not.toContain('PROJECT GUTENBERG');
+  });
+
+  it('accepts one rights assessment per intended market in any order', () => {
+    const candidate = structuredClone(passageRecord);
+    candidate.rights.assessments.reverse();
+
+    expect(passageSchema.safeParse(candidate).success).toBe(true);
+  });
+
+  it('rejects a missing rights assessment', () => {
+    const candidate = structuredClone(passageRecord);
+    candidate.rights.assessments.pop();
+
+    expect(passageSchema.safeParse(candidate).success).toBe(false);
+  });
+
+  it('rejects duplicate rights assessments for one market', () => {
+    const candidate = structuredClone(passageRecord);
+    candidate.rights.assessments[1] = candidate.rights.assessments[0]!;
+
+    expect(passageSchema.safeParse(candidate).success).toBe(false);
+  });
+
+  it('rejects an assessment outside the intended markets', () => {
+    const candidate = structuredClone(passageRecord);
+    candidate.rights.intendedMarkets = ['GB'];
+
+    expect(passageSchema.safeParse(candidate).success).toBe(false);
   });
 
   it('generates a route-bearing source attribution from structured data', () => {
