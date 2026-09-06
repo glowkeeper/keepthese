@@ -15,6 +15,37 @@ The product will develop in stages. Each stage should be useful in its own
 right, with later capabilities introduced only through explicit product and
 architecture decisions.
 
+## Development
+
+Keep These currently uses Astro for its static, content-led site and React for
+the interactive studio boundary. It requires the Node.js release pinned in
+`.node-version` and npm.
+
+```sh
+npm ci
+npm run dev
+```
+
+The development server prints its local URL. Create and inspect the static
+production build with:
+
+```sh
+npm run build
+npm run preview
+```
+
+Run the complete local quality suite with:
+
+```sh
+npm run check
+```
+
+Individual commands are available for formatting verification (`format:check`),
+ESLint (`lint`), Markdown linting (`lint:markdown`), strict Astro and TypeScript
+checking (`typecheck`), unit tests (`test`), and the production build (`build`).
+The aggregate check treats lint warnings as failures and is run by GitHub
+Actions for every pull request and push to `main`.
+
 ## Project records
 
 - [Product direction](PRODUCT.md)
@@ -26,5 +57,5 @@ architecture decisions.
 - [Project workflow](docs/project-workflow.md)
 - [AI collaboration guide](AGENTS.md)
 
-No application stack has been selected yet. The first implementation target is
-Version 0, the playable sketch described in the product direction.
+The first product implementation target is Version 0, the playable sketch
+described in the product direction.

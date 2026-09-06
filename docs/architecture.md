@@ -6,9 +6,41 @@ This is a living decision record for Keep These. It distinguishes the
 architecture required now from options that may become appropriate in later
 stages.
 
-No application framework or hosting platform has yet been selected. Their
-absence is intentional rather than an implicit decision. The product stages do,
-however, establish when different kinds of architecture become justified.
+No hosting platform has yet been selected. Its absence is intentional rather
+than an implicit decision. The product stages establish when different kinds of
+architecture become justified.
+
+## Version 0 application foundation
+
+Version 0 uses Astro in its default static-output mode. Astro owns routes,
+document structure, metadata, editorial content, and the static site shell.
+React owns one cohesive interactive studio island. Pure TypeScript modules will
+own selection rules and creative state independently of either rendering layer.
+
+This boundary supports the likely long-term combination of discoverable author,
+book, passage, collection, attribution, and guide pages around one deeply
+interactive creative instrument. It avoids both a site-wide client-rendered
+application and a collection of small islands that would make connected studio
+state difficult to coordinate.
+
+The foundation includes no server adapter, router library, global state
+library, content management system, offline tooling, or backend client. Astro
+continues to emit static files. On-demand rendering remains a later option for
+an individually justified route rather than the default architecture.
+
+Node.js and npm provide the pinned development and CI runtime. Prettier,
+ESLint, markdownlint-cli2, Astro's strict checker, TypeScript, React Testing
+Library, and Vitest form one warning-free quality contract exposed through
+`npm run check`. GitHub Actions runs the same locked installation and aggregate
+check on pull requests and pushes to `main`.
+
+Vitest runs the fast unit and component suite in a lightweight DOM environment.
+Browser-level interaction automation is deliberately deferred to the meaningful
+creative surface in issue #8, where it will run separately from the fast suite.
+
+Astro content collections are a likely fit for typed passage and provenance
+records, but their schema belongs to issue #9. The foundation does not invent a
+source model before the first passage is selected and verified.
 
 ## Staged architecture
 
