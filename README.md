@@ -46,11 +46,24 @@ checking (`typecheck`), unit tests (`test`), and the production build (`build`).
 The aggregate check treats lint warnings as failures and is run by GitHub
 Actions for every pull request and push to `main`.
 
+The playable sketch also has a separate browser suite. Install its Chromium
+runtime once, then run it against desktop and narrow mobile viewports:
+
+```sh
+npx playwright install chromium
+npm run test:browser
+```
+
+Browser failures retain screenshots and traces in ignored local artefact
+directories. GitHub Actions installs Chromium and runs this suite as an
+independent job on pull requests and pushes to `main`.
+
 ## Project records
 
 - [Product direction](PRODUCT.md)
 - [Creative charter](CREATIVE_CHARTER.md)
 - [Architecture](docs/architecture.md)
+- [Playable sketch](docs/playable-sketch.md)
 - [Source material and rights](docs/source-material.md)
 - [Licensing](LICENSING.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
