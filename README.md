@@ -64,6 +64,7 @@ independent job on pull requests and pushes to `main`.
 - [Creative charter](CREATIVE_CHARTER.md)
 - [Architecture](docs/architecture.md)
 - [Playable sketch](docs/playable-sketch.md)
+- [Version 0 evaluation](docs/evaluations/version-0.md)
 - [Source material and rights](docs/source-material.md)
 - [Licensing](LICENSING.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
