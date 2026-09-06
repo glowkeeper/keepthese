@@ -43,7 +43,7 @@ The last observation means none was encountered or reported by this evaluator;
 it is not evidence that no barrier exists. Detailed assistive-technology and
 broader usability evaluation remain necessary.
 
-## Creative-charter review
+## Creative charter review
 
 The evaluated interaction remains aligned with the charter:
 
