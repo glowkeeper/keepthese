@@ -28,10 +28,13 @@ export const initialStudioState: StudioState = {
   selectedIds: [],
 };
 
-export function segmentPassage(text: string): PassageSegment[] {
+export function segmentPassage(
+  text: string,
+  startingWordIndex = 0,
+): PassageSegment[] {
   const segments: PassageSegment[] = [];
   let cursor = 0;
-  let wordIndex = 0;
+  let wordIndex = startingWordIndex;
 
   for (const match of text.matchAll(wordPattern)) {
     const index = match.index;
@@ -54,6 +57,16 @@ export function segmentPassage(text: string): PassageSegment[] {
   }
 
   return segments;
+}
+
+export function segmentPassages(paragraphs: string[]): PassageSegment[][] {
+  let nextWordIndex = 0;
+
+  return paragraphs.map((paragraph) => {
+    const segments = segmentPassage(paragraph, nextWordIndex);
+    nextWordIndex += segments.filter(({ kind }) => kind === 'word').length;
+    return segments;
+  });
 }
 
 export function studioReducer(

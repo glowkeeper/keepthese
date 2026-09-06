@@ -3,7 +3,7 @@ import { type KeyboardEvent, useMemo, useReducer, useState } from 'react';
 import type { Passage } from '../lib/passage-schema';
 import {
   initialStudioState,
-  segmentPassage,
+  segmentPassages,
   studioReducer,
 } from '../lib/studio-state';
 
@@ -15,7 +15,7 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
   const [state, dispatch] = useReducer(studioReducer, initialStudioState);
   const [activeWordId, setActiveWordId] = useState('word-0');
   const paragraphs = useMemo(
-    () => passage.text.map((paragraph) => segmentPassage(paragraph)),
+    () => segmentPassages(passage.text),
     [passage.text],
   );
   const words = paragraphs.flatMap((segments) =>

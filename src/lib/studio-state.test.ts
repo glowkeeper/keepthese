@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   initialStudioState,
   segmentPassage,
+  segmentPassages,
   studioReducer,
 } from './studio-state';
 
@@ -17,6 +18,21 @@ describe('passage segmentation', () => {
         segment.kind === 'word' ? [segment.id] : [],
       ),
     ).toEqual(['word-0', 'word-1', 'word-2', 'word-3', 'word-4']);
+  });
+
+  it('assigns unique, source-ordered identifiers across paragraphs', () => {
+    const paragraphs = segmentPassages(['First life.', 'Second life.']);
+    const wordIds = paragraphs.flatMap((segments) =>
+      segments.flatMap((segment) =>
+        segment.kind === 'word' ? [segment.id] : [],
+      ),
+    );
+
+    expect(wordIds).toEqual(['word-0', 'word-1', 'word-2', 'word-3']);
+    expect(new Set(wordIds).size).toBe(wordIds.length);
+    expect(
+      paragraphs.map((segments) => segments.map(({ text }) => text).join('')),
+    ).toEqual(['First life.', 'Second life.']);
   });
 });
 
