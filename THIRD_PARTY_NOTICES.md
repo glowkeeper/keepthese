@@ -20,10 +20,11 @@ creative material.
 | *Great Expectations* by Charles Dickens | One paragraph from Chapter IX, stored as `great-expectations-1861-chapter-9-memorable-day`, text version 1 | Project Gutenberg eBook #1400, checked 7 September 2026. Transcription produced by an anonymous volunteer and David Widger. |
 | *The Yellow Wallpaper* by Charlotte Perkins Gilman | Seven short paragraphs beginning “There is one marked peculiarity,” stored as `yellow-wallpaper-1892-light-and-pattern`, text version 1 | Project Gutenberg eBook #1952, checked 7 September 2026. Transcription produced by an anonymous volunteer and David Widger. |
 
-The complete provenance, source links, edition considerations, rights evidence,
-limitations, and textual-verification records are in `docs/sources/`.
-Project Gutenberg's name and terms remain its own; these acknowledgements do
-not imply endorsement.
+Complete machine-readable provenance, source links, rights evidence,
+attribution, and curation metadata live with each passage in
+`src/content/passages/`. Human-readable verification notes and collection
+limitations are in `docs/sources/`. Project Gutenberg's name and terms remain
+its own; these acknowledgements do not imply endorsement.
 
 ## Application dependencies
 

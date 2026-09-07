@@ -25,6 +25,9 @@ const records = [
   yellowWallpaper,
 ];
 
+const containsGutenbergWrapperText = (text: string[]) =>
+  /project gutenberg/i.test(text.join(' '));
+
 describe('initial passage collection', () => {
   it('contains ten independently valid and uniquely identified passages', () => {
     const passages = records.map((record) => passageSchema.parse(record));
@@ -39,9 +42,13 @@ describe('initial passage collection', () => {
     const passages = records.map((record) => passageSchema.parse(record));
 
     expect(
-      passages.every(
-        ({ text }) => !text.join(' ').includes('PROJECT GUTENBERG'),
-      ),
+      passages.every(({ text }) => !containsGutenbergWrapperText(text)),
     ).toBe(true);
+  });
+
+  it('detects Project Gutenberg wrapper markers regardless of case', () => {
+    expect(containsGutenbergWrapperText(['PROJECT GUTENBERG'])).toBe(true);
+    expect(containsGutenbergWrapperText(['Project Gutenberg'])).toBe(true);
+    expect(containsGutenbergWrapperText(['project gutenberg'])).toBe(true);
   });
 });
