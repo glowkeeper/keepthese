@@ -303,10 +303,18 @@ h1 {
   cursor: pointer;
 }
 
-.studio-actions button:last-child {
+.studio-actions .blackout-action {
   flex-basis: 100%;
   color: #f8f2e7;
   background: #292621;
+}
+
+.storage-status {
+  margin: 1rem 0 0;
+  color: #655e55;
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.45;
 }
 
 .studio-actions button:disabled {

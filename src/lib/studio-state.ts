@@ -16,6 +16,7 @@ export type StudioAction =
       type: 'toggle-word';
     }
   | { type: 'toggle-blackout' }
+  | { blackout: boolean; selectedIds: string[]; type: 'restore' }
   | { type: 'undo' }
   | { type: 'restart' };
 
@@ -98,6 +99,15 @@ export function studioReducer(
           ? 'The full page is visible again.'
           : 'Unkept words have fallen away.',
         blackout: !state.blackout,
+      };
+    case 'restore':
+      return {
+        ...initialStudioState,
+        announcement: `Saved work recovered. ${action.selectedIds.length} ${
+          action.selectedIds.length === 1 ? 'word' : 'words'
+        } kept.`,
+        blackout: action.blackout,
+        selectedIds: action.selectedIds,
       };
     case 'undo': {
       const previous = state.history.at(-1);
