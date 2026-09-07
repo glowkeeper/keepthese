@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "passageId": "great-expectations-1861-chapter-9-memorable-day",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "Great Expectations",
+    "author": {
+      "name": "Charles Dickens",
+      "birthYear": 1812,
+      "deathYear": 1870
+    },
+    "firstPublishedYear": 1861
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Chapter IX",
+    "openingWords": "That was a memorable day to me"
+  },
+  "text": [
+    "That was a memorable day to me, for it made great changes in me. But it is the same with any life. Imagine one selected day struck out of it, and think how different its course would have been. Pause you who read this, and think for a moment of the long chain of iron or gold, of thorns or flowers, that would never have bound you, but for the formation of the first link on one memorable day."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "London: Chapman and Hall, 1861",
+    "ebookNumber": "1400",
+    "recordUrl": "https://www.gutenberg.org/ebooks/1400",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/1400/pg1400.txt",
+    "transcriptionUpdated": "2024-12-17",
+    "checkedAt": "2026-09-07",
+    "contributors": [
+      {
+        "name": "Anonymous Volunteer",
+        "role": "transcription production"
+      },
+      {
+        "name": "David Widger",
+        "role": "transcription production"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-07",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Dickens died in 1870 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/1400"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English passage in the intended initial GB and US markets; reassess before adding markets or changing the sourced text."
+  },
+  "attribution": {
+    "sourceLabel": "Read Great Expectations at Project Gutenberg",
+    "requiredCredit": "Transcription produced by an anonymous volunteer and David Widger."
+  },
+  "curation": {
+    "rationale": "A single day becomes a chain of iron or gold, thorns or flowers. The balanced images and direct invitation to pause support poems about memory, consequence, chance and binding.",
+    "motifs": [
+      "memory and change",
+      "chance",
+      "iron and gold",
+      "thorns and flowers"
+    ]
+  }
+}

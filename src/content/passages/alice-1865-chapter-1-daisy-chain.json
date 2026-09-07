@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "passageId": "alice-1865-chapter-1-daisy-chain",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "Alice's Adventures in Wonderland",
+    "author": {
+      "name": "Lewis Carroll",
+      "birthYear": 1832,
+      "deathYear": 1898
+    },
+    "firstPublishedYear": 1865
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Chapter I, Down the Rabbit-Hole",
+    "openingWords": "Alice was beginning to get very tired"
+  },
+  "text": [
+    "Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, “and what is the use of a book,” thought Alice “without pictures or conversations?”",
+    "So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription excluding illustrations",
+    "publication": "London: Macmillan and Co., 1865",
+    "ebookNumber": "11",
+    "recordUrl": "https://www.gutenberg.org/ebooks/11",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/11/pg11.txt",
+    "transcriptionUpdated": "2025-06-26",
+    "checkedAt": "2026-09-07",
+    "contributors": [
+      {
+        "name": "Arthur DiBianca",
+        "role": "transcription production"
+      },
+      {
+        "name": "David Widger",
+        "role": "transcription production"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-07",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Carroll died in 1898 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/11"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English passage only; all illustrations and page design are excluded and require separate treatment."
+  },
+  "attribution": {
+    "sourceLabel": "Read Alice's Adventures in Wonderland at Project Gutenberg",
+    "requiredCredit": "Transcription produced by Arthur DiBianca and David Widger."
+  },
+  "curation": {
+    "rationale": "The opening balances boredom, books, pictures, sleep, pleasure and sudden strangeness. Its familiar objects and abrupt White Rabbit give makers playful routes without relying on the later adventure.",
+    "motifs": [
+      "boredom and curiosity",
+      "books and pictures",
+      "sleep and surprise",
+      "ordinary and strange"
+    ]
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "passageId": "persuasion-1818-chapter-4-prudence-and-romance",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "Persuasion",
+    "author": {
+      "name": "Jane Austen",
+      "birthYear": 1775,
+      "deathYear": 1817
+    },
+    "firstPublishedYear": 1817
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription, presented as 1818",
+    "chapter": "Chapter IV",
+    "openingWords": "How eloquent could Anne Elliot have been"
+  },
+  "text": [
+    "How eloquent could Anne Elliot have been! how eloquent, at least, were her wishes on the side of early warm attachment, and a cheerful confidence in futurity, against that over-anxious caution which seems to insult exertion and distrust Providence! She had been forced into prudence in her youth, she learned romance as she grew older: the natural sequel of an unnatural beginning."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription presented as the 1818 text",
+    "publication": "First published by John Murray with Northanger Abbey, dated 1818",
+    "ebookNumber": "105",
+    "recordUrl": "https://www.gutenberg.org/ebooks/105",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/105/pg105.txt",
+    "transcriptionUpdated": "2024-10-29",
+    "checkedAt": "2026-09-07",
+    "contributors": [
+      {
+        "name": "Sharon Partridge",
+        "role": "transcription production"
+      },
+      {
+        "name": "Martin Ward",
+        "role": "transcription production"
+      },
+      {
+        "name": "Richard Tonsing",
+        "role": "transcription revision"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-07",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Austen died in 1817 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/105"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English passage in the intended initial GB and US markets; reassess before adding markets or changing the sourced text."
+  },
+  "attribution": {
+    "sourceLabel": "Read Persuasion at Project Gutenberg",
+    "requiredCredit": "Transcription prepared by Sharon Partridge and Martin Ward; revised by Richard Tonsing."
+  },
+  "curation": {
+    "rationale": "This compact reflection turns caution, attachment, confidence, futurity, prudence, youth, romance and age against one another. Its emotional vocabulary supports many poems about risk and becoming without prescribing Anne's story.",
+    "motifs": [
+      "prudence and romance",
+      "youth and age",
+      "attachment and caution",
+      "confidence and futurity"
+    ]
+  }
+}
