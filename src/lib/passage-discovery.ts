@@ -13,6 +13,6 @@ export function chooseSurprisePassage(
     ({ passageId }) => passageId !== currentPassageId,
   );
   const candidates = alternatives.length > 0 ? alternatives : passages;
-  const boundedRandom = Math.min(Math.max(randomValue, 0), 0.9999999999999999);
+  const boundedRandom = Math.min(Math.max(randomValue, 0), 1 - Number.EPSILON);
   return candidates[Math.floor(boundedRandom * candidates.length)]!;
 }

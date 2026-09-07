@@ -18,6 +18,11 @@ afterEach(() => {
 });
 
 describe('passage discovery', () => {
+  it('reports an intentional error for an empty shelf', () => {
+    expect(() => render(<PassageDiscovery passages={[]} />)).toThrow(
+      'The passage shelf requires at least one passage.',
+    );
+  });
   it('presents a finite shelf and changes passage with its context intact', () => {
     render(<PassageDiscovery passages={passages} />);
 

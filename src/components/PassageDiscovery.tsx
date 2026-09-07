@@ -10,11 +10,11 @@ interface PassageDiscoveryProps {
 
 export function PassageDiscovery({ passages }: PassageDiscoveryProps) {
   const [currentPassageId, setCurrentPassageId] = useState(
-    passages[0]!.passageId,
+    passages[0]?.passageId ?? '',
   );
-  const currentPassage =
-    passages.find(({ passageId }) => passageId === currentPassageId) ??
-    passages[0]!;
+  const currentPassage = passages.find(
+    ({ passageId }) => passageId === currentPassageId,
+  );
 
   if (!currentPassage) {
     throw new Error('The passage shelf requires at least one passage.');
@@ -22,7 +22,7 @@ export function PassageDiscovery({ passages }: PassageDiscoveryProps) {
 
   function surpriseMe() {
     setCurrentPassageId(
-      chooseSurprisePassage(passages, currentPassage.passageId).passageId,
+      chooseSurprisePassage(passages, currentPassageId).passageId,
     );
   }
 
