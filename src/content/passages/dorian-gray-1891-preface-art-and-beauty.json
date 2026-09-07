@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "passageId": "dorian-gray-1891-preface-art-and-beauty",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "The Picture of Dorian Gray",
+    "author": {
+      "name": "Oscar Wilde",
+      "birthYear": 1854,
+      "deathYear": 1900
+    },
+    "firstPublishedYear": 1890
+  },
+  "passageLocation": {
+    "edition": "1891 book-edition preface, Project Gutenberg English transcription",
+    "chapter": "The Preface",
+    "openingWords": "The artist is the creator of beautiful things"
+  },
+  "text": [
+    "The artist is the creator of beautiful things. To reveal art and conceal the artist is art’s aim. The critic is he who can translate into another manner or a new material his impression of beautiful things.",
+    "The highest as the lowest form of criticism is a mode of autobiography. Those who find ugly meanings in beautiful things are corrupt without being charming. This is a fault.",
+    "Those who find beautiful meanings in beautiful things are the cultivated. For these there is hope. They are the elect to whom beautiful things mean only beauty."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription of the book text including the 1891 preface",
+    "publication": "London: Ward, Lock & Co., 1891 book edition",
+    "ebookNumber": "174",
+    "recordUrl": "https://www.gutenberg.org/ebooks/174",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/174/pg174.txt",
+    "transcriptionUpdated": "2025-09-17",
+    "checkedAt": "2026-09-07",
+    "contributors": [
+      {
+        "name": "Judith Boss",
+        "role": "transcription production"
+      },
+      {
+        "name": "Al Haines",
+        "role": "HTML production"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-07",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Wilde died in 1900 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/174"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English preface text in the intended initial GB and US markets; reassess before adding markets or changing the sourced text."
+  },
+  "attribution": {
+    "sourceLabel": "Read The Picture of Dorian Gray at Project Gutenberg",
+    "requiredCredit": "Transcription produced by Judith Boss; HTML version produced by Al Haines."
+  },
+  "curation": {
+    "rationale": "Wilde's preface is already a field of tensions between artist, critic, revelation, concealment, beauty and autobiography. Its aphoristic sentences invite recombination without requiring plot knowledge.",
+    "motifs": [
+      "art and artist",
+      "revelation and concealment",
+      "beauty",
+      "criticism and autobiography"
+    ]
+  }
+}

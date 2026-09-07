@@ -1,8 +1,8 @@
 # Third-party notices
 
 Keep These is currently a private project. It contains application and
-development dependencies managed through npm and one public-domain literary
-passage. It contains no bundled fonts, images, textures, or other third-party
+development dependencies managed through npm and ten public-domain literary
+passages. It contains no bundled fonts, images, textures, or other third-party
 creative material.
 
 ## Literary source material
@@ -10,11 +10,20 @@ creative material.
 | Work | Material and location | Source and status |
 | --- | --- | --- |
 | *Frankenstein; Or, The Modern Prometheus* by Mary Wollstonecraft Shelley | One paragraph from Chapter IV of the 1831 revised edition, stored as `frankenstein-1831-chapter-4-life-and-death`, text version 1 | Project Gutenberg eBook #42324, checked 6 September 2026. Underlying English text assessed as public domain for the intended initial GB and US markets. Transcription produced by Greg Weeks, Mary Meehan, and the Online Distributed Proofreading Team. |
+| *Persuasion* by Jane Austen | One paragraph from Chapter IV, stored as `persuasion-1818-chapter-4-prudence-and-romance`, text version 1 | Project Gutenberg eBook #105, checked 7 September 2026. Transcription prepared by Sharon Partridge and Martin Ward; revised by Richard Tonsing. |
+| *Jane Eyre: An Autobiography* by Charlotte Brontë | One passage from Chapter X, stored as `jane-eyre-1847-chapter-10-wide-world`, text version 1 | Project Gutenberg eBook #1260, checked 7 September 2026. Transcription produced by David Price; illustrations excluded. |
+| *Middlemarch* by George Eliot | One passage from Book II, Chapter XX, stored as `middlemarch-1871-book-2-other-side-of-silence`, text version 1 | Project Gutenberg eBook #145, checked 7 September 2026. |
+| *Narrative of the Life of Frederick Douglass, an American Slave* by Frederick Douglass | One passage from Chapter VI, stored as `douglass-1845-chapter-6-pathway-to-freedom`, text version 1 | Project Gutenberg eBook #23, checked 7 September 2026. Transcription produced by an anonymous volunteer and David Widger. |
+| *Moby Dick; Or, The Whale* by Herman Melville | One passage from Chapter 1, stored as `moby-dick-1851-chapter-1-watery-world`, text version 1 | Project Gutenberg eBook #2701, checked 7 September 2026. Transcription produced by Daniel Lazarus, Jonesey, and David Widger. |
+| *The Picture of Dorian Gray* by Oscar Wilde | Three paragraphs from the 1891 preface, stored as `dorian-gray-1891-preface-art-and-beauty`, text version 1 | Project Gutenberg eBook #174, checked 7 September 2026. Transcription produced by Judith Boss; HTML version produced by Al Haines. |
+| *Alice's Adventures in Wonderland* by Lewis Carroll | Two paragraphs from Chapter I, stored as `alice-1865-chapter-1-daisy-chain`, text version 1 | Project Gutenberg eBook #11, checked 7 September 2026. Transcription produced by Arthur DiBianca and David Widger; illustrations excluded. |
+| *Great Expectations* by Charles Dickens | One paragraph from Chapter IX, stored as `great-expectations-1861-chapter-9-memorable-day`, text version 1 | Project Gutenberg eBook #1400, checked 7 September 2026. Transcription produced by an anonymous volunteer and David Widger. |
+| *The Yellow Wallpaper* by Charlotte Perkins Gilman | Seven short paragraphs beginning “There is one marked peculiarity,” stored as `yellow-wallpaper-1892-light-and-pattern`, text version 1 | Project Gutenberg eBook #1952, checked 7 September 2026. Transcription produced by an anonymous volunteer and David Widger. |
 
 The complete provenance, source links, edition considerations, rights evidence,
-limitations, and textual-verification record are in
-`docs/sources/first-passage.md`. Project Gutenberg's name and terms remain its
-own; this acknowledgement does not imply endorsement.
+limitations, and textual-verification records are in `docs/sources/`.
+Project Gutenberg's name and terms remain its own; these acknowledgements do
+not imply endorsement.
 
 ## Application dependencies
 

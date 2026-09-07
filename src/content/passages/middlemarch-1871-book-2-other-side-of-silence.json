@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "passageId": "middlemarch-1871-book-2-other-side-of-silence",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "Middlemarch",
+    "author": {
+      "name": "George Eliot",
+      "birthYear": 1819,
+      "deathYear": 1880
+    },
+    "firstPublishedYear": 1871
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Book II, Chapter XX",
+    "openingWords": "That element of tragedy which lies"
+  },
+  "text": [
+    "That element of tragedy which lies in the very fact of frequency, has not yet wrought itself into the coarse emotion of mankind; and perhaps our frames could hardly bear much of it. If we had a keen vision and feeling of all ordinary human life, it would be like hearing the grass grow and the squirrel’s heart beat, and we should die of that roar which lies on the other side of silence. As it is, the quickest of us walk about well wadded with stupidity."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "First issued in eight parts by William Blackwood and Sons, 1871–1872",
+    "ebookNumber": "145",
+    "recordUrl": "https://www.gutenberg.org/ebooks/145",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/145/pg145.txt",
+    "transcriptionUpdated": "2026-04-12",
+    "checkedAt": "2026-09-07",
+    "contributors": []
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-07",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Eliot died in 1880 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/145"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English passage in the intended initial GB and US markets; reassess before adding markets or changing the sourced text."
+  },
+  "attribution": {
+    "sourceLabel": "Read Middlemarch at Project Gutenberg",
+    "requiredCredit": "Source transcription provided by Project Gutenberg."
+  },
+  "curation": {
+    "rationale": "Grass, heartbeat, roar, silence, speed and stupidity give the passage a startling sensory range. It invites poems about attention and ordinary life while resisting a single sentimental reading.",
+    "motifs": [
+      "ordinary life",
+      "attention",
+      "sound and silence",
+      "feeling and protection"
+    ]
+  }
+}

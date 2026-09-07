@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "passageId": "douglass-1845-chapter-6-pathway-to-freedom",
+  "textVersion": 1,
+  "language": "en-US",
+  "work": {
+    "title": "Narrative of the Life of Frederick Douglass, an American Slave",
+    "author": {
+      "name": "Frederick Douglass",
+      "birthYear": 1818,
+      "deathYear": 1895
+    },
+    "firstPublishedYear": 1845
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Chapter VI",
+    "openingWords": "From that moment, I understood the pathway"
+  },
+  "text": [
+    "From that moment, I understood the pathway from slavery to freedom. It was just what I wanted, and I got it at a time when I the least expected it. Whilst I was saddened by the thought of losing the aid of my kind mistress, I was gladdened by the invaluable instruction which, by the merest accident, I had gained from my master. Though conscious of the difficulty of learning without a teacher, I set out with high hope, and a fixed purpose, at whatever cost of trouble, to learn how to read."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "Boston: Anti-Slavery Office, 1845",
+    "ebookNumber": "23",
+    "recordUrl": "https://www.gutenberg.org/ebooks/23",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/23/pg23.txt",
+    "transcriptionUpdated": "2026-07-18",
+    "checkedAt": "2026-09-07",
+    "contributors": [
+      {
+        "name": "Anonymous Volunteer",
+        "role": "transcription production"
+      },
+      {
+        "name": "David Widger",
+        "role": "transcription production"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-07",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Douglass died in 1895 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this 1845 English text transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/23"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers Douglass's clean English text in the intended initial GB and US markets. Its historical language and account of enslavement must retain accurate authorship and context."
+  },
+  "attribution": {
+    "sourceLabel": "Read Douglass's Narrative at Project Gutenberg",
+    "requiredCredit": "Transcription produced by an anonymous volunteer and David Widger."
+  },
+  "curation": {
+    "rationale": "Douglass joins reading with freedom through language of revelation, accident, hope, purpose and difficulty. The extract preserves his historical argument while offering strong paths around learning and resolve.",
+    "motifs": [
+      "reading and freedom",
+      "hope and purpose",
+      "difficulty",
+      "unexpected instruction"
+    ]
+  }
+}

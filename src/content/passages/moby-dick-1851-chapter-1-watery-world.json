@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "passageId": "moby-dick-1851-chapter-1-watery-world",
+  "textVersion": 1,
+  "language": "en-US",
+  "work": {
+    "title": "Moby Dick; Or, The Whale",
+    "author": {
+      "name": "Herman Melville",
+      "birthYear": 1819,
+      "deathYear": 1891
+    },
+    "firstPublishedYear": 1851
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Chapter 1, Loomings",
+    "openingWords": "Call me Ishmael. Some years ago"
+  },
+  "text": [
+    "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people’s hats off—then, I account it high time to get to sea as soon as I can."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "New York: Harper & Brothers, 1851",
+    "ebookNumber": "2701",
+    "recordUrl": "https://www.gutenberg.org/ebooks/2701",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/2701/pg2701.txt",
+    "transcriptionUpdated": "2026-02-10",
+    "checkedAt": "2026-09-07",
+    "contributors": [
+      {
+        "name": "Daniel Lazarus",
+        "role": "transcription production"
+      },
+      {
+        "name": "Jonesey",
+        "role": "transcription production"
+      },
+      {
+        "name": "David Widger",
+        "role": "transcription production"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-07",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Melville died in 1891 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/2701"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English passage in the intended initial GB and US markets; reassess before adding markets or changing the sourced text."
+  },
+  "attribution": {
+    "sourceLabel": "Read Moby-Dick at Project Gutenberg",
+    "requiredCredit": "Transcription produced by Daniel Lazarus, Jonesey and David Widger."
+  },
+  "curation": {
+    "rationale": "The famous opening moves from identity and money to weather, soul, streets and sea. Its restless repetitions and physical imagery offer many routes through melancholy and escape.",
+    "motifs": [
+      "identity",
+      "melancholy",
+      "land and sea",
+      "escape and circulation"
+    ]
+  }
+}

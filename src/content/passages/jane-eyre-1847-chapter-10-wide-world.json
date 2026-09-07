@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "passageId": "jane-eyre-1847-chapter-10-wide-world",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "Jane Eyre: An Autobiography",
+    "author": {
+      "name": "Charlotte Brontë",
+      "birthYear": 1816,
+      "deathYear": 1855
+    },
+    "firstPublishedYear": 1847
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Chapter X",
+    "openingWords": "My world had for some years been in Lowood"
+  },
+  "text": [
+    "My world had for some years been in Lowood: my experience had been of its rules and systems; now I remembered that the real world was wide, and that a varied field of hopes and fears, of sensations and excitements, awaited those who had courage to go forth into its expanse, to seek real knowledge of life amidst its perils."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription excluding F. H. Townsend's illustrations",
+    "publication": "First published by Smith, Elder & Co., London, 1847",
+    "ebookNumber": "1260",
+    "recordUrl": "https://www.gutenberg.org/ebooks/1260",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/1260/pg1260.txt",
+    "transcriptionUpdated": "2025-09-27",
+    "checkedAt": "2026-09-07",
+    "contributors": [
+      {
+        "name": "David Price",
+        "role": "transcription production"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-07",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Brontë died in 1855 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/1260"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English passage in the intended initial GB and US markets; F. H. Townsend's illustrations and all page design are excluded."
+  },
+  "attribution": {
+    "sourceLabel": "Read Jane Eyre at Project Gutenberg",
+    "requiredCredit": "Transcription produced by David Price."
+  },
+  "curation": {
+    "rationale": "The passage opens a field between rules and experience, hope and fear, courage and peril. Its language of width, movement and knowledge supports poems of departure and self-discovery.",
+    "motifs": [
+      "rules and freedom",
+      "hope and fear",
+      "courage",
+      "the wider world"
+    ]
+  }
+}

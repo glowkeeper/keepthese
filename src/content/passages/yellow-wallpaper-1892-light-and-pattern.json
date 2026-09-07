@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "passageId": "yellow-wallpaper-1892-light-and-pattern",
+  "textVersion": 1,
+  "language": "en-US",
+  "work": {
+    "title": "The Yellow Wallpaper",
+    "author": {
+      "name": "Charlotte Perkins Gilman",
+      "birthYear": 1860,
+      "deathYear": 1935
+    },
+    "firstPublishedYear": 1892
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Unnumbered text",
+    "openingWords": "There is one marked peculiarity about this paper"
+  },
+  "text": [
+    "There is one marked peculiarity about this paper, a thing nobody seems to notice but myself, and that is that it changes as the light changes.",
+    "When the sun shoots in through the east window—I always watch for that first long, straight ray—it changes so quickly that I never can quite believe it.",
+    "That is why I watch it always.",
+    "By moonlight—the moon shines in all night when there is a moon—I wouldn’t know it was the same paper.",
+    "At night in any kind of light, in twilight, candlelight, lamplight, and worst of all by moonlight, it becomes bars! The outside pattern I mean, and the woman behind it is as plain as can be.",
+    "I didn’t realize for a long time what the thing was that showed behind,—that dim sub-pattern,—but now I am quite sure it is a woman.",
+    "By daylight she is subdued, quiet. I fancy it is the pattern that keeps her so still. It is so puzzling. It keeps me quiet by the hour."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "First published in The New England Magazine, January 1892",
+    "ebookNumber": "1952",
+    "recordUrl": "https://www.gutenberg.org/ebooks/1952",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/1952/pg1952.txt",
+    "transcriptionUpdated": "2024-08-31",
+    "checkedAt": "2026-09-07",
+    "contributors": [
+      {
+        "name": "Anonymous Volunteer",
+        "role": "transcription production"
+      },
+      {
+        "name": "David Widger",
+        "role": "transcription production"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-07",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Gilman died in 1935 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this 1892 English text transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/1952"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English passage in the intended initial GB and US markets. The work's portrayal of mental distress and coercive treatment should retain accurate title, authorship and context."
+  },
+  "attribution": {
+    "sourceLabel": "Read The Yellow Wallpaper at Project Gutenberg",
+    "requiredCredit": "Transcription produced by an anonymous volunteer and David Widger."
+  },
+  "curation": {
+    "rationale": "Changing light turns paper into pattern, bars and a hidden woman. Repetition, watching and the movement between daylight and moonlight make this early feminist horror passage unusually fertile and unsettling.",
+    "motifs": [
+      "light and change",
+      "pattern and confinement",
+      "watching",
+      "the hidden woman"
+    ]
+  }
+}
