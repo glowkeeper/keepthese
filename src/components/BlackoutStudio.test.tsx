@@ -43,8 +43,22 @@ describe('blackout studio', () => {
     );
     expect(
       screen
-        .getByRole('link', { name: passage.attribution.sourceLabel })
+        .getAllByRole('link', { name: passage.attribution.sourceLabel })[0]!
         .getAttribute('href'),
     ).toBe(passage.source.recordUrl);
+  });
+
+  it('offers keyboard-accessible material choices without changing the poem', () => {
+    render(<BlackoutStudio passage={passage} />);
+
+    const graphite = screen.getByRole('button', { name: 'Graphite' });
+    fireEvent.click(screen.getByRole('button', { name: 'Keep Life' }));
+    fireEvent.click(graphite);
+
+    expect(graphite.getAttribute('aria-pressed')).toBe('true');
+    expect(screen.getByLabelText('Source passage').className).toContain(
+      'source-page--material-graphite',
+    );
+    expect(screen.getByLabelText('Your poem text').textContent).toBe('Life');
   });
 });

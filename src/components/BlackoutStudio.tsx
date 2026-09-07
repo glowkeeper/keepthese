@@ -14,6 +14,7 @@ interface BlackoutStudioProps {
 export function BlackoutStudio({ passage }: BlackoutStudioProps) {
   const [state, dispatch] = useReducer(studioReducer, initialStudioState);
   const [activeWordId, setActiveWordId] = useState('word-0');
+  const [material, setMaterial] = useState<'ink' | 'graphite'>('ink');
   const paragraphs = useMemo(
     () => segmentPassages(passage.text),
     [passage.text],
@@ -61,8 +62,13 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
   return (
     <section className="studio" aria-labelledby="studio-heading">
       <div className="studio-introduction">
-        <p className="eyebrow">The playable sketch</p>
-        <h2 id="studio-heading">Meet the page</h2>
+        <p className="eyebrow">Begin with</p>
+        <h2 id="studio-heading">
+          <cite>{passage.work.title}</cite>
+        </h2>
+        <p className="source-byline">
+          {passage.work.author.name} · {passage.passageLocation.chapter}
+        </p>
         <p>
           Keep the words that speak. Your poem will always follow their order on
           the page. With a keyboard, use the arrow keys to move through words.
@@ -71,7 +77,7 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
 
       <div className="making-surface">
         <article
-          className={`source-page${state.blackout ? ' source-page--blackout' : ''}`}
+          className={`source-page source-page--material-${material}${state.blackout ? ' source-page--blackout' : ''}`}
           aria-label="Source passage"
         >
           {paragraphs.map((segments, paragraphIndex) => (
@@ -110,6 +116,16 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
               })}
             </p>
           ))}
+          <footer className="source-credit">
+            <p>
+              <cite>{passage.work.title}</cite> by {passage.work.author.name} (
+              {passage.work.firstPublishedYear}) ·{' '}
+              {passage.passageLocation.chapter}
+            </p>
+            <a href={passage.source.recordUrl}>
+              {passage.attribution.sourceLabel}
+            </a>
+          </footer>
         </article>
 
         <aside className="poem-panel" aria-labelledby="poem-heading">
@@ -121,6 +137,26 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
           >
             {poem || 'Your chosen words will gather here.'}
           </p>
+
+          <fieldset className="material-picker">
+            <legend>Material</legend>
+            <button
+              aria-pressed={material === 'ink'}
+              className="material-choice material-choice--ink"
+              onClick={() => setMaterial('ink')}
+              type="button"
+            >
+              Ink
+            </button>
+            <button
+              aria-pressed={material === 'graphite'}
+              className="material-choice material-choice--graphite"
+              onClick={() => setMaterial('graphite')}
+              type="button"
+            >
+              Graphite
+            </button>
+          </fieldset>
 
           <div className="studio-actions" aria-label="Poem actions">
             <button
@@ -155,7 +191,7 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
       </div>
 
       <details className="source-information">
-        <summary>About this page</summary>
+        <summary>Source details</summary>
         <div>
           <p>
             <cite>{passage.work.title}</cite> by {passage.work.author.name} (

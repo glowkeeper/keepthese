@@ -83,10 +83,37 @@ test('blackout and restart remain recoverable', async ({ page }) => {
   );
 });
 
-test('source details link back to the original work', async ({ page }) => {
-  await page.getByText('About this page', { exact: true }).click();
+test('materials remain operable and selected words remain legible', async ({
+  page,
+}) => {
+  await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
+  await page.getByRole('button', { exact: true, name: 'Graphite' }).click();
   await expect(
-    page.getByRole('link', {
+    page.getByRole('button', { exact: true, name: 'Graphite' }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: 'Let the rest fall away' }).click();
+  await expect(
+    page.getByRole('button', { exact: true, name: 'Remove Life' }),
+  ).toBeVisible();
+  await expect(page.getByLabel('Your poem text')).toHaveText('Life');
+});
+
+test('source attribution is visible and details remain available', async ({
+  page,
+}) => {
+  await expect(page.locator('.source-credit')).toContainText(
+    'Frankenstein; Or, The Modern Prometheus by Mary Wollstonecraft Shelley',
+  );
+  await expect(
+    page
+      .getByRole('link', {
+        name: 'Read the 1831 edition at Project Gutenberg',
+      })
+      .first(),
+  ).toBeVisible();
+  await page.getByText('Source details', { exact: true }).click();
+  await expect(
+    page.locator('.source-information').getByRole('link', {
       name: 'Read the 1831 edition at Project Gutenberg',
     }),
   ).toHaveAttribute('href', 'https://www.gutenberg.org/ebooks/42324');
