@@ -41,7 +41,7 @@ describe('studio persistence', () => {
     storage.setItem(studioStorageKey('passage-one'), '{not json');
     expect(
       loadStudioState(storage, 'passage-one', 2, new Set(['word-1'])),
-    ).toEqual({ kind: 'failed' });
+    ).toEqual({ kind: 'empty' });
 
     saveStudioState(storage, state);
     expect(

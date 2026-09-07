@@ -165,8 +165,8 @@ version, passage and text version, selected word identifiers, blackout state,
 material choice, and the save time. It contains no account, maker name, source
 text, analytics, or remote identifier and is never sent to a service.
 
-A record remains on that browser profile until the maker chooses Restart or
-Discard saved work, the passage text version changes, or browser data is
+A record remains on that browser profile until the maker uses the `Discard saved
+work` control, the passage text version changes, or browser data is
 cleared. Records with malformed data, a different text version, or unknown word
 identifiers are not restored. If storage cannot be read or written, the studio
 continues in page-session memory and says so plainly. Undo history is deliberately

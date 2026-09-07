@@ -35,11 +35,17 @@ export function loadStudioState(
   textVersion: number,
   validWordIds: ReadonlySet<string>,
 ): LoadResult {
-  try {
-    if (!storage) return { kind: 'failed' };
-    const serialized = storage.getItem(studioStorageKey(passageId));
-    if (!serialized) return { kind: 'empty' };
+  if (!storage) return { kind: 'failed' };
 
+  let serialized: string | null;
+  try {
+    serialized = storage.getItem(studioStorageKey(passageId));
+  } catch {
+    return { kind: 'failed' };
+  }
+  if (!serialized) return { kind: 'empty' };
+
+  try {
     const value: unknown = JSON.parse(serialized);
     if (!isPersistedStudioState(value)) return { kind: 'empty' };
     if (value.passageId !== passageId || value.textVersion !== textVersion) {
@@ -51,7 +57,7 @@ export function loadStudioState(
 
     return { kind: 'restored', value };
   } catch {
-    return { kind: 'failed' };
+    return { kind: 'empty' };
   }
 }
 
