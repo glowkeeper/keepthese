@@ -246,6 +246,10 @@ test('release metadata and local brand assets are complete', async ({
   page,
 }) => {
   await expect(page).toHaveTitle('Keep These');
+  await expect(page.locator('.introduction')).toHaveText(
+    'Find the poem that was waiting in the page.',
+  );
+  await expect(page.locator('.studio')).toHaveCSS('margin-top', '0px');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
     'https://keepthese.com/',

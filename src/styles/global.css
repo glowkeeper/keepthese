@@ -48,7 +48,7 @@ main {
 }
 
 .site-header {
-  max-width: 40rem;
+  max-width: 64rem;
 }
 
 .eyebrow {
@@ -113,9 +113,8 @@ h1 {
 }
 
 .studio {
-  margin-top: clamp(4rem, 10vh, 7rem);
-  padding-top: 2rem;
-  border-top: 1px solid rgb(41 38 33 / 28%);
+  margin-top: 0;
+  padding-top: clamp(2.5rem, 6vw, 4rem);
 }
 
 .studio-introduction {
@@ -446,7 +445,7 @@ h1 {
   display: grid;
   gap: 1rem;
   max-width: 72rem;
-  margin: 0 0 clamp(2rem, 5vw, 4rem);
+  margin: clamp(2rem, 6vh, 4rem) 0 0;
   padding: 1rem 0;
   border-block: 1px solid rgb(41 38 33 / 25%);
 }
@@ -530,6 +529,29 @@ h1 {
 }
 
 @media (min-width: 42rem) {
+  .site-header {
+    display: grid;
+    grid-template-areas:
+      'eyebrow introduction'
+      'wordmark introduction';
+    grid-template-columns: auto minmax(18rem, 1fr);
+    gap: 0 clamp(2rem, 6vw, 5rem);
+    align-items: end;
+  }
+
+  .site-header > .eyebrow {
+    grid-area: eyebrow;
+  }
+
+  .site-header h1 {
+    grid-area: wordmark;
+  }
+
+  .site-header .introduction {
+    grid-area: introduction;
+    margin: 0 0 0.35rem;
+  }
+
   .passage-discovery {
     grid-template-columns: 1fr auto;
     align-items: center;

@@ -7,7 +7,8 @@ import '../styles/global.css';
 
 const title = 'Keep These';
 const description =
-  'A quiet instrument for finding poems within existing writing.';
+  'Make blackout poetry from a carefully chosen shelf of classic writing.';
+const introduction = 'Find the poem that was waiting in the page.';
 const canonicalUrl = new URL('/', Astro.site);
 const socialImageUrl = new URL('/brand/keep-these-og.png', Astro.site);
 const passageOrder = [
@@ -76,7 +77,7 @@ if (collection.length !== passageOrder.length) {
       <header class="site-header">
         <p class="eyebrow">A quiet blackout poetry studio</p>
         <h1><Wordmark /></h1>
-        <p class="introduction">{description}</p>
+        <p class="introduction">{introduction}</p>
       </header>
 
       <PassageDiscovery passages={passages} client:load />
