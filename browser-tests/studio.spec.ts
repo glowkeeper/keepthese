@@ -254,6 +254,23 @@ test('finished artwork downloads as a useful-resolution private PNG', async ({
     'Frankenstein; Or, The Modern Prometheus by Mary Wollstonecraft Shelley (1818)',
   );
 
+  const exportedDecoration = await page.evaluate(async () => {
+    const moduleUrl = '/src/lib/png-export.ts';
+    const { prepareElementForExport } = await import(moduleUrl);
+    const sourcePage = document.querySelector<HTMLElement>('.source-page');
+    if (!sourcePage) throw new Error('Source page missing.');
+    const clone = await prepareElementForExport(sourcePage);
+    const paperOverlay = clone.querySelector(
+      '[data-export-pseudo="before"]',
+    ) as HTMLElement | null;
+    return {
+      backgroundImage: paperOverlay?.style.backgroundImage ?? '',
+      exists: Boolean(paperOverlay),
+    };
+  });
+  expect(exportedDecoration.exists).toBe(true);
+  expect(exportedDecoration.backgroundImage).toContain('data:image/webp');
+
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Download PNG' }).click();
   const download = await downloadPromise;

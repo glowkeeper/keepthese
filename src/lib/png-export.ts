@@ -12,6 +12,15 @@ export function pngFilename(title: string): string {
   return `keep-these-${slug || 'poem'}.png`;
 }
 
+export async function prepareElementForExport(
+  element: HTMLElement,
+): Promise<HTMLElement> {
+  const clone = element.cloneNode(true) as HTMLElement;
+  const assetCache = new Map<string, string>();
+  await inlineStyles(element, clone, assetCache);
+  return clone;
+}
+
 export async function renderElementToPng(element: HTMLElement): Promise<Blob> {
   await document.fonts.ready;
 
@@ -21,9 +30,7 @@ export async function renderElementToPng(element: HTMLElement): Promise<Blob> {
     throw new Error('The artwork has no renderable dimensions.');
   }
 
-  const clone = element.cloneNode(true) as HTMLElement;
-  const assetCache = new Map<string, string>();
-  await inlineStyles(element, clone, assetCache);
+  const clone = await prepareElementForExport(element);
   clone.style.width = `${width}px`;
   clone.style.height = `${height}px`;
   clone.style.margin = '0';
@@ -77,7 +84,9 @@ async function inlineStyles(
   for (const property of computed) {
     clone.style.setProperty(
       property,
-      await inlineAssetUrls(computed.getPropertyValue(property), assetCache),
+      computed.getPropertyValue(property).includes('url(')
+        ? await inlineAssetUrls(computed.getPropertyValue(property), assetCache)
+        : computed.getPropertyValue(property),
       computed.getPropertyPriority(property),
     );
   }
@@ -93,6 +102,11 @@ async function inlineStyles(
       inlineStyles(child, cloneChildren[index]!, assetCache),
     ),
   );
+
+  const before = await materializePseudoElement(source, '::before', assetCache);
+  if (before) clone.prepend(before);
+  const after = await materializePseudoElement(source, '::after', assetCache);
+  if (after) clone.append(after);
 }
 
 async function inlineAssetUrls(
@@ -144,4 +158,30 @@ function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
       else reject(new Error('Could not encode the artwork as PNG.'));
     }, 'image/png');
   });
+}
+
+async function materializePseudoElement(
+  source: HTMLElement,
+  pseudo: '::after' | '::before',
+  assetCache: Map<string, string>,
+): Promise<HTMLSpanElement | null> {
+  const computed = getComputedStyle(source, pseudo);
+  if (computed.content === 'none' || computed.content === 'normal') return null;
+
+  const element = document.createElement('span');
+  element.dataset.exportPseudo = pseudo.slice(2);
+  element.setAttribute('aria-hidden', 'true');
+  if (computed.content !== '""' && computed.content !== "''") {
+    element.textContent = computed.content.replace(/^['"]|['"]$/g, '');
+  }
+
+  for (const property of computed) {
+    const value = computed.getPropertyValue(property);
+    element.style.setProperty(
+      property,
+      value.includes('url(') ? await inlineAssetUrls(value, assetCache) : value,
+      computed.getPropertyPriority(property),
+    );
+  }
+  return element;
 }
