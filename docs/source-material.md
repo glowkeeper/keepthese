@@ -69,9 +69,12 @@ Every finished piece should retain a discreet information view containing the
 maker's chosen name, if supplied; the source work, author, and date; passage
 location; provenance; and a route to read the original.
 
-Export formats may present attribution differently, but should not silently
-sever the poem from its source. The project should settle the exact minimum
-credit before implementing PNG export or shareable links.
+The Version 1 PNG presents the source work, author, original publication year,
+passage location, source acknowledgement, and a visible source URL within the
+image. Later export formats may present attribution differently, but should not
+silently sever the poem from its source. The minimum credit for Version 1 PNG
+export is settled above; any shareable-link credit must be settled before that
+later format is implemented.
 
 ## Later material
 

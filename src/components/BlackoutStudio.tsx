@@ -9,6 +9,11 @@ import {
 
 import type { Passage } from '../lib/passage-schema';
 import {
+  downloadPng,
+  pngFilename,
+  renderElementToPng,
+} from '../lib/png-export';
+import {
   initialStudioState,
   segmentPassages,
   studioReducer,
@@ -41,6 +46,11 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
   );
   const [storageReady, setStorageReady] = useState(false);
   const skipNextSave = useRef(false);
+  const sourcePageRef = useRef<HTMLElement>(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportStatus, setExportStatus] = useState(
+    'PNG export is created here and stays on this device.',
+  );
   const paragraphs = useMemo(
     () => segmentPassages(passage.text),
     [passage.text],
@@ -149,6 +159,24 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
     );
   }
 
+  async function exportArtwork() {
+    if (!sourcePageRef.current || isExporting) return;
+    setIsExporting(true);
+    setExportStatus('Preparing your PNG…');
+
+    try {
+      const blob = await renderElementToPng(sourcePageRef.current);
+      downloadPng(blob, pngFilename(passage.work.title));
+      setExportStatus('PNG downloaded to your device.');
+    } catch {
+      setExportStatus(
+        "We couldn't create the PNG. Your poem is still here; please try again.",
+      );
+    } finally {
+      setIsExporting(false);
+    }
+  }
+
   function moveWordFocus(
     event: KeyboardEvent<HTMLButtonElement>,
     currentId: string,
@@ -197,6 +225,7 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
 
       <div className="making-surface">
         <article
+          ref={sourcePageRef}
           className={`source-page source-page--material-${material}${state.blackout ? ' source-page--blackout' : ''}`}
           aria-label="Source passage"
         >
@@ -304,6 +333,14 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
                 : 'Let the rest fall away'}
             </button>
             <button
+              className="export-action"
+              disabled={state.selectedIds.length === 0 || isExporting}
+              onClick={exportArtwork}
+              type="button"
+            >
+              {isExporting ? 'Preparing PNG…' : 'Download PNG'}
+            </button>
+            <button
               disabled={
                 state.selectedIds.length === 0 &&
                 !state.blackout &&
@@ -316,6 +353,9 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
             </button>
           </div>
 
+          <p className="export-status" aria-live="polite">
+            {exportStatus}
+          </p>
           <p className="storage-status">{storageStatus}</p>
 
           <p className="visually-hidden" aria-live="polite" role="status">

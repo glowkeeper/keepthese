@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises';
+
 import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
@@ -233,4 +235,79 @@ test('surprise me replaces the current page in one action', async ({
   await expect(page.getByLabel('Your poem text')).toHaveText(
     'Your chosen words will gather here.',
   );
+});
+
+test('finished artwork downloads as a useful-resolution private PNG', async ({
+  page,
+}) => {
+  const externalRequests: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).hostname !== '127.0.0.1') {
+      externalRequests.push(request.url());
+    }
+  });
+
+  await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
+  await page.getByRole('button', { exact: true, name: 'Graphite' }).click();
+  await page.getByRole('button', { name: 'Let the rest fall away' }).click();
+  await expect(page.locator('.source-credit')).toContainText(
+    'Frankenstein; Or, The Modern Prometheus by Mary Wollstonecraft Shelley (1818)',
+  );
+
+  const exportedDecoration = await page.evaluate(async () => {
+    const moduleUrl = '/src/lib/png-export.ts';
+    const { prepareElementForExport } = await import(moduleUrl);
+    const sourcePage = document.querySelector<HTMLElement>('.source-page');
+    if (!sourcePage) throw new Error('Source page missing.');
+    const clone = await prepareElementForExport(sourcePage);
+    const paperOverlay = clone.querySelector(
+      '[data-export-pseudo="before"]',
+    ) as HTMLElement | null;
+    return {
+      backgroundImage: paperOverlay?.style.backgroundImage ?? '',
+      exists: Boolean(paperOverlay),
+    };
+  });
+  expect(exportedDecoration.exists).toBe(true);
+  expect(exportedDecoration.backgroundImage).toContain('data:image/webp');
+
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Download PNG' }).click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe(
+    'keep-these-frankenstein-or-the-modern-prometheus.png',
+  );
+  const downloadPath = await download.path();
+  expect(downloadPath).not.toBeNull();
+  const png = await readFile(downloadPath!);
+
+  expect(png.subarray(0, 8)).toEqual(
+    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
+  );
+  expect(png.readUInt32BE(16)).toBeGreaterThanOrEqual(1200);
+  expect(png.readUInt32BE(20)).toBeGreaterThan(1200);
+  expect(externalRequests).toEqual([]);
+  await expect(page.locator('.export-status')).toHaveText(
+    'PNG downloaded to your device.',
+  );
+  await expect(page.getByLabel('Your poem text')).toHaveText('Life');
+});
+
+test('PNG failure leaves the poem intact and offers a retry', async ({
+  page,
+}) => {
+  await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
+  await page.evaluate(() => {
+    HTMLCanvasElement.prototype.toBlob = (callback) => callback(null);
+  });
+
+  await page.getByRole('button', { name: 'Download PNG' }).click();
+
+  await expect(page.locator('.export-status')).toHaveText(
+    "We couldn't create the PNG. Your poem is still here; please try again.",
+  );
+  await expect(
+    page.getByRole('button', { name: 'Download PNG' }),
+  ).toBeEnabled();
+  await expect(page.getByLabel('Your poem text')).toHaveText('Life');
 });

@@ -157,6 +157,16 @@ local-first Version 1 architecture already described here. Its evidence and
 constraints are recorded in `evaluations/version-0.md`; the decision does not
 justify a backend, account system, or Version 2 infrastructure.
 
+## Version 1 PNG export
+
+PNG export captures the worked source page at a minimum width of 1200 pixels
+and includes the visible work title, author, first-publication year, passage
+location, source acknowledgement, and source URL. The browser inlines the local
+material textures, rasterises the composition with its canvas API, and downloads
+the PNG directly to the maker's device. No poem, image, or telemetry leaves the
+browser. Export failure leaves the creative state intact and permits another
+attempt. This is a finished image, not a Version 2 editable project file.
+
 ## Version 1 passage discovery
 
 Astro loads the complete verified ten-passage collection at build time and passes

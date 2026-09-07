@@ -309,7 +309,14 @@ h1 {
   background: #292621;
 }
 
-.storage-status {
+.studio-actions .export-action {
+  border-color: #762713;
+  color: #762713;
+  font-weight: 650;
+}
+
+.storage-status,
+.export-status {
   margin: 1rem 0 0;
   color: #655e55;
   font-family: system-ui, sans-serif;
