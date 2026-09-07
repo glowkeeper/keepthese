@@ -113,6 +113,12 @@ test('source attribution is visible without opening a disclosure', async ({
       })
       .first(),
   ).toBeVisible();
+  await expect(page.locator('.source-credit')).toContainText(
+    '1831 revised edition · Chapter IV',
+  );
+  await expect(page.locator('.source-credit')).toContainText(
+    'Transcription produced by Greg Weeks, Mary Meehan and the Online Distributed Proofreading Team.',
+  );
   await expect(
     page.locator('.source-credit').getByRole('link', {
       name: 'Read the 1831 edition at Project Gutenberg',

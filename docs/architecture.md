@@ -145,7 +145,7 @@ at `https://keepthese.com`. Git-connected preview and production deployments
 provide the release path; successful production deployments provide rollback.
 The release uses no Cloudflare runtime adapter, Functions, Worker, bindings,
 storage, accounts, or analytics. Detailed deployment, verification, and
-recovery procedures are recorded in `release.md`.
+recovery procedures are recorded in the [release procedure](release.md).
 
 ## Playable sketch decision
 
