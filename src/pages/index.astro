@@ -2,11 +2,14 @@
 import { getCollection } from 'astro:content';
 
 import PassageDiscovery from '../components/PassageDiscovery';
+import Wordmark from '../components/Wordmark.astro';
 import '../styles/global.css';
 
 const title = 'Keep These';
 const description =
   'A quiet instrument for finding poems within existing writing.';
+const canonicalUrl = new URL('/', Astro.site);
+const socialImageUrl = new URL('/brand/keep-these-og.png', Astro.site);
 const passageOrder = [
   'frankenstein-1831-chapter-4-life-and-death',
   'persuasion-1818-chapter-4-prudence-and-romance',
@@ -40,17 +43,60 @@ if (collection.length !== passageOrder.length) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#e8e0d1" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/brand/keep-these-square.png" sizes="512x512" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={title} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Keep These — find a poem hiding in a page"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta
+      name="twitter:image:alt"
+      content="Keep These — find a poem hiding in a page"
+    />
     <title>{title}</title>
   </head>
   <body>
     <main>
       <header class="site-header">
         <p class="eyebrow">A quiet blackout poetry studio</p>
-        <h1>{title}</h1>
+        <h1><Wordmark /></h1>
         <p class="introduction">{description}</p>
       </header>
 
       <PassageDiscovery passages={passages} client:load />
+
+      <footer class="site-footer">
+        <div>
+          <p class="eyebrow">Private by design</p>
+          <p>
+            Your unfinished work stays in this browser. PNGs are made on your
+            device. Keep These has no accounts, analytics, or poem uploads.
+          </p>
+        </div>
+        <div>
+          <p class="eyebrow">In conversation</p>
+          <p>
+            Every page names its original author and links back to the source
+            edition. The words you keep—and the poem you find—are yours.
+          </p>
+        </div>
+      </footer>
     </main>
   </body>
 </html>

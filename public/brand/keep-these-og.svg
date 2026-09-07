@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Keep These</title>
+  <desc id="desc">Find a poem hiding in a page.</desc>
+  <defs>
+    <filter id="paper">
+      <feTurbulence baseFrequency=".75" numOctaves="3" seed="8" type="fractalNoise"/>
+      <feColorMatrix values="0 0 0 0 .32 0 0 0 0 .28 0 0 0 0 .22 0 0 0 .08 0"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="#e8e0d1"/>
+  <rect width="1200" height="630" filter="url(#paper)" opacity=".38"/>
+  <rect x="106" y="72" width="988" height="486" rx="3" fill="#f8f2e7" stroke="#c9bda9" stroke-width="2"/>
+  <path d="M156 242c170 8 352-8 500 1v31c-151-7-335 8-500 1zM385 400c180-5 403 6 602-2v30c-195 7-402-6-602 2z" fill="#292621" opacity=".94"/>
+  <text x="145" y="268" fill="#292621" font-family="Iowan Old Style, Palatino Linotype, Palatino, Georgia, serif" font-size="190" letter-spacing="-9">Keep</text>
+  <text x="370" y="428" fill="#292621" font-family="Iowan Old Style, Palatino Linotype, Palatino, Georgia, serif" font-size="190" letter-spacing="-9">These</text>
+  <text x="158" y="506" fill="#655e55" font-family="-apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif" font-size="25" letter-spacing="2">FIND A POEM HIDING IN A PAGE</text>
+</svg>
