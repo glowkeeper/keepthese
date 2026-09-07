@@ -184,3 +184,53 @@ test('storage failure is explained without stopping the creative flow', async ({
     'This browser is not allowing local saves. Your work will last only in this open page.',
   );
 });
+
+test('the complete shelf changes passages and keeps their work separate', async ({
+  page,
+}) => {
+  await page.getByText('Choose a page', { exact: true }).click();
+  await expect(page.locator('.passage-discovery li')).toHaveCount(10);
+
+  await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
+  await expect(page.locator('.storage-status')).toHaveText(
+    'Saved privately in this browser.',
+  );
+  await page
+    .getByRole('button', { name: /Persuasion Jane Austen Chapter IV/ })
+    .click();
+
+  await expect(page.getByRole('heading', { name: 'Persuasion' })).toBeVisible();
+  await expect(page.getByLabel('Your poem text')).toHaveText(
+    'Your chosen words will gather here.',
+  );
+  await expect(
+    page
+      .getByRole('link', { name: 'Read Persuasion at Project Gutenberg' })
+      .first(),
+  ).toHaveAttribute('href', 'https://www.gutenberg.org/ebooks/105');
+
+  await page
+    .getByRole('button', {
+      name: /Frankenstein; Or, The Modern Prometheus Mary Wollstonecraft Shelley/,
+    })
+    .click();
+  await expect(
+    page.getByRole('button', { exact: true, name: 'Remove Life' }),
+  ).toBeVisible();
+  await expect(page.getByLabel('Your poem text')).toHaveText('Life');
+});
+
+test('surprise me replaces the current page in one action', async ({
+  page,
+}) => {
+  await page.getByRole('button', { name: 'Surprise me' }).click();
+
+  await expect(
+    page.getByRole('heading', {
+      name: 'Frankenstein; Or, The Modern Prometheus',
+    }),
+  ).toHaveCount(0);
+  await expect(page.getByLabel('Your poem text')).toHaveText(
+    'Your chosen words will gather here.',
+  );
+});

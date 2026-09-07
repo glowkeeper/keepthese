@@ -157,6 +157,16 @@ local-first Version 1 architecture already described here. Its evidence and
 constraints are recorded in `evaluations/version-0.md`; the decision does not
 justify a backend, account system, or Version 2 infrastructure.
 
+## Version 1 passage discovery
+
+Astro loads the complete verified ten-passage collection at build time and passes
+it, in the editorial order recorded in `docs/sources/initial-collection.md`, to
+one React discovery-and-studio island. The interface exposes a finite, collapsible
+shelf and a one-action random alternative to the current passage. It introduces
+no catalogue search, ranking, popularity data, remote request, or automatic word
+selection. Changing passage remounts the studio against that passage's separate
+browser-autosave key.
+
 ## Version 1 browser autosave
 
 Unfinished studio work is stored in the browser's local storage. Each passage
