@@ -3,7 +3,7 @@
 Keep These is currently a private project. It contains application and
 development dependencies managed through npm, ten public-domain literary
 passages, and four original visual textures generated through OpenArt and
-curated for this project. The textures remain reserved Keep These visual assets
+curated for this project. The textures remain reserved as Keep These visual assets
 under `LICENSING.md`; they are not covered by the software or documentation
 licences.
 

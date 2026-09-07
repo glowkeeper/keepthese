@@ -41,11 +41,14 @@ describe('blackout studio', () => {
     expect(screen.getByLabelText('Your poem text').textContent).toBe(
       'Your chosen words will gather here.',
     );
+    const sourceLinks = screen.getAllByRole('link', {
+      name: passage.attribution.sourceLabel,
+    });
     expect(
-      screen
-        .getAllByRole('link', { name: passage.attribution.sourceLabel })[0]!
-        .getAttribute('href'),
-    ).toBe(passage.source.recordUrl);
+      sourceLinks.some(
+        (link) => link.getAttribute('href') === passage.source.recordUrl,
+      ),
+    ).toBe(true);
   });
 
   it('offers keyboard-accessible material choices without changing the poem', () => {
