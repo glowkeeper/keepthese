@@ -138,11 +138,14 @@ Material decisions belong in this document or in a linked decision record.
 Each decision should state its context, the chosen direction, important
 trade-offs, and what would cause it to be reconsidered.
 
-## Decisions still to record
+## Production hosting decision
 
-- Deployment choices when the sketch is ready to be shared.
-
-The deployment choice should be recorded before the sketch is shared publicly.
+Version 1 is published as the existing static Astro build on Cloudflare Pages
+at `https://keepthese.com`. Git-connected preview and production deployments
+provide the release path; successful production deployments provide rollback.
+The release uses no Cloudflare runtime adapter, Functions, Worker, bindings,
+storage, accounts, or analytics. Detailed deployment, verification, and
+recovery procedures are recorded in the [release procedure](release.md).
 
 ## Playable sketch decision
 

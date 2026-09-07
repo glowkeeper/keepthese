@@ -269,8 +269,10 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
             <p>
               <cite>{passage.work.title}</cite> by {passage.work.author.name} (
               {passage.work.firstPublishedYear}) ·{' '}
+              {passage.passageLocation.edition} ·{' '}
               {passage.passageLocation.chapter}
             </p>
+            <p>{passage.attribution.requiredCredit}</p>
             <a href={passage.source.recordUrl}>
               {passage.attribution.sourceLabel}
             </a>
@@ -363,22 +365,6 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
           </p>
         </aside>
       </div>
-
-      <details className="source-information">
-        <summary>Source details</summary>
-        <div>
-          <p>
-            <cite>{passage.work.title}</cite> by {passage.work.author.name} (
-            {passage.work.firstPublishedYear}),{' '}
-            {passage.passageLocation.edition}, {passage.passageLocation.chapter}
-            .
-          </p>
-          <p>{passage.attribution.requiredCredit}</p>
-          <a href={passage.source.recordUrl}>
-            {passage.attribution.sourceLabel}
-          </a>
-        </div>
-      </details>
     </section>
   );
 }

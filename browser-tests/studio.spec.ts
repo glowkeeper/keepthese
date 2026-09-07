@@ -100,7 +100,7 @@ test('materials remain operable and selected words remain legible', async ({
   await expect(page.getByLabel('Your poem text')).toHaveText('Life');
 });
 
-test('source attribution is visible and details remain available', async ({
+test('source attribution is visible without opening a disclosure', async ({
   page,
 }) => {
   await expect(page.locator('.source-credit')).toContainText(
@@ -113,14 +113,19 @@ test('source attribution is visible and details remain available', async ({
       })
       .first(),
   ).toBeVisible();
-  await page.getByText('Source details', { exact: true }).click();
+  await expect(page.locator('.source-credit')).toContainText(
+    '1831 revised edition · Chapter IV',
+  );
+  await expect(page.locator('.source-credit')).toContainText(
+    'Transcription produced by Greg Weeks, Mary Meehan and the Online Distributed Proofreading Team.',
+  );
   await expect(
-    page.locator('.source-information').getByRole('link', {
+    page.locator('.source-credit').getByRole('link', {
       name: 'Read the 1831 edition at Project Gutenberg',
     }),
   ).toHaveAttribute('href', 'https://www.gutenberg.org/ebooks/42324');
-  await expect(page.locator('.source-information cite')).toHaveText(
-    'Frankenstein; Or, The Modern Prometheus',
+  await expect(page.getByText('Source details', { exact: true })).toHaveCount(
+    0,
   );
 });
 
@@ -235,6 +240,44 @@ test('surprise me replaces the current page in one action', async ({
   await expect(page.getByLabel('Your poem text')).toHaveText(
     'Your chosen words will gather here.',
   );
+});
+
+test('release metadata and local brand assets are complete', async ({
+  page,
+}) => {
+  await expect(page).toHaveTitle('Keep These');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://keepthese.com/',
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    'https://keepthese.com/brand/keep-these-og.png',
+  );
+  await expect(page.locator('.wordmark')).toHaveAttribute(
+    'aria-label',
+    'Keep These',
+  );
+  await expect(page.locator('.site-footer')).toContainText('Private by design');
+
+  for (const path of [
+    '/favicon.svg',
+    '/favicon-32.png',
+    '/apple-touch-icon.png',
+    '/brand/keep-these-og.png',
+  ]) {
+    expect((await page.request.get(path)).status()).toBe(200);
+  }
+});
+
+test('unknown routes offer a calm way back', async ({ page }) => {
+  await page.goto('/not-a-page');
+  await expect(page).toHaveTitle('Page not found — Keep These');
+  await expect(
+    page.getByRole('heading', { name: 'This page fell away.' }),
+  ).toBeVisible();
+  await page.getByRole('link', { name: 'Return to Keep These' }).click();
+  await expect(page).toHaveURL('/');
 });
 
 test('finished artwork downloads as a useful-resolution private PNG', async ({

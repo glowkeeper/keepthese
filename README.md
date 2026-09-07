@@ -69,7 +69,8 @@ independent job on pull requests and pushes to `main`.
 - [Licensing](LICENSING.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
 - [Project workflow](docs/project-workflow.md)
+- [First public release](docs/release.md)
 - [AI collaboration guide](AGENTS.md)
 
-The first product implementation target is Version 0, the playable sketch
-described in the product direction.
+The current product target is the Version 1 small beautiful object described
+in the product direction.

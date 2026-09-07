@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 310" role="img" aria-labelledby="title">
+  <title id="title">Keep These</title>
+  <rect width="760" height="310" fill="none"/>
+  <path d="M38 118c142 7 275-6 402 1v25c-130-5-276 7-402 0zM260 250c139-4 301 5 456-2v24c-149 5-298-5-456 1z" fill="#292621" opacity=".94"/>
+  <text x="30" y="137" fill="#292621" font-family="Iowan Old Style, Palatino Linotype, Palatino, Georgia, serif" font-size="150" letter-spacing="-7">Keep</text>
+  <text x="245" y="270" fill="#292621" font-family="Iowan Old Style, Palatino Linotype, Palatino, Georgia, serif" font-size="150" letter-spacing="-7">These</text>
+</svg>
