@@ -157,6 +157,23 @@ local-first Version 1 architecture already described here. Its evidence and
 constraints are recorded in `evaluations/version-0.md`; the decision does not
 justify a backend, account system, or Version 2 infrastructure.
 
+## Version 1 browser autosave
+
+Unfinished studio work is stored in the browser's local storage. Each passage
+uses a separate `keep-these:unfinished:<passage-id>` record containing schema
+version, passage and text version, selected word identifiers, blackout state,
+material choice, and the save time. It contains no account, maker name, source
+text, analytics, or remote identifier and is never sent to a service.
+
+A record remains on that browser profile until the maker chooses Restart or
+Discard saved work, the passage text version changes, or browser data is
+cleared. Records with malformed data, a different text version, or unknown word
+identifiers are not restored. If storage cannot be read or written, the studio
+continues in page-session memory and says so plainly. Undo history is deliberately
+not persisted; recovery begins a fresh correction history from the restored
+creative state. This is current-work recovery, not the Version 2 personal
+archive.
+
 ## Cross-stage requirements
 
 Accessibility is part of the creative surface from Version 0. Word selection

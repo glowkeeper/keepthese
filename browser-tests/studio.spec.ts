@@ -122,18 +122,65 @@ test('source attribution is visible and details remain available', async ({
   );
 });
 
-test('creative state lasts only until a full reload', async ({ page }) => {
+test('creative state is recovered after reload and reopening, then can be discarded', async ({
+  context,
+  page,
+}) => {
   await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
+  await page.getByRole('button', { exact: true, name: 'Graphite' }).click();
+  await page.getByRole('button', { name: 'Let the rest fall away' }).click();
+  await expect(page.locator('.storage-status')).toHaveText(
+    'Saved privately in this browser.',
+  );
+
+  await page.reload();
   await expect(
     page.getByRole('button', { exact: true, name: 'Remove Life' }),
   ).toBeVisible();
-
-  await page.reload();
-
   await expect(
-    page.getByRole('button', { exact: true, name: 'Keep Life' }),
+    page.getByRole('button', { exact: true, name: 'Graphite' }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByLabel('Source passage')).toHaveClass(
+    /source-page--blackout/,
+  );
+
+  await page.close();
+  const reopenedPage = await context.newPage();
+  await reopenedPage.goto('/');
+  await expect(
+    reopenedPage.getByRole('button', { exact: true, name: 'Remove Life' }),
+  ).toBeVisible();
+  await reopenedPage
+    .getByRole('button', { name: 'Discard saved work' })
+    .click();
+  await expect(reopenedPage.locator('.storage-status')).toHaveText(
+    'Saved work discarded from this browser.',
+  );
+
+  await reopenedPage.reload();
+  await expect(
+    reopenedPage.getByRole('button', { exact: true, name: 'Keep Life' }),
   ).toHaveAttribute('aria-pressed', 'false');
-  await expect(page.getByLabel('Your poem text')).toHaveText(
-    'Your chosen words will gather here.',
+  await expect(
+    reopenedPage.getByRole('button', { exact: true, name: 'Ink' }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await expect(reopenedPage.getByLabel('Source passage')).not.toHaveClass(
+    /source-page--blackout/,
+  );
+});
+
+test('storage failure is explained without stopping the creative flow', async ({
+  page,
+}) => {
+  await page.evaluate(() => {
+    Storage.prototype.setItem = () => {
+      throw new DOMException('Storage unavailable', 'SecurityError');
+    };
+  });
+
+  await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
+  await expect(page.getByLabel('Your poem text')).toHaveText('Life');
+  await expect(page.locator('.storage-status')).toHaveText(
+    'This browser is not allowing local saves. Your work will last only in this open page.',
   );
 });

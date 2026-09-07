@@ -1,4 +1,11 @@
-import { type KeyboardEvent, useMemo, useReducer, useState } from 'react';
+import {
+  type KeyboardEvent,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from 'react';
 
 import type { Passage } from '../lib/passage-schema';
 import {
@@ -6,6 +13,20 @@ import {
   segmentPassages,
   studioReducer,
 } from '../lib/studio-state';
+import {
+  discardStudioState,
+  loadStudioState,
+  saveStudioState,
+  type StudioMaterial,
+} from '../lib/studio-persistence';
+
+function browserStorage(): Storage | null {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
 
 interface BlackoutStudioProps {
   passage: Passage;
@@ -14,20 +35,119 @@ interface BlackoutStudioProps {
 export function BlackoutStudio({ passage }: BlackoutStudioProps) {
   const [state, dispatch] = useReducer(studioReducer, initialStudioState);
   const [activeWordId, setActiveWordId] = useState('word-0');
-  const [material, setMaterial] = useState<'ink' | 'graphite'>('ink');
+  const [material, setMaterial] = useState<StudioMaterial>('ink');
+  const [storageStatus, setStorageStatus] = useState(
+    'Work is saved privately in this browser as you make it.',
+  );
+  const [storageReady, setStorageReady] = useState(false);
+  const skipNextSave = useRef(false);
   const paragraphs = useMemo(
     () => segmentPassages(passage.text),
     [passage.text],
   );
-  const words = paragraphs.flatMap((segments) =>
-    segments.filter((segment) => segment.kind === 'word'),
+  const words = useMemo(
+    () =>
+      paragraphs.flatMap((segments) =>
+        segments.filter((segment) => segment.kind === 'word'),
+      ),
+    [paragraphs],
   );
-  const allWordIds = words.map(({ id }) => id);
+  const allWordIds = useMemo(() => words.map(({ id }) => id), [words]);
   const selected = new Set(state.selectedIds);
   const poem = words
     .filter(({ id }) => selected.has(id))
     .map(({ text }) => text)
     .join(' ');
+
+  useEffect(() => {
+    const result = loadStudioState(
+      browserStorage(),
+      passage.passageId,
+      passage.textVersion,
+      new Set(allWordIds),
+    );
+    queueMicrotask(() => {
+      setStorageReady(true);
+      if (result.kind === 'failed') {
+        queueMicrotask(() =>
+          setStorageStatus(
+            'This browser is not allowing local saves. Your work will last only in this open page.',
+          ),
+        );
+      } else if (result.kind === 'restored') {
+        dispatch({
+          blackout: result.value.blackout,
+          selectedIds: result.value.selectedIds,
+          type: 'restore',
+        });
+        setMaterial(result.value.material);
+        setStorageStatus('Saved work was recovered from this browser.');
+      }
+    });
+  }, [allWordIds, passage.passageId, passage.textVersion]);
+
+  useEffect(() => {
+    if (!storageReady) return;
+    if (skipNextSave.current) {
+      skipNextSave.current = false;
+      return;
+    }
+    if (
+      state.selectedIds.length === 0 &&
+      !state.blackout &&
+      material === 'ink'
+    ) {
+      if (
+        discardStudioState(browserStorage(), passage.passageId) === 'failed'
+      ) {
+        queueMicrotask(() =>
+          setStorageStatus(
+            'This browser is not allowing local saves. Your work will last only in this open page.',
+          ),
+        );
+      }
+      return;
+    }
+    const result = saveStudioState(browserStorage(), {
+      blackout: state.blackout,
+      material,
+      passageId: passage.passageId,
+      savedAt: new Date().toISOString(),
+      schemaVersion: 1,
+      selectedIds: state.selectedIds,
+      textVersion: passage.textVersion,
+    });
+    if (result === 'failed') {
+      queueMicrotask(() =>
+        setStorageStatus(
+          'This browser is not allowing local saves. Your work will last only in this open page.',
+        ),
+      );
+    } else {
+      queueMicrotask(() =>
+        setStorageStatus('Saved privately in this browser.'),
+      );
+    }
+  }, [
+    material,
+    passage.passageId,
+    passage.textVersion,
+    state.blackout,
+    state.selectedIds,
+    storageReady,
+  ]);
+
+  function discardSavedWork() {
+    skipNextSave.current = true;
+    dispatch({ type: 'restart' });
+    setMaterial('ink');
+    const result = discardStudioState(browserStorage(), passage.passageId);
+    setStorageStatus(
+      result === 'saved'
+        ? 'Saved work discarded from this browser.'
+        : 'The page was cleared, but this browser would not allow the saved copy to be removed.',
+    );
+  }
 
   function moveWordFocus(
     event: KeyboardEvent<HTMLButtonElement>,
@@ -175,6 +295,7 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
             </button>
             <button
               disabled={state.selectedIds.length === 0 && !state.blackout}
+              className="blackout-action"
               onClick={() => dispatch({ type: 'toggle-blackout' })}
               type="button"
             >
@@ -182,7 +303,20 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
                 ? 'Bring the page back'
                 : 'Let the rest fall away'}
             </button>
+            <button
+              disabled={
+                state.selectedIds.length === 0 &&
+                !state.blackout &&
+                material === 'ink'
+              }
+              onClick={discardSavedWork}
+              type="button"
+            >
+              Discard saved work
+            </button>
           </div>
+
+          <p className="storage-status">{storageStatus}</p>
 
           <p className="visually-hidden" aria-live="polite" role="status">
             {state.announcement}

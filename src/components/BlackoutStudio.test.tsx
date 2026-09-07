@@ -7,7 +7,10 @@ import BlackoutStudio from './BlackoutStudio';
 
 const passage = passageSchema.parse(passageRecord);
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  localStorage.clear();
+});
 
 describe('blackout studio', () => {
   it('renders the verified passage and builds a semantic poem in source order', () => {
