@@ -1,9 +1,24 @@
 # Third-party notices
 
 Keep These is currently a private project. It contains application and
-development dependencies managed through npm and ten public-domain literary
-passages. It contains no bundled fonts, images, textures, or other third-party
-creative material.
+development dependencies managed through npm, ten public-domain literary
+passages, and four original visual textures generated through OpenArt and
+curated for this project. The textures remain reserved as Keep These visual assets
+under `LICENSING.md`; they are not covered by the software or documentation
+licences.
+
+## Generated visual materials
+
+The accepted build-time textures are stored in `public/materials/` and used as
+local CSS backgrounds. OpenArt is the generation service; no OpenArt runtime
+dependency is shipped. The prompts, model, settings, selection decisions, and
+optimisation steps are recorded in [`docs/visual-material-provenance.md`](docs/visual-material-provenance.md).
+
+OpenArt's applicable account and service terms govern the generated outputs and
+their reuse. Keep These does not describe these assets as wholly human-made:
+OpenArt helps build the instrument; it does not play the instrument for the
+maker. Reuse outside this private repository requires maintainer permission
+until an asset-specific notice says otherwise.
 
 ## Literary source material
 

@@ -41,10 +41,27 @@ describe('blackout studio', () => {
     expect(screen.getByLabelText('Your poem text').textContent).toBe(
       'Your chosen words will gather here.',
     );
+    const sourceLinks = screen.getAllByRole('link', {
+      name: passage.attribution.sourceLabel,
+    });
     expect(
-      screen
-        .getByRole('link', { name: passage.attribution.sourceLabel })
-        .getAttribute('href'),
-    ).toBe(passage.source.recordUrl);
+      sourceLinks.some(
+        (link) => link.getAttribute('href') === passage.source.recordUrl,
+      ),
+    ).toBe(true);
+  });
+
+  it('offers keyboard-accessible material choices without changing the poem', () => {
+    render(<BlackoutStudio passage={passage} />);
+
+    const graphite = screen.getByRole('button', { name: 'Graphite' });
+    fireEvent.click(screen.getByRole('button', { name: 'Keep Life' }));
+    fireEvent.click(graphite);
+
+    expect(graphite.getAttribute('aria-pressed')).toBe('true');
+    expect(screen.getByLabelText('Source passage').className).toContain(
+      'source-page--material-graphite',
+    );
+    expect(screen.getByLabelText('Your poem text').textContent).toBe('Life');
   });
 });
