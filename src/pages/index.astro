@@ -8,10 +8,14 @@ const title = 'Keep These';
 const description =
   'A quiet instrument for finding poems within existing writing.';
 const passages = await getCollection('passages');
-const passage = passages[0];
+const passage = passages.find(
+  ({ data }) => data.passageId === 'frankenstein-1831-chapter-4-life-and-death',
+);
 
 if (!passage) {
-  throw new Error('The playable sketch requires one verified passage.');
+  throw new Error(
+    'The playable sketch requires its verified Frankenstein passage.',
+  );
 }
 ---
 
