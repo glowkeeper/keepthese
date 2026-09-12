@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "passageId": "north-and-south-1855-milton-smoke",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "North and South",
+    "author": {
+      "name": "Elizabeth Gaskell",
+      "birthYear": 1810,
+      "deathYear": 1865
+    },
+    "firstPublishedYear": 1855
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Chapter VII: New Scenes and Faces",
+    "openingWords": "For several miles before they reached Milton"
+  },
+  "text": [
+    "For several miles before they reached Milton, they saw a deep lead-coloured cloud hanging over the horizon in the direction in which it lay. It was all the darker from contrast with the pale gray-blue of the wintry sky; for in Heston there had been the earliest signs of frost. Nearer to the town, the air had a faint taste and smell of smoke; perhaps, after all, more a loss of the fragrance of grass and herbage than any positive taste or smell. Quick they were whirled over long, straight, hopeless streets of regularly-built houses, all small and of brick. Here and there a great oblong many-windowed factory stood up, like a hen among her chickens, puffing out black “unparliamentary” smoke, and sufficiently accounting for the cloud which Margaret had taken to foretell rain."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "London: Chapman and Hall, 1855",
+    "ebookNumber": "4276",
+    "recordUrl": "https://www.gutenberg.org/ebooks/4276",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/4276/pg4276.txt",
+    "transcriptionUpdated": "2025-01-16",
+    "checkedAt": "2026-09-12",
+    "contributors": [
+      { "name": "Chuck Greif", "role": "transcription production" },
+      {
+        "name": "Online Distributed Proofreading Team",
+        "role": "transcription production"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-12",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Gaskell died in 1865 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/4276"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers clean English text in the intended GB and US markets; annotations, illustrations, and page layout are excluded."
+  },
+  "attribution": {
+    "sourceLabel": "Read North and South at Project Gutenberg",
+    "requiredCredit": "Transcription produced by Chuck Greif and the Online Distributed Proofreading Team."
+  },
+  "curation": {
+    "rationale": "Cloud, frost, smoke, lost fragrance, hopeless streets and the strange factory simile turn industrial arrival into a dense field of colour, sensation, movement and social meaning.",
+    "motifs": [
+      "industry and nature",
+      "smoke and frost",
+      "arrival",
+      "streets and factories"
+    ]
+  }
+}

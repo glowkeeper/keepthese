@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "passageId": "zitkala-sa-1921-impressions-wild-freedom",
+  "textVersion": 1,
+  "language": "en-US",
+  "work": {
+    "title": "American Indian Stories",
+    "author": { "name": "Zitkala-Sa", "birthYear": 1876, "deathYear": 1938 },
+    "firstPublishedYear": 1921
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Impressions of an Indian Childhood: My Mother",
+    "openingWords": "I was a wild little girl"
+  },
+  "text": [
+    "I was a wild little girl of seven. Loosely clad in a slip of brown buckskin, and light-footed with a pair of soft moccasins on my feet, I was as free as the wind that blew my hair, and no less spirited than a bounding deer. These were my mother's pride,--my wild freedom and overflowing spirits. She taught me no fear save that of intruding myself upon others.",
+    "Having gone many paces ahead I stopped, panting for breath, and laughing with glee as my mother watched my every movement. I was not wholly conscious of myself, but was more keenly alive to the fire within. It was as if I were the activity, and my hands and feet were only experiments for my spirit to work upon."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "Washington, DC: Hayworth Publishing House, 1921",
+    "ebookNumber": "10376",
+    "recordUrl": "https://www.gutenberg.org/ebooks/10376",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/10376/pg10376.txt",
+    "transcriptionUpdated": "2024-10-28",
+    "checkedAt": "2026-09-12",
+    "contributors": [
+      { "name": "Juliet Sutherland", "role": "transcription production" },
+      { "name": "Brett Koonce", "role": "transcription production" },
+      {
+        "name": "Online Distributed Proofreading Team",
+        "role": "transcription production"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-12",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Zitkala-Sa died in 1938 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/10376"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This autobiographical Dakota writing must retain Zitkala-Sa's authorship and cultural context; the record covers clean English text only, excluding later editorial matter and illustrations."
+  },
+  "attribution": {
+    "sourceLabel": "Read American Indian Stories at Project Gutenberg",
+    "requiredCredit": "Transcription produced by Juliet Sutherland, Brett Koonce and the Online Distributed Proofreading Team."
+  },
+  "curation": {
+    "rationale": "Freedom, wind, hair, fear, fire, movement and spirit give this childhood recollection unusual physical energy. The passage remains grounded in Zitkala-Sa's own account rather than presenting Indigenous experience anonymously.",
+    "motifs": [
+      "wild freedom",
+      "movement",
+      "fire within",
+      "childhood and spirit"
+    ]
+  }
+}

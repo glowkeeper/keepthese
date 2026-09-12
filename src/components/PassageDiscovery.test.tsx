@@ -26,6 +26,7 @@ describe('passage discovery', () => {
   it('presents a finite shelf and changes passage with its context intact', () => {
     render(<PassageDiscovery passages={passages} />);
 
+    expect(screen.getByText('2 pages, carefully chosen')).toBeTruthy();
     fireEvent.click(screen.getByText('Choose a page'));
     expect(screen.getAllByRole('listitem')).toHaveLength(2);
     fireEvent.click(

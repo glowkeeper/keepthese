@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "passageId": "my-antonia-1918-prairie-transfiguration",
+  "textVersion": 1,
+  "language": "en-US",
+  "work": {
+    "title": "My Ántonia",
+    "author": { "name": "Willa Cather", "birthYear": 1873, "deathYear": 1947 },
+    "firstPublishedYear": 1918
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Book I, Chapter VI",
+    "openingWords": "All those fall afternoons were the same"
+  },
+  "text": [
+    "All those fall afternoons were the same, but I never got used to them. As far as we could see, the miles of copper-red grass were drenched in sunlight that was stronger and fiercer than at any other time of the day. The blond cornfields were red gold, the haystacks turned rosy and threw long shadows. The whole prairie was like the bush that burned with fire and was not consumed. That hour always had the exultation of victory, of triumphant ending, like a hero’s death—heroes who died young and gloriously. It was a sudden transfiguration, a lifting-up of day.",
+    "How many an afternoon Ántonia and I have trailed along the prairie under that magnificence! And always two long black shadows flitted before us or followed after, dark spots on the ruddy grass."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "Boston and New York: Houghton Mifflin Company, 1918",
+    "ebookNumber": "242",
+    "recordUrl": "https://www.gutenberg.org/ebooks/242",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/242/pg242.txt",
+    "transcriptionUpdated": "2026-07-06",
+    "checkedAt": "2026-09-12",
+    "contributors": [
+      { "name": "Judith Boss", "role": "transcription production" },
+      { "name": "Martin Robb", "role": "transcription production" },
+      { "name": "David Widger", "role": "transcription production" }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-12",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Cather died in 1947 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/242"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers clean English text in the intended GB and US markets; illustrations and modern editorial matter are excluded."
+  },
+  "attribution": {
+    "sourceLabel": "Read My Ántonia at Project Gutenberg",
+    "requiredCredit": "Transcription produced by Judith Boss, Martin Robb and David Widger."
+  },
+  "curation": {
+    "rationale": "Copper-red grass, fierce sunlight, gold fields, fire, victory, death, transfiguration and moving shadows make the prairie both material and mythic, with many possible emotional routes.",
+    "motifs": ["prairie and light", "fire", "ending and victory", "shadows"]
+  }
+}

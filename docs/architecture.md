@@ -172,11 +172,11 @@ attempt. This is a finished image, not a Version 2 editable project file.
 
 ## Version 1 passage discovery
 
-Astro loads the complete verified ten-passage collection at build time and passes
-it, in the editorial order recorded in `docs/sources/initial-collection.md`, to
-one React discovery-and-studio island. The interface exposes a finite, collapsible
-shelf and a one-action random alternative to the current passage. It introduces
-no catalogue search, ranking, popularity data, remote request, or automatic word
+Astro loads the complete verified finite collection at build time and passes it,
+in the editorial order recorded in `docs/sources/initial-collection.md`, to one
+React discovery-and-studio island. The interface exposes a collapsible shelf and
+a one-action random alternative to the current passage. It introduces no
+catalogue search, ranking, popularity data, remote request, or automatic word
 selection. Changing passage remounts the studio against that passage's separate
 browser-autosave key.
 

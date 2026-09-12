@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "passageId": "mrs-dalloway-1925-flowers-and-morning",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "Mrs. Dalloway",
+    "author": {
+      "name": "Virginia Woolf",
+      "birthYear": 1882,
+      "deathYear": 1941
+    },
+    "firstPublishedYear": 1925
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription of the 1925 US edition",
+    "chapter": "Opening",
+    "openingWords": "Mrs. Dalloway said she would buy"
+  },
+  "text": [
+    "Mrs. Dalloway said she would buy the flowers herself.",
+    "For Lucy had her work cut out for her. The doors would be taken off their hinges; Rumpelmayer’s men were coming. And then, thought Clarissa Dalloway, what a morning--fresh as if issued to children on a beach.",
+    "What a lark! What a plunge! For so it had always seemed to her, when, with a little squeak of the hinges, which she could hear now, she had burst open the French windows and plunged at Bourton into the open air. How fresh, how calm, stiller than this of course, the air was in the early morning; like the flap of a wave; the kiss of a wave; chill and sharp and yet (for a girl of eighteen as she then was) solemn, feeling as she did, standing there at the open window, that something awful was about to happen; looking at the flowers, at the trees with the smoke winding off them and the rooks rising, falling; standing and looking until Peter Walsh said, “Musing among the vegetables?”--was that it?--“I prefer men to cauliflowers”--was that it? He must have said it at breakfast one morning when she had gone out on to the terrace--Peter Walsh. He would be back from India one of these days, June or July, she forgot which, for his letters were awfully dull; it was his sayings one remembered; his eyes, his pocket-knife, his smile, his grumpiness and, when millions of things had utterly vanished--how strange it was!--a few sayings like this about cabbages."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription of the 1925 Harcourt, Brace edition",
+    "publication": "New York: Harcourt, Brace and Company, 1925",
+    "ebookNumber": "71865",
+    "recordUrl": "https://www.gutenberg.org/ebooks/71865",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/71865/pg71865.txt",
+    "transcriptionUpdated": "2026-08-04",
+    "checkedAt": "2026-09-12",
+    "contributors": [
+      { "name": "Carla Foust", "role": "transcription production" },
+      { "name": "Emmanuel Ackerman", "role": "transcription production" },
+      {
+        "name": "Online Distributed Proofreading Team",
+        "role": "transcription production"
+      }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-12",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Woolf died in 1941 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies its transcription of the 1925 US edition as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/71865"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English text of the 1925 US edition in the intended GB and US markets; later editorial matter, illustrations, and page design are excluded."
+  },
+  "attribution": {
+    "sourceLabel": "Read Mrs. Dalloway at Project Gutenberg",
+    "requiredCredit": "Transcription prepared by Carla Foust, Emmanuel Ackerman and the Online Distributed Proofreading Team."
+  },
+  "curation": {
+    "rationale": "The opening moves from domestic intention into flowers, childhood, waves, windows, air, memory and foreboding. Its quick changes of scale and feeling offer abundant paths without dictating a single response.",
+    "motifs": ["flowers and morning", "memory", "air and waves", "anticipation"]
+  }
+}

@@ -10,6 +10,16 @@ import middlemarch from '../content/passages/middlemarch-1871-book-2-other-side-
 import mobyDick from '../content/passages/moby-dick-1851-chapter-1-watery-world.json';
 import persuasion from '../content/passages/persuasion-1818-chapter-4-prudence-and-romance.json';
 import yellowWallpaper from '../content/passages/yellow-wallpaper-1892-light-and-pattern.json';
+import ageOfInnocence from '../content/passages/age-of-innocence-1920-loneliness-and-pretence.json';
+import awakening from '../content/passages/awakening-1899-voice-of-the-sea.json';
+import dubliners from '../content/passages/dubliners-1914-eveline-evening.json';
+import jekyllHyde from '../content/passages/jekyll-hyde-1886-truly-two.json';
+import mrsDalloway from '../content/passages/mrs-dalloway-1925-flowers-and-morning.json';
+import myAntonia from '../content/passages/my-antonia-1918-prairie-transfiguration.json';
+import northAndSouth from '../content/passages/north-and-south-1855-milton-smoke.json';
+import pointedFirs from '../content/passages/pointed-firs-1896-dunnet-landing.json';
+import timeMachine from '../content/passages/time-machine-1895-flowing-years.json';
+import zitkalaSa from '../content/passages/zitkala-sa-1921-impressions-wild-freedom.json';
 import { passageSchema } from './passage-schema';
 
 const records = [
@@ -23,16 +33,26 @@ const records = [
   mobyDick,
   persuasion,
   yellowWallpaper,
+  ageOfInnocence,
+  awakening,
+  dubliners,
+  jekyllHyde,
+  mrsDalloway,
+  myAntonia,
+  northAndSouth,
+  pointedFirs,
+  timeMachine,
+  zitkalaSa,
 ];
 
 const containsGutenbergWrapperText = (text: string[]) =>
   /project gutenberg/i.test(text.join(' '));
 
-describe('initial passage collection', () => {
-  it('contains ten independently valid and uniquely identified passages', () => {
+describe('passage collection', () => {
+  it('contains twenty independently valid and uniquely identified passages', () => {
     const passages = records.map((record) => passageSchema.parse(record));
 
-    expect(passages).toHaveLength(10);
+    expect(passages).toHaveLength(20);
     expect(new Set(passages.map(({ passageId }) => passageId)).size).toBe(
       passages.length,
     );

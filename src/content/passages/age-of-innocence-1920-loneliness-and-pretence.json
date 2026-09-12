@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "passageId": "age-of-innocence-1920-loneliness-and-pretence",
+  "textVersion": 1,
+  "language": "en-US",
+  "work": {
+    "title": "The Age of Innocence",
+    "author": { "name": "Edith Wharton", "birthYear": 1862, "deathYear": 1937 },
+    "firstPublishedYear": 1920
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Chapter XII",
+    "openingWords": "He answered gently: I understand"
+  },
+  "text": [
+    "He answered gently: \"I understand. But just at first don't let go of your old friends' hands: I mean the older women, your Granny Mingott, Mrs. Welland, Mrs. van der Luyden. They like and admire you--they want to help you.\"",
+    "She shook her head and sighed. \"Oh, I know--I know! But on condition that they don't hear anything unpleasant. Aunt Welland put it in those very words when I tried.... Does no one want to know the truth here, Mr. Archer? The real loneliness is living among all these kind people who only ask one to pretend!\" She lifted her hands to her face, and he saw her thin shoulders shaken by a sob."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "New York and London: D. Appleton and Company, 1920",
+    "ebookNumber": "541",
+    "recordUrl": "https://www.gutenberg.org/ebooks/541",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/541/pg541.txt",
+    "transcriptionUpdated": "2026-02-07",
+    "checkedAt": "2026-09-12",
+    "contributors": [
+      { "name": "Judith Boss", "role": "transcription production" },
+      { "name": "Charles Keller", "role": "transcription production" },
+      { "name": "Al Haines", "role": "HTML transcription production" }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-12",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Wharton died in 1937 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/541"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers clean English text in the intended GB and US markets; illustrations, annotations, and page design are excluded."
+  },
+  "attribution": {
+    "sourceLabel": "Read The Age of Innocence at Project Gutenberg",
+    "requiredCredit": "Transcription produced by Judith Boss and Charles Keller; HTML version by Al Haines."
+  },
+  "curation": {
+    "rationale": "Hands, kindness, unpleasant truth, loneliness, pretence and tears create a tense vocabulary of social belonging and concealment with multiple emotional directions.",
+    "motifs": [
+      "truth and pretence",
+      "loneliness",
+      "kindness and constraint",
+      "tears"
+    ]
+  }
+}

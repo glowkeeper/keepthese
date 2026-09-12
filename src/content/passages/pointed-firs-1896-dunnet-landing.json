@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "passageId": "pointed-firs-1896-dunnet-landing",
+  "textVersion": 1,
+  "language": "en-US",
+  "work": {
+    "title": "The Country of the Pointed Firs",
+    "author": {
+      "name": "Sarah Orne Jewett",
+      "birthYear": 1849,
+      "deathYear": 1909
+    },
+    "firstPublishedYear": 1896
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Chapter I: The Return",
+    "openingWords": "There was something about the coast town"
+  },
+  "text": [
+    "THERE WAS SOMETHING about the coast town of Dunnet which made it seem more attractive than other maritime villages of eastern Maine. Perhaps it was the simple fact of acquaintance with that neighborhood which made it so attaching, and gave such interest to the rocky shore and dark woods, and the few houses which seemed to be securely wedged and tree-nailed in among the ledges by the Landing. These houses made the most of their seaward view, and there was a gayety and determined floweriness in their bits of garden ground; the small-paned high windows in the peaks of their steep gables were like knowing eyes that watched the harbor and the far sea-line beyond, or looked northward all along the shore and its background of spruces and balsam firs. When one really knows a village like this and its surroundings, it is like becoming acquainted with a single person. The process of falling in love at first sight is as final as it is swift in such a case, but the growth of true friendship may be a lifelong affair."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "Boston and New York: Houghton, Mifflin and Company, 1896",
+    "ebookNumber": "367",
+    "recordUrl": "https://www.gutenberg.org/ebooks/367",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/367/pg367.txt",
+    "transcriptionUpdated": "2018-03-15",
+    "checkedAt": "2026-09-12",
+    "contributors": [
+      { "name": "Judith Boss", "role": "transcription production" },
+      { "name": "David Widger", "role": "transcription production" }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-12",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Jewett died in 1909 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/367"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers clean English text in the intended GB and US markets; illustrations, annotations, and page design are excluded."
+  },
+  "attribution": {
+    "sourceLabel": "Read The Country of the Pointed Firs at Project Gutenberg",
+    "requiredCredit": "Transcription produced by Judith Boss and David Widger."
+  },
+  "curation": {
+    "rationale": "Rocky shore, dark woods, tree-nailed houses, knowing windows, flowers, harbor, firs, love and lifelong friendship give the village a vivid physical and emotional character with many possible paths.",
+    "motifs": [
+      "village and sea",
+      "houses and eyes",
+      "love and friendship",
+      "woods and flowers"
+    ]
+  }
+}

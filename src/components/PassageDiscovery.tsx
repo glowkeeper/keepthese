@@ -30,7 +30,7 @@ export function PassageDiscovery({ passages }: PassageDiscoveryProps) {
     <>
       <nav className="passage-discovery" aria-label="Passage shelf">
         <div>
-          <p className="eyebrow">Ten pages, carefully chosen</p>
+          <p className="eyebrow">{passages.length} pages, carefully chosen</p>
           <p className="passage-discovery-introduction">
             Stay with this page, choose another, or let chance place one before
             you.

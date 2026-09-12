@@ -22,6 +22,16 @@ const passageOrder = [
   'alice-1865-chapter-1-daisy-chain',
   'great-expectations-1861-chapter-9-memorable-day',
   'yellow-wallpaper-1892-light-and-pattern',
+  'mrs-dalloway-1925-flowers-and-morning',
+  'zitkala-sa-1921-impressions-wild-freedom',
+  'my-antonia-1918-prairie-transfiguration',
+  'dubliners-1914-eveline-evening',
+  'north-and-south-1855-milton-smoke',
+  'time-machine-1895-flowing-years',
+  'jekyll-hyde-1886-truly-two',
+  'age-of-innocence-1920-loneliness-and-pretence',
+  'awakening-1899-voice-of-the-sea',
+  'pointed-firs-1896-dunnet-landing',
 ];
 const collection = await getCollection('passages');
 const byId = new Map(collection.map(({ data }) => [data.passageId, data]));

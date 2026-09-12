@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "passageId": "dubliners-1914-eveline-evening",
+  "textVersion": 1,
+  "language": "en-IE",
+  "work": {
+    "title": "Dubliners",
+    "author": { "name": "James Joyce", "birthYear": 1882, "deathYear": 1941 },
+    "firstPublishedYear": 1914
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Eveline",
+    "openingWords": "She sat at the window watching"
+  },
+  "text": [
+    "She sat at the window watching the evening invade the avenue. Her head was leaned against the window curtains and in her nostrils was the odour of dusty cretonne. She was tired.",
+    "Few people passed. The man out of the last house passed on his way home; she heard his footsteps clacking along the concrete pavement and afterwards crunching on the cinder path before the new red houses. One time there used to be a field there in which they used to play every evening with other people’s children. Then a man from Belfast bought the field and built houses in it—not like their little brown houses but bright brick houses with shining roofs."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "London: Grant Richards Ltd., 1914",
+    "ebookNumber": "2814",
+    "recordUrl": "https://www.gutenberg.org/ebooks/2814",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/2814/pg2814.txt",
+    "transcriptionUpdated": "2021-05-21",
+    "checkedAt": "2026-09-12",
+    "contributors": [
+      { "name": "David Reed", "role": "transcription production" },
+      { "name": "Karol Pietrzak", "role": "transcription production" },
+      { "name": "David Widger", "role": "transcription production" }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-12",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Joyce died in 1941 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/2814"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English story text in the intended GB and US markets; cover art, annotations, and later editorial matter are excluded."
+  },
+  "attribution": {
+    "sourceLabel": "Read Dubliners at Project Gutenberg",
+    "requiredCredit": "Transcription produced by David Reed, Karol Pietrzak and David Widger."
+  },
+  "curation": {
+    "rationale": "Evening invades a domestic scene through dust, footsteps, fields and bright roofs. The ordinary sensory detail supports poems about home, memory, exhaustion and change.",
+    "motifs": ["evening", "home and change", "memory", "dust and footsteps"]
+  }
+}
