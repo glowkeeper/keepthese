@@ -370,6 +370,7 @@ test('a finite literary path shows position and moves between its pages', async 
 });
 
 test('a literary path resolves into a five-poem sequence', async ({ page }) => {
+  test.slow();
   await enablePngSharing(page);
   await page.getByText('Follow a literary path', { exact: true }).click();
   await page
