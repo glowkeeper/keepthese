@@ -21,10 +21,11 @@ features.
 
 ## Evaluation question and evidence boundary
 
-Issue #53 was a maintainer-led attempt to broaden the conditions for Keep These'
-appeal by widening its classic-text collection and improving how attributed
-responses can travel. It did not begin with evidence of an existing broad
-audience, and this evaluation must not manufacture such evidence afterward.
+Issue #53 was a maintainer-led attempt to broaden the conditions for the appeal
+of Keep These by widening its classic-text collection and improving how
+attributed responses can travel. It did not begin with evidence of an existing
+broad audience, and this evaluation must not manufacture such evidence
+afterward.
 
 The maintainer remains the only known creative evaluator. Their sustained use,
 completed poems, design judgements, and direct sharing trials are valid evidence
@@ -56,24 +57,29 @@ prairie writing, and further social, psychological, and speculative textures.
 The source register records the exact transcription, rights assessment,
 provenance, credit, and editorial reason for every addition.
 
-The maintainer used and reviewed the enlarged shelf and judged that the new
-passages added greatly to the site. Follow-up refinements reduced selection
-friction and moved recurring instructions behind help, allowing the additional
-range to remain present without making the creative surface feel like an
-endless catalogue.
+The collection record says both ten-passage tranches were tried in the creative
+surface, and the maintainer judged that the new passages added greatly to the
+site. Follow-up refinements reduced selection friction and moved recurring
+instructions behind help, allowing the additional breadth to remain present
+without making the creative surface feel like an endless catalogue.
 
-This supports the narrower conclusion that the expanded shelf offers the
-maintainer meaningfully greater creative range. It does not show which passages
-other people will find fertile, whether the collection addresses a wide enough
-range of readers, or whether twenty is the right long-term number.
+This supports a conclusion of greater **editorial breadth** across authors,
+periods, forms, voices, moods, and linguistic textures, together with a positive
+overall maintainer judgement. The evaluation record does not contain
+representative passage-by-passage making observations or comparative poems
+sufficient to claim that the shelf delivers meaningfully greater creative
+fertility in use. It also does not show which passages other people will find
+fertile, whether the collection addresses a wide enough range of readers, or
+whether twenty is the right long-term number.
 
 ## Literary context and source routes
 
 Each encounter now introduces the work, author, first-publication year, passage
 location, concise editorial context, and a direct route to the sourced original
-before the making surface. Full provenance remains attached below the page and
-within exported artwork. Internal selection rationales are excluded from the
-hydrated client payload.
+before the making surface. The public provenance credit and source route remain
+attached below the page and within exported artwork; internal rights
+assessments, transcription administration, and selection rationales remain in
+the repository and are excluded from the hydrated client payload.
 
 The maintainer accepted the resulting presentation as part of a site they
 described as looking great. No obstruction to making was reported after the
@@ -170,10 +176,21 @@ These categories should not be collapsed:
   route to the original remain visible in making, PNGs, and received links.
 - **Social restraint:** circulation is deliberate and person-to-person; private
   making remains complete and no public profile or publication layer exists.
+- **Tone:** interface copy such as “Keep the words that speak,” “A poem shared
+  with you,” and the plain cancellation and failure messages is warm and
+  invitational without prescribing meaning, promising transformation, or
+  presenting the practice as therapy. Inspection found no claim that the
+  application makes someone a poet, and the maintainer raised no tone concern.
+  No independent reader has assessed whether the language avoids tweeness or
+  feels welcoming to people who do not identify as poets.
 - **Accessibility:** semantic poem text, keyboard interaction, focus movement,
   reduced-motion behavior, status announcements, responsive layouts, and
   failure recovery are covered by implementation checks. This is not a
   substitute for evaluation with disabled people or assistive technologies.
+  Strong contrast is an explicit design requirement, but this programme did not
+  record a contrast-ratio audit across the added contexts, journeys, and sharing
+  states; contrast therefore remains an evidence limitation rather than a
+  verified conclusion of this evaluation.
 - **Source policy:** all twenty passages retain structured rights, provenance,
   transcription, and attribution records. Journeys and links reference those
   verified versions rather than copying untracked source text.
