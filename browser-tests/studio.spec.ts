@@ -103,6 +103,20 @@ test('materials remain operable and selected words remain legible', async ({
 test('source attribution is visible without opening a disclosure', async ({
   page,
 }) => {
+  expect(await page.content()).not.toContain(
+    'The paragraph offers vivid, opposing images and flexible language',
+  );
+  await expect(page.locator('.passage-context')).toHaveText(
+    'In Chapter IV of Shelley’s revised 1831 edition, Victor Frankenstein recalls the ambition that drove his experiment.',
+  );
+  await expect(page.locator('.studio-introduction')).toContainText(
+    'by Mary Wollstonecraft Shelley · first published 1818',
+  );
+  await expect(
+    page.locator('.studio-introduction').getByRole('link', {
+      name: 'Read the 1831 edition at Project Gutenberg',
+    }),
+  ).toHaveAttribute('href', 'https://www.gutenberg.org/ebooks/42324');
   await expect(page.locator('.source-credit')).toContainText(
     'Frankenstein; Or, The Modern Prometheus by Mary Wollstonecraft Shelley',
   );

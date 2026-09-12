@@ -134,8 +134,32 @@ h1 {
   font-size: 0.9rem;
 }
 
+.studio-introduction .passage-location {
+  margin: 0.3rem 0 0;
+  color: #655e55;
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+}
+
+.passage-context {
+  max-width: 35rem;
+  margin: 1rem 0 0;
+  font-size: clamp(1.05rem, 2vw, 1.18rem);
+  line-height: 1.55;
+}
+
+.source-route {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: #762713;
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 650;
+  text-underline-offset: 0.2em;
+}
+
 .studio-help {
-  margin: 0.75rem 0 0;
+  margin: 1rem 0 0;
   font-family: system-ui, sans-serif;
 }
 

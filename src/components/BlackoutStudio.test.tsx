@@ -3,9 +3,10 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import passageRecord from '../content/passages/frankenstein-1831-chapter-4.json';
 import { passageSchema } from '../lib/passage-schema';
+import { toPublicPassage } from '../lib/public-passage';
 import BlackoutStudio from './BlackoutStudio';
 
-const passage = passageSchema.parse(passageRecord);
+const passage = toPublicPassage(passageSchema.parse(passageRecord));
 
 afterEach(() => {
   cleanup();
@@ -32,6 +33,13 @@ describe('blackout studio', () => {
   it('offers correction, restart, blackout, and source attribution', () => {
     render(<BlackoutStudio passage={passage} />);
 
+    expect(screen.getByText(passage.curation.context)).toBeTruthy();
+    expect(
+      screen.getByText(
+        `${passage.passageLocation.chapter} · ${passage.passageLocation.edition}`,
+      ),
+    ).toBeTruthy();
+
     fireEvent.click(screen.getByRole('button', { name: 'Keep Life' }));
     fireEvent.click(
       screen.getByRole('button', { name: 'Let the rest fall away' }),
@@ -47,6 +55,7 @@ describe('blackout studio', () => {
     const sourceLinks = screen.getAllByRole('link', {
       name: passage.attribution.sourceLabel,
     });
+    expect(sourceLinks).toHaveLength(2);
     expect(
       sourceLinks.some(
         (link) => link.getAttribute('href') === passage.source.recordUrl,

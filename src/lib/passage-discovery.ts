@@ -1,10 +1,8 @@
-import type { Passage } from './passage-schema';
-
-export function chooseSurprisePassage(
-  passages: Passage[],
+export function chooseSurprisePassage<T extends { passageId: string }>(
+  passages: T[],
   currentPassageId: string,
   randomValue = Math.random(),
-): Passage {
+): T {
   if (passages.length === 0) {
     throw new Error('Surprise me requires at least one passage.');
   }

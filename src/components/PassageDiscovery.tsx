@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
 
 import { chooseSurprisePassage } from '../lib/passage-discovery';
-import type { Passage } from '../lib/passage-schema';
+import type { PublicPassage } from '../lib/public-passage';
 import BlackoutStudio from './BlackoutStudio';
 
 interface PassageDiscoveryProps {
-  passages: Passage[];
+  passages: PublicPassage[];
 }
 
 export function PassageDiscovery({ passages }: PassageDiscoveryProps) {

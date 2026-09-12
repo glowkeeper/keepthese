@@ -95,6 +95,7 @@ export const passageSchema = z.object({
     requiredCredit: z.string().min(1),
   }),
   curation: z.object({
+    context: z.string().min(1).max(240),
     rationale: z.string().min(1),
     motifs: z.array(z.string().min(1)).min(1),
   }),

@@ -4,11 +4,12 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import firstRecord from '../content/passages/frankenstein-1831-chapter-4.json';
 import secondRecord from '../content/passages/persuasion-1818-chapter-4-prudence-and-romance.json';
 import { passageSchema } from '../lib/passage-schema';
+import { toPublicPassage } from '../lib/public-passage';
 import PassageDiscovery from './PassageDiscovery';
 
 const passages = [
-  passageSchema.parse(firstRecord),
-  passageSchema.parse(secondRecord),
+  toPublicPassage(passageSchema.parse(firstRecord)),
+  toPublicPassage(passageSchema.parse(secondRecord)),
 ];
 
 const originalScrollIntoView = Object.getOwnPropertyDescriptor(
@@ -86,7 +87,14 @@ describe('passage discovery', () => {
         .closest('details')
         ?.hasAttribute('open'),
     ).toBe(false);
-    expect(screen.getByText(/Jane Austen · Chapter IV/)).toBeTruthy();
+    expect(document.querySelector('.source-byline')?.textContent).toBe(
+      'by Jane Austen · first published 1817',
+    );
+    expect(
+      screen.getByText(
+        'Chapter IV · Project Gutenberg English transcription, presented as 1818',
+      ),
+    ).toBeTruthy();
     expect(
       screen
         .getByRole('button', { name: /Persuasion Jane Austen/ })

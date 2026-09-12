@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 
-import type { Passage } from '../lib/passage-schema';
+import type { PublicPassage } from '../lib/public-passage';
 import {
   downloadPng,
   pngFilename,
@@ -34,7 +34,7 @@ function browserStorage(): Storage | null {
 }
 
 interface BlackoutStudioProps {
-  passage: Passage;
+  passage: PublicPassage;
 }
 
 export function BlackoutStudio({ passage }: BlackoutStudioProps) {
@@ -215,8 +215,16 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
           <cite>{passage.work.title}</cite>
         </h2>
         <p className="source-byline">
-          {passage.work.author.name} · {passage.passageLocation.chapter}
+          by <strong>{passage.work.author.name}</strong> · first published{' '}
+          {passage.work.firstPublishedYear}
         </p>
+        <p className="passage-location">
+          {passage.passageLocation.chapter} · {passage.passageLocation.edition}
+        </p>
+        <p className="passage-context">{passage.curation.context}</p>
+        <a className="source-route" href={passage.source.recordUrl}>
+          {passage.attribution.sourceLabel} <span aria-hidden="true">→</span>
+        </a>
         <details className="studio-help">
           <summary>How to choose words</summary>
           <p>
