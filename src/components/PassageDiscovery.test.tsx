@@ -86,7 +86,14 @@ describe('passage discovery', () => {
         .closest('details')
         ?.hasAttribute('open'),
     ).toBe(false);
-    expect(screen.getByText(/Jane Austen · Chapter IV/)).toBeTruthy();
+    expect(document.querySelector('.source-byline')?.textContent).toBe(
+      'by Jane Austen · first published 1817',
+    );
+    expect(
+      screen.getByText(
+        'Chapter IV · Project Gutenberg English transcription, presented as 1818',
+      ),
+    ).toBeTruthy();
     expect(
       screen
         .getByRole('button', { name: /Persuasion Jane Austen/ })

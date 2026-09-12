@@ -180,6 +180,20 @@ catalogue search, ranking, popularity data, remote request, or automatic word
 selection. Changing passage remounts the studio against that passage's separate
 browser-autosave key.
 
+## Version 1 source context
+
+Each passage record carries a concise public `curation.context` note distinct
+from its internal selection rationale. The studio introduction renders that
+note with the work, author, first-publication year, passage location, and a
+direct route to the recorded source before making begins. The full provenance
+credit and source route remain attached to the page and its PNG export.
+
+This stays within the existing static content collection and React studio
+island. It introduces no remote metadata service, catalogue lookup, author
+profile system, or additional client state. Context is editorial repository
+data validated at build time and covered by the curated-metadata terms recorded
+in `LICENSING.md`.
+
 ## Version 1 browser autosave
 
 Unfinished studio work is stored in the browser's local storage. Each passage

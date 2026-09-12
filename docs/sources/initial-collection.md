@@ -30,7 +30,8 @@ Every record contains:
 - the transcription update and project check dates;
 - named production contributors where supplied by the transcription header;
 - separate GB and US rights assessments;
-- attribution text, a curation rationale, and motifs.
+- attribution text, a concise public-facing context note, a curation rationale,
+  and motifs.
 
 The GB assessment uses the author's death date and the usual life-plus-70 term
 described by GOV.UK as a conservative initial screen. The US assessment uses
@@ -91,18 +92,35 @@ shelf, not a representative survey of classic literature or evidence of broad
 audience preference. The Zitkala-Sa passage must retain its Dakota authorship
 and autobiographical context.
 
-Maintainer making trials remain part of acceptance for issue #54. Candidate
-passages may be replaced before approval if they prove weak, overly directive,
-or unwieldy on the creative surface; the approved twenty-work boundary should
-not be enlarged within this issue.
+The maintainer accepted the expanded collection on 12 September 2026 after
+making and editorial review, including follow-up refinements to passage
+selection and compact help. That is maintainer-led evidence, not a claim of
+broad audience preference.
+
+## Public editorial context
+
+Issue #55 adds one concise `curation.context` note to every passage record.
+This public note locates the extract within its work using factual narrative or
+publication context without suggesting words to choose or an interpretation to
+make. It is deliberately separate from `curation.rationale`, which records why
+the passage belongs in the collection and is not interface copy.
+
+The creative introduction presents the work, author, first-publication year,
+passage location, context note, and a route to the sourced original before the
+page. The full provenance credit and same source route remain below the page
+and within exported artwork. Project Gutenberg is identified as the
+transcription source; the wording does not imply its endorsement.
+
+These context notes are original curated metadata covered by the intended CC
+BY 4.0 treatment in `LICENSING.md`. Facts, public-domain source texts, and
+third-party catalogue descriptions are not claimed as project-authored work.
 
 ## Editorial limitations
 
 Selection and making judgement are maintainer-led. The collection is
 intentionally finite and is not claimed to represent the full range of classic
-literature or broad user preference. The first ten passages were tried in the
-creative surface before issue #13 was accepted; the second tranche requires
-the equivalent maintainer trials before issue #54 can be accepted.
+literature or broad user preference. Both ten-passage tranches were tried in
+the creative surface before their respective collection issues were accepted.
 
 The Douglass and Gilman passages retain important historical contexts involving
 enslavement, coercion, and mental distress. Their work titles, authorship,
