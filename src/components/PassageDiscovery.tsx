@@ -81,6 +81,21 @@ export function PassageDiscovery({
     choosePassage(firstPassageId, journey.journeyId);
   }
 
+  function leaveJourney(openChooser = false) {
+    setActiveJourneyId(null);
+    setJourneyComplete(false);
+    setJourneyPoems({});
+
+    if (openChooser) {
+      requestAnimationFrame(() => {
+        journeyChooserRef.current?.setAttribute('open', '');
+        const summary = journeyChooserRef.current?.querySelector('summary');
+        summary?.focus({ preventScroll: true });
+        summary?.scrollIntoView({ block: 'start' });
+      });
+    }
+  }
+
   function keepJourneyPoem(work: KeptPoemWork) {
     if (!activeJourney || activeJourneyIndex < 0) return;
 
@@ -204,7 +219,8 @@ export function PassageDiscovery({
             Your <cite>{activeJourney.title}</cite> sequence
           </h2>
           <p>
-            Five source pages, answered with five poems of your own. They remain
+            {activeJourney.passageIds.length} source pages, answered with{' '}
+            {activeJourney.passageIds.length} poems of your own. They remain
             private in this browser unless you choose to download them.
           </p>
           <ol>
@@ -241,7 +257,9 @@ export function PassageDiscovery({
               <header>
                 <p>Keep These · literary path</p>
                 <h2>{activeJourney.title}</h2>
-                <p>A sequence of five found poems</p>
+                <p>
+                  A sequence of {activeJourney.passageIds.length} found poems
+                </p>
               </header>
               <ol>
                 {activeJourney.passageIds.map((passageId, index) => {
@@ -286,7 +304,7 @@ export function PassageDiscovery({
                             {passage.passageLocation.chapter}
                           </p>
                           <p>{passage.attribution.requiredCredit}</p>
-                          <a href={passage.source.recordUrl}>
+                          <a href={passage.source.recordUrl} tabIndex={-1}>
                             {passage.attribution.sourceLabel}
                           </a>
                         </footer>
@@ -312,17 +330,10 @@ export function PassageDiscovery({
                 ? 'Preparing complete sequence…'
                 : 'Download complete sequence'}
             </button>
-            <button onClick={() => setActiveJourneyId(null)} type="button">
+            <button onClick={() => leaveJourney()} type="button">
               Leave this path
             </button>
-            <button
-              onClick={() => {
-                setActiveJourneyId(null);
-                journeyChooserRef.current?.setAttribute('open', '');
-                journeyChooserRef.current?.scrollIntoView({ block: 'start' });
-              }}
-              type="button"
-            >
+            <button onClick={() => leaveJourney(true)} type="button">
               Choose another path
             </button>
           </div>
@@ -342,7 +353,7 @@ export function PassageDiscovery({
                 {activeJourney.title}
               </h2>
             </div>
-            <button onClick={() => setActiveJourneyId(null)} type="button">
+            <button onClick={() => leaveJourney()} type="button">
               Leave this path
             </button>
           </div>
@@ -414,6 +425,9 @@ export function PassageDiscovery({
           }
           key={currentPassage.passageId}
           passage={currentPassage}
+          sessionWork={
+            activeJourney ? journeyPoems[currentPassage.passageId] : undefined
+          }
         />
       )}
     </>

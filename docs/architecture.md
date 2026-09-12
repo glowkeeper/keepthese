@@ -216,6 +216,10 @@ five poems in editorial order as one sequence with routes back to revise them.
 The kept sequence and journey position are not persisted, scored, synchronized,
 or sent elsewhere. Re-entering a page may recover that passage's existing local
 work, which is identified clearly and can be continued or discarded.
+Session-kept work remains the authoritative revision source while a journey is
+open, so returning from completion still restores it when browser storage is
+unavailable. Leaving the journey clears its completion and session sequence
+state while returning the maker to the ordinary studio.
 
 The completed sequence has a dedicated fixed-width portrait export surface,
 separate from its interactive controls. It records the journey title and five

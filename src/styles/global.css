@@ -935,7 +935,7 @@ h1 {
   }
 
   .active-journey ol {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
   }
 
   .active-journey ol button {
@@ -945,6 +945,6 @@ h1 {
   }
 
   .journey-complete > ol {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   }
 }

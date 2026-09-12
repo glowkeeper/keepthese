@@ -1,4 +1,10 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import firstRecord from '../content/passages/frankenstein-1831-chapter-4.json';
@@ -196,7 +202,7 @@ describe('passage discovery', () => {
     expect(screen.queryByText('Literary path · page 2 of 2')).toBeNull();
   });
 
-  it('keeps each journey poem and resolves into an ordered sequence', () => {
+  it('keeps each journey poem and resolves into an ordered sequence', async () => {
     installScrollIntoViewMock();
     const runAnimationFrame = captureAnimationFrame();
     render(<PassageDiscovery journeys={journeys} passages={passages} />);
@@ -219,6 +225,11 @@ describe('passage discovery', () => {
     runAnimationFrame();
 
     expect(screen.getByText('Literary path complete')).toBeTruthy();
+    expect(
+      screen.getByText(
+        '2 source pages, answered with 2 poems of your own. They remain private in this browser unless you choose to download them.',
+      ),
+    ).toBeTruthy();
     expect(document.activeElement).toBe(
       screen.getByRole('heading', {
         name: 'Your A test path sequence',
@@ -229,5 +240,22 @@ describe('passage discovery', () => {
       screen.getAllByRole('button', { name: 'Return to this poem' }),
     ).toHaveLength(2);
     expect(screen.queryByRole('heading', { name: 'Your poem' })).toBeNull();
+
+    localStorage.clear();
+    fireEvent.click(
+      screen.getAllByRole('button', { name: 'Return to this poem' })[0]!,
+    );
+    runAnimationFrame();
+    await waitFor(() =>
+      expect(screen.getByLabelText('Your poem text').textContent).not.toBe(
+        'Your chosen words will gather here.',
+      ),
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Complete this path' }));
+    runAnimationFrame();
+    fireEvent.click(screen.getByRole('button', { name: 'Leave this path' }));
+    expect(screen.queryByText('Literary path complete')).toBeNull();
+    expect(screen.getByRole('heading', { name: 'Your poem' })).toBeTruthy();
   });
 });

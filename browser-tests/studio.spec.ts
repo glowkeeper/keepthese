@@ -167,10 +167,19 @@ test('creative state is recovered after reload and reopening, then can be discar
   await expect(
     page.getByText('Your saved work for this page has been restored.'),
   ).toBeVisible();
-  await page.getByRole('button', { name: 'Continue with this poem' }).click();
+  await page.getByRole('button', { name: 'Restart' }).click();
   await expect(
     page.getByText('Your saved work for this page has been restored.'),
   ).toHaveCount(0);
+  await expect(page.getByLabel('Your poem text')).toHaveText(
+    'Your chosen words will gather here.',
+  );
+
+  await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
+  await page.getByRole('button', { name: 'Let the rest fall away' }).click();
+  await expect(page.locator('.storage-status')).toHaveText(
+    'Saved privately in this browser.',
+  );
 
   await page.close();
   const reopenedPage = await context.newPage();
@@ -357,6 +366,10 @@ test('a literary path resolves into a five-poem sequence', async ({ page }) => {
     'href',
     'https://www.gutenberg.org/ebooks/11',
   );
+  await expect(exportArtwork.locator('a').first()).toHaveAttribute(
+    'tabindex',
+    '-1',
+  );
   await expect(exportArtwork.getByRole('button')).toHaveCount(0);
 
   const downloadPromise = page.waitForEvent('download');
@@ -378,6 +391,13 @@ test('a literary path resolves into a five-poem sequence', async ({ page }) => {
   await expect(page.locator('.journey-export-status')).toHaveText(
     'Complete sequence downloaded to your device.',
   );
+
+  await page.getByRole('button', { name: 'Choose another path' }).click();
+  await expect(
+    page.getByText('Follow a literary path', { exact: true }),
+  ).toBeFocused();
+  await expect(page.locator('.journey-chooser')).toHaveAttribute('open', '');
+  await expect(page.locator('.studio')).toBeVisible();
 });
 
 test('release metadata and local brand assets are complete', async ({

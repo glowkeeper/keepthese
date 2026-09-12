@@ -39,9 +39,11 @@ interface BlackoutStudioProps {
     onKeep: (work: KeptPoemWork) => void;
   };
   passage: PublicPassage;
+  sessionWork?: KeptPoemWork;
 }
 
 export interface KeptPoemWork {
+  blackout: boolean;
   material: StudioMaterial;
   poem: string;
   selectedIds: string[];
@@ -50,6 +52,7 @@ export interface KeptPoemWork {
 export function BlackoutStudio({
   journeyAction,
   passage,
+  sessionWork,
 }: BlackoutStudioProps) {
   const [state, dispatch] = useReducer(studioReducer, initialStudioState);
   const [activeWordId, setActiveWordId] = useState('word-0');
@@ -84,6 +87,20 @@ export function BlackoutStudio({
     .join(' ');
 
   useEffect(() => {
+    if (sessionWork) {
+      queueMicrotask(() => {
+        dispatch({
+          blackout: sessionWork.blackout,
+          selectedIds: sessionWork.selectedIds,
+          type: 'restore',
+        });
+        setMaterial(sessionWork.material);
+        setStorageReady(true);
+        setStorageStatus('Work kept in this path was restored for revision.');
+      });
+      return;
+    }
+
     const result = loadStudioState(
       browserStorage(),
       passage.passageId,
@@ -109,7 +126,7 @@ export function BlackoutStudio({
         setStorageStatus('Saved work was recovered from this browser.');
       }
     });
-  }, [allWordIds, passage.passageId, passage.textVersion]);
+  }, [allWordIds, passage.passageId, passage.textVersion, sessionWork]);
 
   useEffect(() => {
     if (!storageReady) return;
@@ -173,6 +190,11 @@ export function BlackoutStudio({
         ? 'Saved work discarded from this browser.'
         : 'The page was cleared, but this browser would not allow the saved copy to be removed.',
     );
+  }
+
+  function restartStudio() {
+    setRestoredWork(false);
+    dispatch({ type: 'restart' });
   }
 
   async function exportArtwork() {
@@ -358,6 +380,7 @@ export function BlackoutStudio({
                 disabled={state.selectedIds.length === 0}
                 onClick={() =>
                   journeyAction.onKeep({
+                    blackout: state.blackout,
                     material,
                     poem,
                     selectedIds: state.selectedIds,
@@ -377,7 +400,7 @@ export function BlackoutStudio({
             </button>
             <button
               disabled={state.selectedIds.length === 0 && !state.blackout}
-              onClick={() => dispatch({ type: 'restart' })}
+              onClick={restartStudio}
               type="button"
             >
               Restart
