@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { chooseSurprisePassage } from '../lib/passage-discovery';
 import type { Passage } from '../lib/passage-schema';
@@ -10,7 +10,6 @@ interface PassageDiscoveryProps {
 
 export function PassageDiscovery({ passages }: PassageDiscoveryProps) {
   const passageChooserRef = useRef<HTMLDetailsElement>(null);
-  const shouldScrollToPassage = useRef(false);
   const [currentPassageId, setCurrentPassageId] = useState(
     passages[0]?.passageId ?? '',
   );
@@ -22,22 +21,21 @@ export function PassageDiscovery({ passages }: PassageDiscoveryProps) {
     throw new Error('The passage shelf requires at least one passage.');
   }
 
-  useEffect(() => {
-    if (!shouldScrollToPassage.current) return;
-
-    shouldScrollToPassage.current = false;
-    const reduceMotion =
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
-    document.getElementById('studio-heading')?.scrollIntoView({
-      behavior: reduceMotion ? 'auto' : 'smooth',
-      block: 'start',
-    });
-  }, [currentPassageId]);
-
   function choosePassage(passageId: string) {
-    shouldScrollToPassage.current = true;
     passageChooserRef.current?.removeAttribute('open');
     setCurrentPassageId(passageId);
+    requestAnimationFrame(() => {
+      const studioHeading = document.getElementById('studio-heading');
+      const reduceMotion =
+        window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ??
+        false;
+
+      studioHeading?.focus({ preventScroll: true });
+      studioHeading?.scrollIntoView({
+        behavior: reduceMotion ? 'auto' : 'smooth',
+        block: 'start',
+      });
+    });
   }
 
   function surpriseMe() {

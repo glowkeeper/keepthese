@@ -15,6 +15,7 @@ afterEach(() => {
   cleanup();
   localStorage.clear();
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
 });
 
 describe('passage discovery', () => {
@@ -25,7 +26,15 @@ describe('passage discovery', () => {
   });
   it('presents a finite shelf and changes passage with its context intact', () => {
     const scrollIntoView = vi.fn();
+    let runAnimationFrame: FrameRequestCallback = () => undefined;
     Element.prototype.scrollIntoView = scrollIntoView;
+    vi.stubGlobal(
+      'requestAnimationFrame',
+      vi.fn((callback: FrameRequestCallback) => {
+        runAnimationFrame = callback;
+        return 1;
+      }),
+    );
     render(<PassageDiscovery passages={passages} />);
 
     expect(screen.getByText('2 pages, carefully chosen')).toBeTruthy();
@@ -34,8 +43,11 @@ describe('passage discovery', () => {
     fireEvent.click(
       screen.getByRole('button', { name: /Persuasion Jane Austen/ }),
     );
+    runAnimationFrame(0);
 
-    expect(screen.getByRole('heading', { name: 'Persuasion' })).toBeTruthy();
+    const heading = screen.getByRole('heading', { name: 'Persuasion' });
+    expect(heading).toBeTruthy();
+    expect(document.activeElement).toBe(heading);
     expect(scrollIntoView).toHaveBeenCalledWith({
       behavior: 'smooth',
       block: 'start',
@@ -52,6 +64,37 @@ describe('passage discovery', () => {
         .getByRole('button', { name: /Persuasion Jane Austen/ })
         .getAttribute('aria-pressed'),
     ).toBe('true');
+  });
+
+  it('avoids smooth scrolling when reduced motion is preferred', () => {
+    const scrollIntoView = vi.fn();
+    let runAnimationFrame: FrameRequestCallback = () => undefined;
+    Element.prototype.scrollIntoView = scrollIntoView;
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: true })),
+    );
+    vi.stubGlobal(
+      'requestAnimationFrame',
+      vi.fn((callback: FrameRequestCallback) => {
+        runAnimationFrame = callback;
+        return 1;
+      }),
+    );
+    render(<PassageDiscovery passages={passages} />);
+
+    fireEvent.click(screen.getByText('Choose a page'));
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /Frankenstein; Or, The Modern Prometheus/,
+      }),
+    );
+    runAnimationFrame(0);
+
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      behavior: 'auto',
+      block: 'start',
+    });
   });
 
   it('offers a one-action surprise without choosing poem words', () => {
