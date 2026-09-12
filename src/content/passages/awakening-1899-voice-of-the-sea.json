@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "passageId": "awakening-1899-voice-of-the-sea",
+  "textVersion": 1,
+  "language": "en-US",
+  "work": {
+    "title": "The Awakening",
+    "author": { "name": "Kate Chopin", "birthYear": 1850, "deathYear": 1904 },
+    "firstPublishedYear": 1899
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Chapter VI",
+    "openingWords": "But the beginning of things"
+  },
+  "text": [
+    "But the beginning of things, of a world especially, is necessarily vague, tangled, chaotic, and exceedingly disturbing. How few of us ever emerge from such beginning! How many souls perish in its tumult!",
+    "The voice of the sea is seductive; never ceasing, whispering, clamoring, murmuring, inviting the soul to wander for a spell in abysses of solitude; to lose itself in mazes of inward contemplation.",
+    "The voice of the sea speaks to the soul. The touch of the sea is sensuous, enfolding the body in its soft, close embrace."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription within The Awakening, and Selected Short Stories",
+    "publication": "Chicago and New York: Herbert S. Stone & Company, 1899",
+    "ebookNumber": "160",
+    "recordUrl": "https://www.gutenberg.org/ebooks/160",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/160/pg160.txt",
+    "transcriptionUpdated": "2026-09-02",
+    "checkedAt": "2026-09-12",
+    "contributors": [
+      { "name": "Judith Boss", "role": "transcription production" },
+      { "name": "David Widger", "role": "transcription production" }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-12",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Chopin died in 1904 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/160"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers the clean English novel text in the intended GB and US markets; other stories in the source volume, annotations, and page design are excluded."
+  },
+  "attribution": {
+    "sourceLabel": "Read The Awakening at Project Gutenberg",
+    "requiredCredit": "Transcription produced by Judith Boss and David Widger."
+  },
+  "curation": {
+    "rationale": "Beginnings, worlds, tangles, tumult, voices, wandering, abysses, mazes, touch and embrace form a compact field of creation, solitude and bodily sensation.",
+    "motifs": ["beginnings", "sea and voice", "solitude", "body and soul"]
+  }
+}

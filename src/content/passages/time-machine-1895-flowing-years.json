@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "passageId": "time-machine-1895-flowing-years",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "The Time Machine",
+    "author": { "name": "H. G. Wells", "birthYear": 1866, "deathYear": 1946 },
+    "firstPublishedYear": 1895
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Chapter IV: Time Travelling",
+    "openingWords": "As I put on pace, night"
+  },
+  "text": [
+    "As I put on pace, night followed day like the flapping of a black wing. The dim suggestion of the laboratory seemed presently to fall away from me, and I saw the sun hopping swiftly across the sky, leaping it every minute, and every minute marking a day. I supposed the laboratory had been destroyed and I had come into the open air. I had a dim impression of scaffolding, but I was already going too fast to be conscious of any moving things. The slowest snail that ever crawled dashed by too fast for me."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "London: William Heinemann, 1895",
+    "ebookNumber": "35",
+    "recordUrl": "https://www.gutenberg.org/ebooks/35",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/35/pg35.txt",
+    "transcriptionUpdated": "2026-06-16",
+    "checkedAt": "2026-09-12",
+    "contributors": []
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-12",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Wells died in 1946 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/35"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers clean English text in the intended GB and US markets; illustrations, annotations, and page design are excluded."
+  },
+  "attribution": {
+    "sourceLabel": "Read The Time Machine at Project Gutenberg",
+    "requiredCredit": "Project Gutenberg English transcription."
+  },
+  "curation": {
+    "rationale": "Black wings, a hopping sun, racing days, open air, scaffolding and an impossibly fast snail make time tangible. The verbs and reversals offer unusually playful selection paths.",
+    "motifs": ["time and speed", "night and day", "motion", "reversal"]
+  }
+}

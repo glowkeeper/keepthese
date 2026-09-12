@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "passageId": "jekyll-hyde-1886-truly-two",
+  "textVersion": 1,
+  "language": "en-GB",
+  "work": {
+    "title": "Strange Case of Dr Jekyll and Mr Hyde",
+    "author": {
+      "name": "Robert Louis Stevenson",
+      "birthYear": 1850,
+      "deathYear": 1894
+    },
+    "firstPublishedYear": 1886
+  },
+  "passageLocation": {
+    "edition": "Project Gutenberg English transcription",
+    "chapter": "Henry Jekyll's Full Statement of the Case",
+    "openingWords": "With every day, and from both"
+  },
+  "text": [
+    "With every day, and from both sides of my intelligence, the moral and the intellectual, I thus drew steadily nearer to that truth, by whose partial discovery I have been doomed to such a dreadful shipwreck: that man is not truly one, but truly two. I say two, because the state of my own knowledge does not pass beyond that point. Others will follow, others will outstrip me on the same lines; and I hazard the guess that man will be ultimately known for a mere polity of multifarious, incongruous and independent denizens."
+  ],
+  "source": {
+    "provider": "Project Gutenberg",
+    "editionStatement": "English transcription",
+    "publication": "London: Longmans, Green, and Co., 1886",
+    "ebookNumber": "43",
+    "recordUrl": "https://www.gutenberg.org/ebooks/43",
+    "transcriptionUrl": "https://www.gutenberg.org/cache/epub/43/pg43.txt",
+    "transcriptionUpdated": "2026-05-12",
+    "checkedAt": "2026-09-12",
+    "contributors": [
+      { "name": "David Widger", "role": "transcription production" }
+    ]
+  },
+  "rights": {
+    "status": "public-domain",
+    "checkedAt": "2026-09-12",
+    "intendedMarkets": ["GB", "US"],
+    "assessments": [
+      {
+        "jurisdiction": "GB",
+        "conclusion": "The underlying English text is outside the usual copyright term: Stevenson died in 1894 and UK written works usually remain protected for 70 years after the author's death.",
+        "evidenceUrl": "https://www.gov.uk/copyright/how-long-copyright-lasts"
+      },
+      {
+        "jurisdiction": "US",
+        "conclusion": "Project Gutenberg identifies this English transcription as public domain in the USA.",
+        "evidenceUrl": "https://www.gutenberg.org/ebooks/43"
+      }
+    ],
+    "translation": "not-applicable",
+    "annotations": "excluded",
+    "illustrations": "excluded",
+    "typographicalLayout": "not-reproduced",
+    "caveat": "This record covers clean English text in the intended GB and US markets; later adaptations, annotations, illustrations, and page design are excluded."
+  },
+  "attribution": {
+    "sourceLabel": "Read Dr Jekyll and Mr Hyde at Project Gutenberg",
+    "requiredCredit": "Transcription produced by David Widger."
+  },
+  "curation": {
+    "rationale": "Truth, discovery, shipwreck, divided intelligence and a crowd of inner denizens make identity spatial and unstable. The passage supports poems of doubleness without requiring the novel's plot.",
+    "motifs": ["duality", "identity", "truth and discovery", "inner conflict"]
+  }
+}
