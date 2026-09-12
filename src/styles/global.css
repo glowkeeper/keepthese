@@ -414,7 +414,8 @@ h1 {
   background: #292621;
 }
 
-.studio-actions .export-action {
+.studio-actions .export-action,
+.studio-actions .share-action {
   border-color: #762713;
   color: #762713;
   font-weight: 650;
@@ -878,7 +879,8 @@ h1 {
   opacity: 0.45;
 }
 
-.journey-actions .journey-download-action {
+.journey-actions .journey-download-action,
+.journey-actions .journey-share-action {
   border-color: #762713;
   color: #f8f2e7;
   background: #762713;

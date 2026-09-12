@@ -1,6 +1,57 @@
 import { readFile } from 'node:fs/promises';
 
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
+
+async function enablePngSharing(
+  page: Page,
+  outcome: 'cancelled' | 'failed' | 'shared' = 'shared',
+) {
+  await page.addInitScript((shareOutcome) => {
+    Object.defineProperty(Navigator.prototype, 'canShare', {
+      configurable: true,
+      value: (data: ShareData) =>
+        data.files?.length === 1 && data.files[0]?.type === 'image/png',
+    });
+    Object.defineProperty(Navigator.prototype, 'share', {
+      configurable: true,
+      value: async (data: ShareData) => {
+        const target = window as Window & { __shareCallCount?: number };
+        target.__shareCallCount = (target.__shareCallCount ?? 0) + 1;
+        if (shareOutcome === 'cancelled') {
+          throw new DOMException('Share cancelled', 'AbortError');
+        }
+        if (shareOutcome === 'failed') {
+          throw new DOMException('Share failed', 'NotAllowedError');
+        }
+
+        const file = data.files?.[0];
+        if (!file) throw new Error('Shared PNG missing.');
+        const bytes = new Uint8Array(await file.arrayBuffer());
+        const view = new DataView(bytes.buffer);
+        (
+          window as Window & {
+            __sharedPng?: {
+              filename: string;
+              height: number;
+              signature: number[];
+              size: number;
+              width: number;
+            };
+          }
+        ).__sharedPng = {
+          filename: file.name,
+          height: view.getUint32(20),
+          signature: [...bytes.slice(0, 8)],
+          size: file.size,
+          width: view.getUint32(16),
+        };
+        await new Promise((resolve) => window.setTimeout(resolve, 100));
+      },
+    });
+  }, outcome);
+  await page.reload();
+  await expect(page.locator('astro-island')).not.toHaveAttribute('ssr', '');
+}
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -319,6 +370,7 @@ test('a finite literary path shows position and moves between its pages', async 
 });
 
 test('a literary path resolves into a five-poem sequence', async ({ page }) => {
+  await enablePngSharing(page);
   await page.getByText('Follow a literary path', { exact: true }).click();
   await page
     .getByRole('button', { name: 'Begin this 5-page path' })
@@ -391,6 +443,30 @@ test('a literary path resolves into a five-poem sequence', async ({ page }) => {
   await expect(page.locator('.journey-export-status')).toHaveText(
     'Complete sequence downloaded to your device.',
   );
+
+  await page.getByRole('button', { name: 'Share complete sequence' }).click();
+  await expect(page.locator('.journey-export-status')).toHaveText(
+    'Complete sequence passed to your device’s share controls.',
+  );
+  const sharedSequence = await page.evaluate(
+    () =>
+      (
+        window as Window & {
+          __sharedPng?: {
+            filename: string;
+            height: number;
+            signature: number[];
+            width: number;
+          };
+        }
+      ).__sharedPng,
+  );
+  expect(sharedSequence?.filename).toBe(
+    'keep-these-thresholds-and-departures-sequence.png',
+  );
+  expect(sharedSequence?.signature).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
+  expect(sharedSequence?.width).toBeGreaterThanOrEqual(1800);
+  expect(sharedSequence?.height).toBeGreaterThan(sharedSequence!.width);
 
   await page.getByRole('button', { name: 'Choose another path' }).click();
   await expect(
@@ -496,7 +572,82 @@ test('finished artwork downloads as a useful-resolution private PNG', async ({
     'PNG downloaded to your device.',
   );
   await expect(page.getByLabel('Your poem text')).toHaveText('Life');
+  await expect(page.getByRole('button', { name: 'Share PNG' })).toHaveCount(0);
 });
+
+test('supported native sharing receives the faithful attributed PNG', async ({
+  page,
+}) => {
+  await enablePngSharing(page);
+  const externalRequests: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).hostname !== '127.0.0.1') {
+      externalRequests.push(request.url());
+    }
+  });
+
+  await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
+  await page.getByRole('button', { name: 'Let the rest fall away' }).click();
+  await page.getByRole('button', { name: 'Share PNG' }).evaluate((button) => {
+    const shareButton = button as HTMLButtonElement;
+    shareButton.click();
+    shareButton.click();
+  });
+
+  await expect(page.locator('.export-status')).toHaveText(
+    'PNG passed to your device’s share controls.',
+  );
+  const shared = await page.evaluate(
+    () =>
+      (
+        window as Window & {
+          __sharedPng?: {
+            filename: string;
+            height: number;
+            signature: number[];
+            width: number;
+          };
+        }
+      ).__sharedPng,
+  );
+  expect(shared?.filename).toBe(
+    'keep-these-frankenstein-or-the-modern-prometheus.png',
+  );
+  expect(shared?.signature).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
+  expect(shared?.width).toBeGreaterThanOrEqual(1200);
+  expect(shared?.height).toBeGreaterThan(1200);
+  expect(
+    await page.evaluate(
+      () => (window as Window & { __shareCallCount?: number }).__shareCallCount,
+    ),
+  ).toBe(1);
+  expect(externalRequests).toEqual([]);
+  await expect(page.getByLabel('Your poem text')).toHaveText('Life');
+  await expect(
+    page.getByRole('button', { name: 'Download PNG' }),
+  ).toBeEnabled();
+});
+
+for (const outcome of ['cancelled', 'failed'] as const) {
+  test(`native sharing ${outcome} without losing the poem or download`, async ({
+    page,
+  }) => {
+    await enablePngSharing(page, outcome);
+    await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
+    await page.getByRole('button', { name: 'Share PNG' }).click();
+
+    await expect(page.locator('.export-status')).toHaveText(
+      outcome === 'cancelled'
+        ? 'Sharing cancelled. Your poem is still here.'
+        : "We couldn't open your device’s share controls. Your poem is still here; download remains available.",
+    );
+    await expect(page.getByLabel('Your poem text')).toHaveText('Life');
+    await expect(page.getByRole('button', { name: 'Share PNG' })).toBeEnabled();
+    await expect(
+      page.getByRole('button', { name: 'Download PNG' }),
+    ).toBeEnabled();
+  });
+}
 
 test('PNG failure leaves the poem intact and offers a retry', async ({
   page,

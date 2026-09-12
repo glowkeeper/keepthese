@@ -1,6 +1,8 @@
 const minimumExportWidth = 1200;
 const preferredScale = 2;
 
+export type NativeShareResult = 'cancelled' | 'shared' | 'unsupported';
+
 export function pngFilename(title: string): string {
   const slug = title
     .normalize('NFKD')
@@ -73,6 +75,48 @@ export function downloadPng(blob: Blob, filename: string): void {
   link.href = url;
   link.click();
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+export function canSharePng(): boolean {
+  if (
+    typeof navigator === 'undefined' ||
+    typeof navigator.share !== 'function' ||
+    typeof navigator.canShare !== 'function' ||
+    typeof File === 'undefined'
+  ) {
+    return false;
+  }
+
+  try {
+    return navigator.canShare({
+      files: [new File([], 'keep-these-poem.png', { type: 'image/png' })],
+    });
+  } catch {
+    return false;
+  }
+}
+
+export async function sharePng(
+  blob: Blob,
+  filename: string,
+): Promise<NativeShareResult> {
+  if (!canSharePng()) return 'unsupported';
+
+  const file = new File([blob], filename, { type: 'image/png' });
+  try {
+    await navigator.share({ files: [file] });
+    return 'shared';
+  } catch (error) {
+    if (
+      error &&
+      typeof error === 'object' &&
+      'name' in error &&
+      error.name === 'AbortError'
+    ) {
+      return 'cancelled';
+    }
+    throw error;
+  }
 }
 
 async function inlineStyles(

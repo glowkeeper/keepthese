@@ -9,9 +9,11 @@ import {
 
 import type { PublicPassage } from '../lib/public-passage';
 import {
+  canSharePng,
   downloadPng,
   pngFilename,
   renderElementToPng,
+  sharePng,
 } from '../lib/png-export';
 import {
   initialStudioState,
@@ -63,8 +65,15 @@ export function BlackoutStudio({
   const [storageReady, setStorageReady] = useState(false);
   const [restoredWork, setRestoredWork] = useState(false);
   const skipNextSave = useRef(false);
+  const shareInFlight = useRef(false);
   const sourcePageRef = useRef<HTMLElement>(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
+  const [canShareArtwork, setCanShareArtwork] = useState(false);
+  const [preparedShare, setPreparedShare] = useState<{
+    blob: Blob;
+    key: string;
+  } | null>(null);
   const [exportStatus, setExportStatus] = useState(
     'PNG export is created here and stays on this device.',
   );
@@ -85,6 +94,39 @@ export function BlackoutStudio({
     .filter(({ id }) => selected.has(id))
     .map(({ text }) => text)
     .join(' ');
+  const shareArtworkKey = `${passage.passageId}:${material}:${state.blackout}:${state.selectedIds.join(',')}`;
+  const shareArtworkReady = preparedShare?.key === shareArtworkKey;
+
+  useEffect(() => {
+    queueMicrotask(() => setCanShareArtwork(canSharePng()));
+  }, []);
+
+  useEffect(() => {
+    if (
+      !canShareArtwork ||
+      state.selectedIds.length === 0 ||
+      !sourcePageRef.current
+    )
+      return;
+
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      const sourcePage = sourcePageRef.current;
+      if (!sourcePage) return;
+      void renderElementToPng(sourcePage)
+        .then((blob) => {
+          if (!cancelled) setPreparedShare({ blob, key: shareArtworkKey });
+        })
+        .catch(() => {
+          // Download remains available if background share preparation fails.
+        });
+    }, 250);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [canShareArtwork, shareArtworkKey, state.selectedIds.length]);
 
   useEffect(() => {
     if (sessionWork) {
@@ -198,7 +240,7 @@ export function BlackoutStudio({
   }
 
   async function exportArtwork() {
-    if (!sourcePageRef.current || isExporting) return;
+    if (!sourcePageRef.current || isExporting || isSharing) return;
     setIsExporting(true);
     setExportStatus('Preparing your PNG…');
 
@@ -212,6 +254,43 @@ export function BlackoutStudio({
       );
     } finally {
       setIsExporting(false);
+    }
+  }
+
+  async function shareArtwork() {
+    const prepared = preparedShare;
+    if (
+      !prepared ||
+      prepared.key !== shareArtworkKey ||
+      isExporting ||
+      isSharing
+    )
+      return;
+    if (shareInFlight.current) return;
+    shareInFlight.current = true;
+    setIsSharing(true);
+    setExportStatus('Opening your device’s share controls…');
+
+    try {
+      const filename = pngFilename(passage.work.title);
+      const result = await sharePng(prepared.blob, filename);
+      if (result === 'shared') {
+        setExportStatus('PNG passed to your device’s share controls.');
+      } else if (result === 'cancelled') {
+        setExportStatus('Sharing cancelled. Your poem is still here.');
+      } else {
+        setCanShareArtwork(false);
+        setExportStatus(
+          'This browser cannot share PNG files directly. Download remains available.',
+        );
+      }
+    } catch {
+      setExportStatus(
+        "We couldn't open your device’s share controls. Your poem is still here; download remains available.",
+      );
+    } finally {
+      shareInFlight.current = false;
+      setIsSharing(false);
     }
   }
 
@@ -417,12 +496,33 @@ export function BlackoutStudio({
             </button>
             <button
               className="export-action"
-              disabled={state.selectedIds.length === 0 || isExporting}
+              disabled={
+                state.selectedIds.length === 0 || isExporting || isSharing
+              }
               onClick={exportArtwork}
               type="button"
             >
               {isExporting ? 'Preparing PNG…' : 'Download PNG'}
             </button>
+            {canShareArtwork ? (
+              <button
+                className="share-action"
+                disabled={
+                  state.selectedIds.length === 0 ||
+                  !shareArtworkReady ||
+                  isExporting ||
+                  isSharing
+                }
+                onClick={shareArtwork}
+                type="button"
+              >
+                {isSharing
+                  ? 'Sharing…'
+                  : state.selectedIds.length > 0 && !shareArtworkReady
+                    ? 'Preparing share…'
+                    : 'Share PNG'}
+              </button>
+            ) : null}
             <button
               disabled={
                 state.selectedIds.length === 0 &&
