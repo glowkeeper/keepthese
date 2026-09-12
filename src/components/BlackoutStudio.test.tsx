@@ -3,9 +3,10 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import passageRecord from '../content/passages/frankenstein-1831-chapter-4.json';
 import { passageSchema } from '../lib/passage-schema';
+import { toPublicPassage } from '../lib/public-passage';
 import BlackoutStudio from './BlackoutStudio';
 
-const passage = passageSchema.parse(passageRecord);
+const passage = toPublicPassage(passageSchema.parse(passageRecord));
 
 afterEach(() => {
   cleanup();

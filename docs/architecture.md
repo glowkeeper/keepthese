@@ -188,6 +188,12 @@ note with the work, author, first-publication year, passage location, and a
 direct route to the recorded source before making begins. The full provenance
 credit and source route remain attached to the page and its PNG export.
 
+Astro projects each validated repository record into an explicit public
+passage shape before passing it to the hydrated React island. The browser
+receives only the fields needed for discovery, making, attribution, and export;
+internal rationale, rights assessments, transcription administration,
+contributors, and other server-side verification fields are not serialized.
+
 This stays within the existing static content collection and React studio
 island. It introduces no remote metadata service, catalogue lookup, author
 profile system, or additional client state. Context is editorial repository

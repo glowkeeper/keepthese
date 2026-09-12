@@ -103,7 +103,8 @@ Issue #55 adds one concise `curation.context` note to every passage record.
 This public note locates the extract within its work using factual narrative or
 publication context without suggesting words to choose or an interpretation to
 make. It is deliberately separate from `curation.rationale`, which records why
-the passage belongs in the collection and is not interface copy.
+the passage belongs in the collection and is neither interface copy nor part of
+the hydrated browser payload.
 
 The creative introduction presents the work, author, first-publication year,
 passage location, context note, and a route to the sourced original before the

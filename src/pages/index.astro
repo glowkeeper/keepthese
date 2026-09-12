@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 
 import PassageDiscovery from '../components/PassageDiscovery';
+import { toPublicPassage } from '../lib/public-passage';
 import Wordmark from '../components/Wordmark.astro';
 import '../styles/global.css';
 
@@ -40,7 +41,7 @@ const passages = passageOrder.map((passageId) => {
   if (!passage) {
     throw new Error(`The passage shelf is missing ${passageId}.`);
   }
-  return passage;
+  return toPublicPassage(passage);
 });
 
 if (collection.length !== passageOrder.length) {

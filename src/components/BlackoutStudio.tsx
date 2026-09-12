@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 
-import type { Passage } from '../lib/passage-schema';
+import type { PublicPassage } from '../lib/public-passage';
 import {
   downloadPng,
   pngFilename,
@@ -34,7 +34,7 @@ function browserStorage(): Storage | null {
 }
 
 interface BlackoutStudioProps {
-  passage: Passage;
+  passage: PublicPassage;
 }
 
 export function BlackoutStudio({ passage }: BlackoutStudioProps) {

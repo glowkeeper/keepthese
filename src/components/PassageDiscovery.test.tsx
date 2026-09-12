@@ -4,11 +4,12 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import firstRecord from '../content/passages/frankenstein-1831-chapter-4.json';
 import secondRecord from '../content/passages/persuasion-1818-chapter-4-prudence-and-romance.json';
 import { passageSchema } from '../lib/passage-schema';
+import { toPublicPassage } from '../lib/public-passage';
 import PassageDiscovery from './PassageDiscovery';
 
 const passages = [
-  passageSchema.parse(firstRecord),
-  passageSchema.parse(secondRecord),
+  toPublicPassage(passageSchema.parse(firstRecord)),
+  toPublicPassage(passageSchema.parse(secondRecord)),
 ];
 
 const originalScrollIntoView = Object.getOwnPropertyDescriptor(

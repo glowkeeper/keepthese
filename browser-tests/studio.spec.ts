@@ -103,6 +103,9 @@ test('materials remain operable and selected words remain legible', async ({
 test('source attribution is visible without opening a disclosure', async ({
   page,
 }) => {
+  expect(await page.content()).not.toContain(
+    'The paragraph offers vivid, opposing images and flexible language',
+  );
   await expect(page.locator('.passage-context')).toHaveText(
     'In Chapter IV of Shelley’s revised 1831 edition, Victor Frankenstein recalls the ambition that drove his experiment.',
   );
