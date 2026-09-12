@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 
 import PassageDiscovery from '../components/PassageDiscovery';
+import { toPublicLiteraryJourney } from '../lib/literary-journey';
 import { toPublicPassage } from '../lib/public-passage';
 import Wordmark from '../components/Wordmark.astro';
 import '../styles/global.css';
@@ -34,6 +35,11 @@ const passageOrder = [
   'awakening-1899-voice-of-the-sea',
   'pointed-firs-1896-dunnet-landing',
 ];
+const journeyOrder = [
+  'thresholds-and-departures',
+  'light-and-hidden-worlds',
+  'divided-and-becoming',
+];
 const collection = await getCollection('passages');
 const byId = new Map(collection.map(({ data }) => [data.passageId, data]));
 const passages = passageOrder.map((passageId) => {
@@ -46,6 +52,29 @@ const passages = passageOrder.map((passageId) => {
 
 if (collection.length !== passageOrder.length) {
   throw new Error('The passage shelf and verified collection are out of sync.');
+}
+
+const journeyCollection = await getCollection('journeys');
+const journeysById = new Map(
+  journeyCollection.map(({ data }) => [data.journeyId, data]),
+);
+const journeys = journeyOrder.map((journeyId) => {
+  const journey = journeysById.get(journeyId);
+  if (!journey) {
+    throw new Error(`The literary journeys are missing ${journeyId}.`);
+  }
+  for (const passageId of journey.passageIds) {
+    if (!byId.has(passageId)) {
+      throw new Error(
+        `The literary journey ${journeyId} references missing passage ${passageId}.`,
+      );
+    }
+  }
+  return toPublicLiteraryJourney(journey);
+});
+
+if (journeyCollection.length !== journeyOrder.length) {
+  throw new Error('The literary journey order and collection are out of sync.');
 }
 ---
 
@@ -91,7 +120,7 @@ if (collection.length !== passageOrder.length) {
         <p class="introduction">{introduction}</p>
       </header>
 
-      <PassageDiscovery passages={passages} client:load />
+      <PassageDiscovery journeys={journeys} passages={passages} client:load />
 
       <footer class="site-footer">
         <div>

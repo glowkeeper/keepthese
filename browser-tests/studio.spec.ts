@@ -164,6 +164,13 @@ test('creative state is recovered after reload and reopening, then can be discar
   await expect(page.getByLabel('Source passage')).toHaveClass(
     /source-page--blackout/,
   );
+  await expect(
+    page.getByText('Your saved work for this page has been restored.'),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Continue with this poem' }).click();
+  await expect(
+    page.getByText('Your saved work for this page has been restored.'),
+  ).toHaveCount(0);
 
   await page.close();
   const reopenedPage = await context.newPage();
@@ -172,7 +179,7 @@ test('creative state is recovered after reload and reopening, then can be discar
     reopenedPage.getByRole('button', { exact: true, name: 'Remove Life' }),
   ).toBeVisible();
   await reopenedPage
-    .getByRole('button', { name: 'Discard saved work' })
+    .getByRole('button', { name: 'Start this page again' })
     .click();
   await expect(reopenedPage.locator('.storage-status')).toHaveText(
     'Saved work discarded from this browser.',
@@ -211,7 +218,7 @@ test('the complete shelf changes passages and keeps their work separate', async 
 }) => {
   await page.getByText('Choose a page', { exact: true }).click();
   await expect(page.getByText('20 pages, carefully chosen')).toBeVisible();
-  await expect(page.locator('.passage-discovery li')).toHaveCount(20);
+  await expect(page.locator('.passage-chooser li')).toHaveCount(20);
   await page.getByText('How to choose words', { exact: true }).click();
   await expect(page.locator('.studio-help')).toHaveAttribute('open', '');
 
@@ -262,6 +269,114 @@ test('surprise me replaces the current page in one action', async ({
   ).toHaveCount(0);
   await expect(page.getByLabel('Your poem text')).toHaveText(
     'Your chosen words will gather here.',
+  );
+});
+
+test('a finite literary path shows position and moves between its pages', async ({
+  page,
+}) => {
+  await page.getByText('Follow a literary path', { exact: true }).click();
+  await expect(page.locator('.journey-card')).toHaveCount(3);
+  expect(await page.content()).not.toContain(
+    'The sequence begins with curiosity, moves through a consciously imagined departure',
+  );
+  await page
+    .getByRole('button', { name: 'Begin this 5-page path' })
+    .first()
+    .click();
+
+  await expect(page.getByText('Literary path · page 1 of 5')).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Thresholds and departures' }),
+  ).toBeFocused();
+  await expect(
+    page.getByRole('heading', { name: "Alice's Adventures in Wonderland" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('button', { name: 'Previous page' }),
+  ).toBeDisabled();
+
+  await page.getByRole('button', { name: 'Next page' }).click();
+  await expect(page.getByText('Literary path · page 2 of 5')).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Thresholds and departures' }),
+  ).toBeFocused();
+
+  await page.getByRole('button', { name: 'Leave this path' }).click();
+  await expect(page.locator('.active-journey')).toHaveCount(0);
+  await expect(
+    page.getByRole('heading', { name: 'Jane Eyre: An Autobiography' }),
+  ).toBeVisible();
+});
+
+test('a literary path resolves into a five-poem sequence', async ({ page }) => {
+  await page.getByText('Follow a literary path', { exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Begin this 5-page path' })
+    .first()
+    .click();
+
+  for (let pageNumber = 1; pageNumber <= 5; pageNumber += 1) {
+    await page.locator('.source-word').first().click();
+    await page
+      .getByRole('button', {
+        name:
+          pageNumber === 5
+            ? 'Complete this path'
+            : 'Keep this poem and continue',
+      })
+      .click();
+  }
+
+  await expect(page.getByText('Literary path complete')).toBeVisible();
+  await expect(
+    page.getByRole('heading', {
+      name: 'Your Thresholds and departures sequence',
+    }),
+  ).toBeFocused();
+  await expect(
+    page.getByRole('button', { name: 'Return to this poem' }),
+  ).toHaveCount(5);
+  await expect(page.locator('.journey-complete > ol > li')).toHaveCount(5);
+  await expect(page.locator('.studio')).toHaveCount(0);
+
+  const exportArtwork = page.locator('.journey-sequence-export');
+  await expect(exportArtwork).toContainText('Keep These · literary path');
+  await expect(exportArtwork.locator('.journey-sequence-page')).toHaveCount(5);
+  await expect(
+    exportArtwork.locator('.journey-sequence-page.source-page--blackout'),
+  ).toHaveCount(5);
+  await expect(exportArtwork.locator('.source-word--kept')).toHaveCount(5);
+  await expect(exportArtwork).toContainText(
+    "Alice's Adventures in Wonderland by Lewis Carroll (1865)",
+  );
+  await expect(exportArtwork).toContainText(
+    'Transcription produced by Arthur DiBianca and David Widger.',
+  );
+  await expect(exportArtwork.locator('a').first()).toHaveAttribute(
+    'href',
+    'https://www.gutenberg.org/ebooks/11',
+  );
+  await expect(exportArtwork.getByRole('button')).toHaveCount(0);
+
+  const downloadPromise = page.waitForEvent('download');
+  await page
+    .getByRole('button', { name: 'Download complete sequence' })
+    .click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe(
+    'keep-these-thresholds-and-departures-sequence.png',
+  );
+  const downloadPath = await download.path();
+  expect(downloadPath).not.toBeNull();
+  const png = await readFile(downloadPath!);
+  expect(png.subarray(0, 8)).toEqual(
+    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]),
+  );
+  expect(png.readUInt32BE(16)).toBeGreaterThanOrEqual(1800);
+  expect(png.readUInt32BE(20)).toBeGreaterThan(png.readUInt32BE(16));
+  await expect(page.locator('.journey-export-status')).toHaveText(
+    'Complete sequence downloaded to your device.',
   );
 });
 
