@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "journeyId": "thresholds-and-departures",
+  "title": "Thresholds and departures",
+  "invitation": "Five pages poised between staying and going, from a riverbank and a school to an industrial city, a remembered home and time itself.",
+  "rationale": "The sequence begins with curiosity, moves through a consciously imagined departure and an unfamiliar arrival, pauses in the tension before leaving, then crosses the ordinary boundary of time. It connects different forms and periods without prescribing a shared interpretation.",
+  "passageIds": [
+    "alice-1865-chapter-1-daisy-chain",
+    "jane-eyre-1847-chapter-10-wide-world",
+    "north-and-south-1855-milton-smoke",
+    "dubliners-1914-eveline-evening",
+    "time-machine-1895-flowing-years"
+  ]
+}

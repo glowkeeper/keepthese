@@ -200,6 +200,41 @@ profile system, or additional client state. Context is editorial repository
 data validated at build time and covered by the curated-metadata terms recorded
 in `LICENSING.md`.
 
+## Finite literary journeys
+
+Astro loads a small, explicitly ordered collection of structured journey
+records at build time and validates that every member refers to a passage on
+the verified shelf. It projects each record into a public shape before
+hydration, omitting the internal editorial rationale. The existing React
+discovery island owns the active journey and position for the current page
+session.
+
+A journey adds a session-owned composition around the existing passage-specific
+autosaves. Entering it selects its first page. The maker explicitly keeps a poem
+before continuing; when every member has been kept, the interface presents the
+five poems in editorial order as one sequence with routes back to revise them.
+The kept sequence and journey position are not persisted, scored, synchronized,
+or sent elsewhere. Re-entering a page may recover that passage's existing local
+work, which is identified clearly and can be continued or discarded.
+Session-kept work remains the authoritative revision source while a journey is
+open, so returning from completion still restores it when browser storage is
+unavailable. Leaving the journey clears its completion and session sequence
+state while returning the maker to the ordinary studio.
+
+The completed sequence has a dedicated fixed-width portrait export surface,
+separate from its interactive controls. It records the journey title and five
+fully attributed worked source pages in order. Each page reconstructs the
+maker's selected words and material as a finished blackout composition, rather
+than reducing the work to extracted poem text. The surface then uses the
+existing on-device PNG renderer and download boundary. No poem or export leaves
+the browser.
+
+The maker can also move directly between members and leave at any time.
+Selecting from the general shelf or using Surprise me leaves the active journey.
+This is a finite creative conclusion, not a Version 2 personal archive or a
+completion reward. The first editorial set and its boundaries are recorded in
+`sources/literary-journeys.md`.
+
 ## Version 1 browser autosave
 
 Unfinished studio work is stored in the browser's local storage. Each passage

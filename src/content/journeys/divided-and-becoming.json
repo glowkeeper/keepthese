@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "journeyId": "divided-and-becoming",
+  "title": "Divided and becoming",
+  "invitation": "Five pages of changing knowledge: a choice reconsidered, literacy pursued, life imagined, consciousness stirring and a self divided.",
+  "rationale": "The sequence moves from reflection into purposeful learning, dangerous creation, emerging awareness and explicit division. It brings autobiography and fiction into conversation while leaving makers free to notice other paths through each page.",
+  "passageIds": [
+    "persuasion-1818-chapter-4-prudence-and-romance",
+    "douglass-1845-chapter-6-pathway-to-freedom",
+    "frankenstein-1831-chapter-4-life-and-death",
+    "awakening-1899-voice-of-the-sea",
+    "jekyll-hyde-1886-truly-two"
+  ]
+}

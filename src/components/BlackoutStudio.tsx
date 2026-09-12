@@ -34,10 +34,26 @@ function browserStorage(): Storage | null {
 }
 
 interface BlackoutStudioProps {
+  journeyAction?: {
+    label: string;
+    onKeep: (work: KeptPoemWork) => void;
+  };
   passage: PublicPassage;
+  sessionWork?: KeptPoemWork;
 }
 
-export function BlackoutStudio({ passage }: BlackoutStudioProps) {
+export interface KeptPoemWork {
+  blackout: boolean;
+  material: StudioMaterial;
+  poem: string;
+  selectedIds: string[];
+}
+
+export function BlackoutStudio({
+  journeyAction,
+  passage,
+  sessionWork,
+}: BlackoutStudioProps) {
   const [state, dispatch] = useReducer(studioReducer, initialStudioState);
   const [activeWordId, setActiveWordId] = useState('word-0');
   const [material, setMaterial] = useState<StudioMaterial>('ink');
@@ -45,6 +61,7 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
     'Work is saved privately in this browser as you make it.',
   );
   const [storageReady, setStorageReady] = useState(false);
+  const [restoredWork, setRestoredWork] = useState(false);
   const skipNextSave = useRef(false);
   const sourcePageRef = useRef<HTMLElement>(null);
   const [isExporting, setIsExporting] = useState(false);
@@ -70,6 +87,20 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
     .join(' ');
 
   useEffect(() => {
+    if (sessionWork) {
+      queueMicrotask(() => {
+        dispatch({
+          blackout: sessionWork.blackout,
+          selectedIds: sessionWork.selectedIds,
+          type: 'restore',
+        });
+        setMaterial(sessionWork.material);
+        setStorageReady(true);
+        setStorageStatus('Work kept in this path was restored for revision.');
+      });
+      return;
+    }
+
     const result = loadStudioState(
       browserStorage(),
       passage.passageId,
@@ -91,10 +122,11 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
           type: 'restore',
         });
         setMaterial(result.value.material);
+        setRestoredWork(true);
         setStorageStatus('Saved work was recovered from this browser.');
       }
     });
-  }, [allWordIds, passage.passageId, passage.textVersion]);
+  }, [allWordIds, passage.passageId, passage.textVersion, sessionWork]);
 
   useEffect(() => {
     if (!storageReady) return;
@@ -151,12 +183,18 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
     skipNextSave.current = true;
     dispatch({ type: 'restart' });
     setMaterial('ink');
+    setRestoredWork(false);
     const result = discardStudioState(browserStorage(), passage.passageId);
     setStorageStatus(
       result === 'saved'
         ? 'Saved work discarded from this browser.'
         : 'The page was cleared, but this browser would not allow the saved copy to be removed.',
     );
+  }
+
+  function restartStudio() {
+    setRestoredWork(false);
+    dispatch({ type: 'restart' });
   }
 
   async function exportArtwork() {
@@ -301,6 +339,20 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
             {poem || 'Your chosen words will gather here.'}
           </p>
 
+          {restoredWork ? (
+            <div className="restored-work" role="status">
+              <p>Your saved work for this page has been restored.</p>
+              <div>
+                <button onClick={() => setRestoredWork(false)} type="button">
+                  Continue with this poem
+                </button>
+                <button onClick={discardSavedWork} type="button">
+                  Start this page again
+                </button>
+              </div>
+            </div>
+          ) : null}
+
           <fieldset className="material-picker">
             <legend>Material</legend>
             <button
@@ -322,6 +374,23 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
           </fieldset>
 
           <div className="studio-actions" aria-label="Poem actions">
+            {journeyAction ? (
+              <button
+                className="journey-keep-action"
+                disabled={state.selectedIds.length === 0}
+                onClick={() =>
+                  journeyAction.onKeep({
+                    blackout: state.blackout,
+                    material,
+                    poem,
+                    selectedIds: state.selectedIds,
+                  })
+                }
+                type="button"
+              >
+                {journeyAction.label}
+              </button>
+            ) : null}
             <button
               disabled={state.history.length === 0}
               onClick={() => dispatch({ type: 'undo' })}
@@ -331,7 +400,7 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
             </button>
             <button
               disabled={state.selectedIds.length === 0 && !state.blackout}
-              onClick={() => dispatch({ type: 'restart' })}
+              onClick={restartStudio}
               type="button"
             >
               Restart

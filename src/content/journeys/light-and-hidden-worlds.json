@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "journeyId": "light-and-hidden-worlds",
+  "title": "Light and hidden worlds",
+  "invitation": "Five pages where morning, prairie sun, coastal windows, moonlight and impossible attention alter what can be seen.",
+  "rationale": "The sequence moves from a London morning through open prairie and coastal village into a confined room, ending with Eliot’s reflection on the limits of perception. Repeated light and looking create connection while each source retains its distinct social and narrative setting.",
+  "passageIds": [
+    "mrs-dalloway-1925-flowers-and-morning",
+    "my-antonia-1918-prairie-transfiguration",
+    "pointed-firs-1896-dunnet-landing",
+    "yellow-wallpaper-1892-light-and-pattern",
+    "middlemarch-1871-book-2-other-side-of-silence"
+  ]
+}
