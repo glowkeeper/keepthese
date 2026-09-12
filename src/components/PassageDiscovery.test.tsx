@@ -11,11 +11,47 @@ const passages = [
   passageSchema.parse(secondRecord),
 ];
 
+const originalScrollIntoView = Object.getOwnPropertyDescriptor(
+  Element.prototype,
+  'scrollIntoView',
+);
+
+function installScrollIntoViewMock() {
+  const scrollIntoView = vi.fn();
+  Object.defineProperty(Element.prototype, 'scrollIntoView', {
+    configurable: true,
+    value: scrollIntoView,
+    writable: true,
+  });
+  return scrollIntoView;
+}
+
+function captureAnimationFrame() {
+  let callback: FrameRequestCallback = () => undefined;
+  vi.stubGlobal(
+    'requestAnimationFrame',
+    vi.fn((nextCallback: FrameRequestCallback) => {
+      callback = nextCallback;
+      return 1;
+    }),
+  );
+  return () => callback(0);
+}
+
 afterEach(() => {
   cleanup();
   localStorage.clear();
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
+  if (originalScrollIntoView) {
+    Object.defineProperty(
+      Element.prototype,
+      'scrollIntoView',
+      originalScrollIntoView,
+    );
+  } else {
+    Reflect.deleteProperty(Element.prototype, 'scrollIntoView');
+  }
 });
 
 describe('passage discovery', () => {
@@ -25,16 +61,8 @@ describe('passage discovery', () => {
     );
   });
   it('presents a finite shelf and changes passage with its context intact', () => {
-    const scrollIntoView = vi.fn();
-    let runAnimationFrame: FrameRequestCallback = () => undefined;
-    Element.prototype.scrollIntoView = scrollIntoView;
-    vi.stubGlobal(
-      'requestAnimationFrame',
-      vi.fn((callback: FrameRequestCallback) => {
-        runAnimationFrame = callback;
-        return 1;
-      }),
-    );
+    const scrollIntoView = installScrollIntoViewMock();
+    const runAnimationFrame = captureAnimationFrame();
     render(<PassageDiscovery passages={passages} />);
 
     expect(screen.getByText('2 pages, carefully chosen')).toBeTruthy();
@@ -43,7 +71,7 @@ describe('passage discovery', () => {
     fireEvent.click(
       screen.getByRole('button', { name: /Persuasion Jane Austen/ }),
     );
-    runAnimationFrame(0);
+    runAnimationFrame();
 
     const heading = screen.getByRole('heading', { name: 'Persuasion' });
     expect(heading).toBeTruthy();
@@ -67,19 +95,11 @@ describe('passage discovery', () => {
   });
 
   it('avoids smooth scrolling when reduced motion is preferred', () => {
-    const scrollIntoView = vi.fn();
-    let runAnimationFrame: FrameRequestCallback = () => undefined;
-    Element.prototype.scrollIntoView = scrollIntoView;
+    const scrollIntoView = installScrollIntoViewMock();
+    const runAnimationFrame = captureAnimationFrame();
     vi.stubGlobal(
       'matchMedia',
       vi.fn(() => ({ matches: true })),
-    );
-    vi.stubGlobal(
-      'requestAnimationFrame',
-      vi.fn((callback: FrameRequestCallback) => {
-        runAnimationFrame = callback;
-        return 1;
-      }),
     );
     render(<PassageDiscovery passages={passages} />);
 
@@ -89,7 +109,7 @@ describe('passage discovery', () => {
         name: /Frankenstein; Or, The Modern Prometheus/,
       }),
     );
-    runAnimationFrame(0);
+    runAnimationFrame();
 
     expect(scrollIntoView).toHaveBeenCalledWith({
       behavior: 'auto',
@@ -98,12 +118,20 @@ describe('passage discovery', () => {
   });
 
   it('offers a one-action surprise without choosing poem words', () => {
+    const scrollIntoView = installScrollIntoViewMock();
+    const runAnimationFrame = captureAnimationFrame();
     vi.spyOn(Math, 'random').mockReturnValue(0);
     render(<PassageDiscovery passages={passages} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Surprise me' }));
+    runAnimationFrame();
 
-    expect(screen.getByRole('heading', { name: 'Persuasion' })).toBeTruthy();
+    const heading = screen.getByRole('heading', { name: 'Persuasion' });
+    expect(document.activeElement).toBe(heading);
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      block: 'start',
+    });
     expect(screen.getByLabelText('Your poem text').textContent).toBe(
       'Your chosen words will gather here.',
     );
