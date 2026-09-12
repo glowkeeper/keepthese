@@ -415,7 +415,8 @@ h1 {
 }
 
 .studio-actions .export-action,
-.studio-actions .share-action {
+.studio-actions .share-action,
+.studio-actions .poem-link-action {
   border-color: #762713;
   color: #762713;
   font-weight: 650;
@@ -430,12 +431,68 @@ h1 {
 }
 
 .storage-status,
-.export-status {
+.export-status,
+.poem-link-status {
   margin: 1rem 0 0;
   color: #655e55;
   font-family: system-ui, sans-serif;
   font-size: 0.8rem;
   line-height: 1.45;
+}
+
+.poem-link-value {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 0.55rem;
+  padding: 0.55rem;
+  border: 1px solid #b9ad9b;
+  color: #292621;
+  background: rgb(255 255 255 / 38%);
+  font-family: system-ui, sans-serif;
+  font-size: 0.78rem;
+}
+
+.poem-link-notice,
+.received-poem {
+  max-width: 72rem;
+  margin: 1.5rem auto 0;
+}
+
+.poem-link-notice {
+  padding: 0.9rem 1rem;
+  border: 1px solid #b9ad9b;
+  color: #655e55;
+  background: rgb(255 255 255 / 30%);
+  font-family: system-ui, sans-serif;
+}
+
+.received-poem {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: end;
+  justify-content: space-between;
+  padding: 1.25rem;
+  border: 1px solid #b9ad9b;
+  background: rgb(255 255 255 / 28%);
+}
+
+.received-poem > div {
+  max-width: 44rem;
+}
+
+.received-poem h2,
+.received-poem p {
+  margin: 0.35rem 0 0;
+}
+
+.received-poem button {
+  min-height: 2.75rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #762713;
+  color: #762713;
+  background: transparent;
+  cursor: pointer;
 }
 
 .studio-actions button:disabled {

@@ -26,6 +26,7 @@ import {
   saveStudioState,
   type StudioMaterial,
 } from '../lib/studio-persistence';
+import { poemShareUrl } from '../lib/stateless-poem-link';
 
 function browserStorage(): Storage | null {
   try {
@@ -41,6 +42,7 @@ interface BlackoutStudioProps {
     onKeep: (work: KeptPoemWork) => void;
   };
   passage: PublicPassage;
+  preservePrivateWork?: boolean;
   sessionWork?: KeptPoemWork;
 }
 
@@ -54,6 +56,7 @@ export interface KeptPoemWork {
 export function BlackoutStudio({
   journeyAction,
   passage,
+  preservePrivateWork = false,
   sessionWork,
 }: BlackoutStudioProps) {
   const [state, dispatch] = useReducer(studioReducer, initialStudioState);
@@ -77,6 +80,11 @@ export function BlackoutStudio({
   const [exportStatus, setExportStatus] = useState(
     'PNG export is created here and stays on this device.',
   );
+  const [poemLink, setPoemLink] = useState('');
+  const [poemLinkKey, setPoemLinkKey] = useState('');
+  const [poemLinkStatus, setPoemLinkStatus] = useState(
+    'Poem links contain your choices and require no account or upload.',
+  );
   const paragraphs = useMemo(
     () => segmentPassages(passage.text),
     [passage.text],
@@ -96,6 +104,11 @@ export function BlackoutStudio({
     .join(' ');
   const shareArtworkKey = `${passage.passageId}:${material}:${state.blackout}:${state.selectedIds.join(',')}`;
   const shareArtworkReady = preparedShare?.key === shareArtworkKey;
+  const currentPoemLink = poemLinkKey === shareArtworkKey ? poemLink : '';
+  const currentPoemLinkStatus =
+    poemLinkKey === shareArtworkKey
+      ? poemLinkStatus
+      : 'Poem links contain your choices and require no account or upload.';
 
   useEffect(() => {
     queueMicrotask(() => setCanShareArtwork(canSharePng()));
@@ -138,7 +151,11 @@ export function BlackoutStudio({
         });
         setMaterial(sessionWork.material);
         setStorageReady(true);
-        setStorageStatus('Work kept in this path was restored for revision.');
+        setStorageStatus(
+          preservePrivateWork
+            ? 'This shared poem is open only in this tab. Your saved work for this page has not been changed.'
+            : 'Work kept in this path was restored for revision.',
+        );
       });
       return;
     }
@@ -168,10 +185,16 @@ export function BlackoutStudio({
         setStorageStatus('Saved work was recovered from this browser.');
       }
     });
-  }, [allWordIds, passage.passageId, passage.textVersion, sessionWork]);
+  }, [
+    allWordIds,
+    passage.passageId,
+    passage.textVersion,
+    preservePrivateWork,
+    sessionWork,
+  ]);
 
   useEffect(() => {
-    if (!storageReady) return;
+    if (!storageReady || preservePrivateWork) return;
     if (skipNextSave.current) {
       skipNextSave.current = false;
       return;
@@ -219,6 +242,7 @@ export function BlackoutStudio({
     state.blackout,
     state.selectedIds,
     storageReady,
+    preservePrivateWork,
   ]);
 
   function discardSavedWork() {
@@ -226,6 +250,12 @@ export function BlackoutStudio({
     dispatch({ type: 'restart' });
     setMaterial('ink');
     setRestoredWork(false);
+    if (preservePrivateWork) {
+      setStorageStatus(
+        'The shared version was cleared from this tab. Your saved work was not changed.',
+      );
+      return;
+    }
     const result = discardStudioState(browserStorage(), passage.passageId);
     setStorageStatus(
       result === 'saved'
@@ -291,6 +321,32 @@ export function BlackoutStudio({
     } finally {
       shareInFlight.current = false;
       setIsSharing(false);
+    }
+  }
+
+  async function copyPoemLink() {
+    if (state.selectedIds.length === 0) return;
+    const link = poemShareUrl(window.location, {
+      blackout: state.blackout,
+      material,
+      passageId: passage.passageId,
+      selectedIds: state.selectedIds,
+      textVersion: passage.textVersion,
+    });
+    setPoemLink(link);
+    setPoemLinkKey(shareArtworkKey);
+
+    try {
+      if (!navigator.clipboard?.writeText)
+        throw new Error('Clipboard unavailable.');
+      await navigator.clipboard.writeText(link);
+      setPoemLinkStatus(
+        'Poem link copied. It contains your choices, not an uploaded poem.',
+      );
+    } catch {
+      setPoemLinkStatus(
+        'Your poem link is ready below. Copy it to share your poem.',
+      );
     }
   }
 
@@ -524,6 +580,14 @@ export function BlackoutStudio({
               </button>
             ) : null}
             <button
+              className="poem-link-action"
+              disabled={state.selectedIds.length === 0}
+              onClick={copyPoemLink}
+              type="button"
+            >
+              Copy poem link
+            </button>
+            <button
               disabled={
                 state.selectedIds.length === 0 &&
                 !state.blackout &&
@@ -532,13 +596,27 @@ export function BlackoutStudio({
               onClick={discardSavedWork}
               type="button"
             >
-              Discard saved work
+              {preservePrivateWork
+                ? 'Clear shared changes'
+                : 'Discard saved work'}
             </button>
           </div>
 
           <p className="export-status" aria-live="polite">
             {exportStatus}
           </p>
+          <p className="poem-link-status" aria-live="polite">
+            {currentPoemLinkStatus}
+          </p>
+          {currentPoemLink ? (
+            <input
+              aria-label="Shareable poem link"
+              className="poem-link-value"
+              onFocus={(event) => event.currentTarget.select()}
+              readOnly
+              value={currentPoemLink}
+            />
+          ) : null}
           <p className="storage-status">{storageStatus}</p>
 
           <p className="visually-hidden" aria-live="polite" role="status">

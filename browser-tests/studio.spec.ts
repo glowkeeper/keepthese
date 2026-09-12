@@ -2,6 +2,8 @@ import { readFile } from 'node:fs/promises';
 
 import { expect, test, type Page } from '@playwright/test';
 
+import { encodePoemFragment } from '../src/lib/stateless-poem-link';
+
 async function enablePngSharing(
   page: Page,
   outcome: 'cancelled' | 'failed' | 'shared' = 'shared',
@@ -658,6 +660,145 @@ test('supported native sharing receives the faithful attributed PNG', async ({
   await expect(
     page.getByRole('button', { name: 'Download PNG' }),
   ).toBeEnabled();
+});
+
+test('a poem link reconstructs attributed work without changing recipient work', async ({
+  page,
+}) => {
+  const externalRequests: string[] = [];
+  page.on('request', (request) => {
+    if (new URL(request.url()).hostname !== '127.0.0.1') {
+      externalRequests.push(request.url());
+    }
+  });
+
+  const savedWordId = await page
+    .getByRole('button', { exact: true, name: 'Keep death' })
+    .first()
+    .getAttribute('data-word-id');
+  expect(savedWordId).not.toBeNull();
+
+  await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
+  await page.getByRole('button', { name: 'Graphite' }).click();
+  await page.getByRole('button', { name: 'Let the rest fall away' }).click();
+  await page.getByRole('button', { name: 'Copy poem link' }).click();
+  const poemLink = await page.getByLabel('Shareable poem link').inputValue();
+
+  expect(poemLink).toContain('/#poem=v1.');
+  expect(poemLink.length).toBeLessThan(240);
+  expect(poemLink).not.toContain('Life');
+
+  await page.getByRole('button', { exact: true, name: 'Ink' }).click();
+  await expect(page.getByLabel('Shareable poem link')).toHaveCount(0);
+  await expect(page.locator('.poem-link-status')).toHaveText(
+    'Poem links contain your choices and require no account or upload.',
+  );
+  await page.getByRole('button', { name: 'Graphite' }).click();
+  await page.getByRole('button', { name: 'Copy poem link' }).click();
+  await expect(page.getByLabel('Shareable poem link')).toHaveValue(poemLink);
+
+  const recipientState = {
+    blackout: false,
+    material: 'ink',
+    passageId: 'frankenstein-1831-chapter-4-life-and-death',
+    savedAt: '2026-09-12T12:00:00.000Z',
+    schemaVersion: 1,
+    selectedIds: [savedWordId],
+    textVersion: 1,
+  };
+  await page.evaluate((state) => {
+    localStorage.setItem(
+      `keep-these:unfinished:${state.passageId}`,
+      JSON.stringify(state),
+    );
+  }, recipientState);
+
+  await page.goto(poemLink);
+  await expect(
+    page.getByRole('heading', { name: /Someone found these words in/ }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: /Someone found these words in/ }),
+  ).toBeFocused();
+  await expect(page.getByLabel('Your poem text')).toHaveText('Life');
+  await expect(page.getByLabel('Source passage')).toHaveClass(/blackout/);
+  await expect(page.getByRole('button', { name: 'Graphite' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  );
+  await expect(
+    page.getByRole('link', { name: /Read the 1831 edition/ }).first(),
+  ).toBeVisible();
+  expect(
+    await page.evaluate(
+      (passageId) => localStorage.getItem(`keep-these:unfinished:${passageId}`),
+      recipientState.passageId,
+    ),
+  ).toBe(JSON.stringify(recipientState));
+
+  await page
+    .getByRole('button', { exact: true, name: 'Keep death' })
+    .first()
+    .click();
+  await page.getByRole('button', { name: 'Clear shared changes' }).click();
+  expect(
+    await page.evaluate(
+      (passageId) => localStorage.getItem(`keep-these:unfinished:${passageId}`),
+      recipientState.passageId,
+    ),
+  ).toBe(JSON.stringify(recipientState));
+
+  await page
+    .getByRole('button', { name: 'Make your own from this page' })
+    .click();
+  await expect(
+    page.getByText('Your saved work for this page has been restored.'),
+  ).toBeVisible();
+  await expect(page.getByLabel('Your poem text')).toHaveText('death');
+  expect(new URL(page.url()).hash).toBe('');
+  expect(externalRequests).toEqual([]);
+});
+
+test('a damaged poem link fails safely without changing saved work', async ({
+  page,
+}) => {
+  const before = await page.evaluate(() => {
+    localStorage.setItem('keep-these:unfinished:sentinel', 'keep me');
+    return localStorage.getItem('keep-these:unfinished:sentinel');
+  });
+
+  await page.goto('/#poem=v1.damaged.deadbeef');
+  await expect(page.locator('.poem-link-notice')).toContainText(
+    'This poem link is damaged or uses a version Keep These does not support.',
+  );
+  await expect(page.getByRole('heading', { name: 'Your poem' })).toBeVisible();
+  expect(
+    await page.evaluate(() =>
+      localStorage.getItem('keep-these:unfinished:sentinel'),
+    ),
+  ).toBe(before);
+});
+
+test('a poem link for an unavailable passage version fails safely', async ({
+  page,
+}) => {
+  const fragment = encodePoemFragment({
+    blackout: true,
+    material: 'ink',
+    passageId: 'missing-passage',
+    selectedIds: ['word-0'],
+    textVersion: 99,
+  });
+  await page.goto(`/${fragment}`);
+
+  await expect(page.locator('.poem-link-notice')).toHaveText(
+    'This poem link refers to a page version that is not available here.',
+  );
+  await expect(
+    page.getByRole('heading', {
+      name: 'Frankenstein; Or, The Modern Prometheus',
+    }),
+  ).toBeVisible();
 });
 
 for (const outcome of ['cancelled', 'failed'] as const) {

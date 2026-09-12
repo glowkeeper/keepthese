@@ -73,8 +73,11 @@ The Version 1 PNG presents the source work, author, original publication year,
 passage location, source acknowledgement, and a visible source URL within the
 image. Later export formats may present attribution differently, but should not
 silently sever the poem from its source. The minimum credit for Version 1 PNG
-export is settled above; any shareable-link credit must be settled before that
-later format is implemented.
+export is settled above. A stateless poem link reconstructs the work only within
+the existing passage surface, where the work, author, original publication
+year, passage location, source acknowledgement, and direct route to the
+recorded edition remain visible. The link does not extract or present a poem
+apart from that attribution context.
 
 ## Later material
 
