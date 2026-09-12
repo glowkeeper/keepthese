@@ -170,6 +170,24 @@ the PNG directly to the maker's device. No poem, image, or telemetry leaves the
 browser. Export failure leaves the creative state intact and permits another
 attempt. This is a finished image, not a Version 2 editable project file.
 
+## Native PNG sharing
+
+Where a browser exposes the Web Share API and explicitly confirms support for
+sharing PNG files, the existing on-device renderer may pass that exact generated
+file to the operating system's native share controls. The single-page and
+completed-journey actions use the same renderer, filename, resolution, visual
+treatment, and attribution contract as their corresponding downloads.
+The share payload contains exactly one PNG file and no duplicate text, URL, or
+preview representation. A synchronous in-flight guard prevents a second native
+share request while the operating-system chooser is open.
+
+Capability detection is conservative: a generic text-sharing API is not enough.
+When file sharing is unavailable, the share action is omitted and Download
+remains present. Cancellation and failure leave the creative state untouched,
+keep Download available, and are described without treating cancellation as an
+error. Native share targets and recipients belong to the device; Keep These
+receives no poem, image, destination, result, or analytics event.
+
 ## Version 1 passage discovery
 
 Astro loads the complete verified finite collection at build time and passes it,

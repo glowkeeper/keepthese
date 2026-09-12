@@ -1,11 +1,13 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { chooseSurprisePassage } from '../lib/passage-discovery';
 import type { PublicLiteraryJourney } from '../lib/literary-journey';
 import {
+  canSharePng,
   downloadPng,
   pngFilename,
   renderElementToPng,
+  sharePng,
 } from '../lib/png-export';
 import type { PublicPassage } from '../lib/public-passage';
 import { segmentPassages } from '../lib/studio-state';
@@ -22,6 +24,7 @@ export function PassageDiscovery({
 }: PassageDiscoveryProps) {
   const journeyChooserRef = useRef<HTMLDetailsElement>(null);
   const journeySequenceExportRef = useRef<HTMLElement>(null);
+  const journeyShareInFlight = useRef(false);
   const passageChooserRef = useRef<HTMLDetailsElement>(null);
   const [activeJourneyId, setActiveJourneyId] = useState<string | null>(null);
   const [journeyComplete, setJourneyComplete] = useState(false);
@@ -29,6 +32,12 @@ export function PassageDiscovery({
     Record<string, KeptPoemWork>
   >({});
   const [isExportingJourney, setIsExportingJourney] = useState(false);
+  const [isSharingJourney, setIsSharingJourney] = useState(false);
+  const [canShareJourney, setCanShareJourney] = useState(false);
+  const [preparedJourneyShare, setPreparedJourneyShare] = useState<{
+    blob: Blob;
+    key: string;
+  } | null>(null);
   const [journeyExportStatus, setJourneyExportStatus] = useState(
     'The complete sequence is created here and stays on this device.',
   );
@@ -43,6 +52,49 @@ export function PassageDiscovery({
   );
   const activeJourneyIndex =
     activeJourney?.passageIds.indexOf(currentPassageId) ?? -1;
+  const journeyShareKey =
+    activeJourney && journeyComplete
+      ? `${activeJourney.journeyId}:${activeJourney.passageIds
+          .map((passageId) => {
+            const work = journeyPoems[passageId];
+            return `${passageId}:${work?.material}:${work?.selectedIds.join(',')}`;
+          })
+          .join('|')}`
+      : '';
+  const journeyShareReady = preparedJourneyShare?.key === journeyShareKey;
+
+  useEffect(() => {
+    queueMicrotask(() => setCanShareJourney(canSharePng()));
+  }, []);
+
+  useEffect(() => {
+    if (
+      !canShareJourney ||
+      !journeyComplete ||
+      !journeyShareKey ||
+      !journeySequenceExportRef.current
+    )
+      return;
+
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      const exportSurface = journeySequenceExportRef.current;
+      if (!exportSurface) return;
+      void renderElementToPng(exportSurface)
+        .then((blob) => {
+          if (!cancelled)
+            setPreparedJourneyShare({ blob, key: journeyShareKey });
+        })
+        .catch(() => {
+          // Download remains available if background share preparation fails.
+        });
+    }, 250);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [canShareJourney, journeyComplete, journeyShareKey]);
 
   if (!currentPassage) {
     throw new Error('The passage shelf requires at least one passage.');
@@ -134,7 +186,8 @@ export function PassageDiscovery({
     if (
       !activeJourney ||
       !journeySequenceExportRef.current ||
-      isExportingJourney
+      isExportingJourney ||
+      isSharingJourney
     )
       return;
 
@@ -150,6 +203,48 @@ export function PassageDiscovery({
       );
     } finally {
       setIsExportingJourney(false);
+    }
+  }
+
+  async function shareJourneySequence() {
+    const prepared = preparedJourneyShare;
+    if (
+      !activeJourney ||
+      !prepared ||
+      prepared.key !== journeyShareKey ||
+      isExportingJourney ||
+      isSharingJourney
+    )
+      return;
+    if (journeyShareInFlight.current) return;
+    journeyShareInFlight.current = true;
+
+    setIsSharingJourney(true);
+    setJourneyExportStatus('Opening your device’s share controls…');
+    try {
+      const filename = pngFilename(`${activeJourney.title} sequence`);
+      const result = await sharePng(prepared.blob, filename);
+      if (result === 'shared') {
+        setJourneyExportStatus(
+          'Complete sequence passed to your device’s share controls.',
+        );
+      } else if (result === 'cancelled') {
+        setJourneyExportStatus(
+          'Sharing cancelled. Your complete sequence is still here.',
+        );
+      } else {
+        setCanShareJourney(false);
+        setJourneyExportStatus(
+          'This browser cannot share PNG files directly. Download remains available.',
+        );
+      }
+    } catch {
+      setJourneyExportStatus(
+        "We couldn't open your device’s share controls. Your sequence is still here; download remains available.",
+      );
+    } finally {
+      journeyShareInFlight.current = false;
+      setIsSharingJourney(false);
     }
   }
 
@@ -322,7 +417,7 @@ export function PassageDiscovery({
           <div className="journey-actions">
             <button
               className="journey-download-action"
-              disabled={isExportingJourney}
+              disabled={isExportingJourney || isSharingJourney}
               onClick={exportJourneySequence}
               type="button"
             >
@@ -330,6 +425,22 @@ export function PassageDiscovery({
                 ? 'Preparing complete sequence…'
                 : 'Download complete sequence'}
             </button>
+            {canShareJourney ? (
+              <button
+                className="journey-share-action"
+                disabled={
+                  !journeyShareReady || isExportingJourney || isSharingJourney
+                }
+                onClick={shareJourneySequence}
+                type="button"
+              >
+                {isSharingJourney
+                  ? 'Sharing…'
+                  : journeyShareReady
+                    ? 'Share complete sequence'
+                    : 'Preparing sequence to share…'}
+              </button>
+            ) : null}
             <button onClick={() => leaveJourney()} type="button">
               Leave this path
             </button>
