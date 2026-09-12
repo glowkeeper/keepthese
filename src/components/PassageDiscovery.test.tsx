@@ -11,10 +11,47 @@ const passages = [
   passageSchema.parse(secondRecord),
 ];
 
+const originalScrollIntoView = Object.getOwnPropertyDescriptor(
+  Element.prototype,
+  'scrollIntoView',
+);
+
+function installScrollIntoViewMock() {
+  const scrollIntoView = vi.fn();
+  Object.defineProperty(Element.prototype, 'scrollIntoView', {
+    configurable: true,
+    value: scrollIntoView,
+    writable: true,
+  });
+  return scrollIntoView;
+}
+
+function captureAnimationFrame() {
+  let callback: FrameRequestCallback = () => undefined;
+  vi.stubGlobal(
+    'requestAnimationFrame',
+    vi.fn((nextCallback: FrameRequestCallback) => {
+      callback = nextCallback;
+      return 1;
+    }),
+  );
+  return () => callback(0);
+}
+
 afterEach(() => {
   cleanup();
   localStorage.clear();
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+  if (originalScrollIntoView) {
+    Object.defineProperty(
+      Element.prototype,
+      'scrollIntoView',
+      originalScrollIntoView,
+    );
+  } else {
+    Reflect.deleteProperty(Element.prototype, 'scrollIntoView');
+  }
 });
 
 describe('passage discovery', () => {
@@ -24,6 +61,8 @@ describe('passage discovery', () => {
     );
   });
   it('presents a finite shelf and changes passage with its context intact', () => {
+    const scrollIntoView = installScrollIntoViewMock();
+    const runAnimationFrame = captureAnimationFrame();
     render(<PassageDiscovery passages={passages} />);
 
     expect(screen.getByText('2 pages, carefully chosen')).toBeTruthy();
@@ -32,8 +71,21 @@ describe('passage discovery', () => {
     fireEvent.click(
       screen.getByRole('button', { name: /Persuasion Jane Austen/ }),
     );
+    runAnimationFrame();
 
-    expect(screen.getByRole('heading', { name: 'Persuasion' })).toBeTruthy();
+    const heading = screen.getByRole('heading', { name: 'Persuasion' });
+    expect(heading).toBeTruthy();
+    expect(document.activeElement).toBe(heading);
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      block: 'start',
+    });
+    expect(
+      screen
+        .getByText('Choose a page')
+        .closest('details')
+        ?.hasAttribute('open'),
+    ).toBe(false);
     expect(screen.getByText(/Jane Austen · Chapter IV/)).toBeTruthy();
     expect(
       screen
@@ -42,13 +94,44 @@ describe('passage discovery', () => {
     ).toBe('true');
   });
 
+  it('avoids smooth scrolling when reduced motion is preferred', () => {
+    const scrollIntoView = installScrollIntoViewMock();
+    const runAnimationFrame = captureAnimationFrame();
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(() => ({ matches: true })),
+    );
+    render(<PassageDiscovery passages={passages} />);
+
+    fireEvent.click(screen.getByText('Choose a page'));
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /Frankenstein; Or, The Modern Prometheus/,
+      }),
+    );
+    runAnimationFrame();
+
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      behavior: 'auto',
+      block: 'start',
+    });
+  });
+
   it('offers a one-action surprise without choosing poem words', () => {
+    const scrollIntoView = installScrollIntoViewMock();
+    const runAnimationFrame = captureAnimationFrame();
     vi.spyOn(Math, 'random').mockReturnValue(0);
     render(<PassageDiscovery passages={passages} />);
 
     fireEvent.click(screen.getByRole('button', { name: 'Surprise me' }));
+    runAnimationFrame();
 
-    expect(screen.getByRole('heading', { name: 'Persuasion' })).toBeTruthy();
+    const heading = screen.getByRole('heading', { name: 'Persuasion' });
+    expect(document.activeElement).toBe(heading);
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      block: 'start',
+    });
     expect(screen.getByLabelText('Your poem text').textContent).toBe(
       'Your chosen words will gather here.',
     );

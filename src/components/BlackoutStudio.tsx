@@ -211,16 +211,20 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
     <section className="studio" aria-labelledby="studio-heading">
       <div className="studio-introduction">
         <p className="eyebrow">Begin with</p>
-        <h2 id="studio-heading">
+        <h2 id="studio-heading" tabIndex={-1}>
           <cite>{passage.work.title}</cite>
         </h2>
         <p className="source-byline">
           {passage.work.author.name} · {passage.passageLocation.chapter}
         </p>
-        <p>
-          Keep the words that speak. Your poem will always follow their order on
-          the page. With a keyboard, use the arrow keys to move through words.
-        </p>
+        <details className="studio-help">
+          <summary>How to choose words</summary>
+          <p>
+            Keep the words that speak. Your poem will always follow their order
+            on the page. With a keyboard, use the arrow keys to move through
+            words.
+          </p>
+        </details>
       </div>
 
       <div className="making-surface">

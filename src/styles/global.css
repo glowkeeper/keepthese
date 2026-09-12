@@ -36,7 +36,8 @@ summary {
 
 button:focus-visible,
 summary:focus-visible,
-a:focus-visible {
+a:focus-visible,
+#studio-heading:focus-visible {
   outline: 3px solid #a43d22;
   outline-offset: 3px;
 }
@@ -133,8 +134,22 @@ h1 {
   font-size: 0.9rem;
 }
 
-.studio-introduction > p:last-child {
+.studio-help {
   margin: 0.75rem 0 0;
+  font-family: system-ui, sans-serif;
+}
+
+.studio-help summary {
+  width: fit-content;
+  color: #762713;
+  cursor: pointer;
+  font-weight: 650;
+  text-underline-offset: 0.2em;
+}
+
+.studio-help p {
+  max-width: 38rem;
+  margin: 0.6rem 0 0;
   font-size: 1.125rem;
   line-height: 1.6;
 }
