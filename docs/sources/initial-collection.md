@@ -2,10 +2,11 @@
 
 ## Scope
 
-Version 1 contains ten deliberately selected passages: the original
-*Frankenstein* passage and nine additions. The maintainer approved the ten-work
-shelf on 7 September 2026. Each passage is a bounded clean-text extract rather
-than an attempt to expose a whole catalogue.
+Version 1 began with ten deliberately selected passages: the original
+*Frankenstein* passage and nine additions. The maintainer approved that first
+tranche on 7 September 2026. Issue #54 adds a second ten, making the current
+collection twenty bounded clean-text extracts rather than an attempt to expose
+a whole catalogue.
 
 The collection ranges across interior reflection, social observation,
 autobiography, adventure, aesthetic argument, childhood strangeness, and early
@@ -77,7 +78,7 @@ rhythms, images, tensions, and vocabularies rather than fame alone.
 | Robert Louis Stevenson, *Strange Case of Dr Jekyll and Mr Hyde*, final statement, “With every day…” | [eBook #43](https://www.gutenberg.org/ebooks/43), updated 12 May 2026 | Duality, identity, truth, discovery and inner conflict |
 | Edith Wharton, *The Age of Innocence*, Chapter XII, “He answered gently…” | [eBook #541](https://www.gutenberg.org/ebooks/541), updated 7 February 2026 | Truth and pretence, kindness, loneliness, hands and tears |
 | Kate Chopin, *The Awakening*, Chapter VI, “But the beginning of things…” | [eBook #160](https://www.gutenberg.org/ebooks/160), updated 2 September 2026 | Beginnings, sea, voice, solitude, body and soul |
-| Joseph Conrad, *Heart of Darkness*, Part I, “The sea-reach…” | [eBook #219](https://www.gutenberg.org/ebooks/219), updated 3 August 2024 | River, light, gloom, journey and troubled imperial context |
+| Sarah Orne Jewett, *The Country of the Pointed Firs*, Chapter I, “There was something…” | [eBook #367](https://www.gutenberg.org/ebooks/367), updated 15 March 2018 | Village and sea, knowing windows, flowers, love and friendship |
 
 On 12 September 2026, every added extract was compared word-for-word and
 punctuation-for-punctuation with the plain-text transcription linked in its
@@ -88,9 +89,7 @@ and editorial rationale.
 The selection remains maintainer-led. It is a deliberately varied creative
 shelf, not a representative survey of classic literature or evidence of broad
 audience preference. The Zitkala-Sa passage must retain its Dakota authorship
-and autobiographical context. The Conrad passage must retain its colonial
-setting and the work's difficult racial context rather than being presented as
-detached atmospheric language.
+and autobiographical context.
 
 Maintainer making trials remain part of acceptance for issue #54. Candidate
 passages may be replaced before approval if they prove weak, overly directive,

@@ -196,6 +196,7 @@ test('the complete shelf changes passages and keeps their work separate', async 
   page,
 }) => {
   await page.getByText('Choose a page', { exact: true }).click();
+  await expect(page.getByText('20 pages, carefully chosen')).toBeVisible();
   await expect(page.locator('.passage-discovery li')).toHaveCount(20);
 
   await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();

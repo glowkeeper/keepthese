@@ -1,7 +1,7 @@
 # Third-party notices
 
 Keep These is currently a private project. It contains application and
-development dependencies managed through npm, ten public-domain literary
+development dependencies managed through npm, twenty public-domain literary
 passages, and four original visual textures generated through OpenArt and
 curated for this project. The textures remain reserved as Keep These visual assets
 under `LICENSING.md`; they are not covered by the software or documentation
@@ -34,6 +34,16 @@ until an asset-specific notice says otherwise.
 | *Alice's Adventures in Wonderland* by Lewis Carroll | Two paragraphs from Chapter I, stored as `alice-1865-chapter-1-daisy-chain`, text version 1 | Project Gutenberg eBook #11, checked 7 September 2026. Transcription produced by Arthur DiBianca and David Widger; illustrations excluded. |
 | *Great Expectations* by Charles Dickens | One paragraph from Chapter IX, stored as `great-expectations-1861-chapter-9-memorable-day`, text version 1 | Project Gutenberg eBook #1400, checked 7 September 2026. Transcription produced by an anonymous volunteer and David Widger. |
 | *The Yellow Wallpaper* by Charlotte Perkins Gilman | Seven short paragraphs beginning “There is one marked peculiarity,” stored as `yellow-wallpaper-1892-light-and-pattern`, text version 1 | Project Gutenberg eBook #1952, checked 7 September 2026. Transcription produced by an anonymous volunteer and David Widger. |
+| *Mrs. Dalloway* by Virginia Woolf | Three paragraphs from the opening, stored as `mrs-dalloway-1925-flowers-and-morning`, text version 1 | Project Gutenberg eBook #71865, checked 12 September 2026. Transcription prepared by Carla Foust, Emmanuel Ackerman, and the Online Distributed Proofreading Team. |
+| *American Indian Stories* by Zitkala-Sa | Two paragraphs from “Impressions of an Indian Childhood,” stored as `zitkala-sa-1921-impressions-wild-freedom`, text version 1 | Project Gutenberg eBook #10376, checked 12 September 2026. Transcription produced by Juliet Sutherland, Brett Koonce, and the Online Distributed Proofreading Team. |
+| *My Ántonia* by Willa Cather | Two paragraphs from Book I, Chapter VI, stored as `my-antonia-1918-prairie-transfiguration`, text version 1 | Project Gutenberg eBook #242, checked 12 September 2026. Transcription produced by Judith Boss, Martin Robb, and David Widger. |
+| *Dubliners* by James Joyce | Two paragraphs from “Eveline,” stored as `dubliners-1914-eveline-evening`, text version 1 | Project Gutenberg eBook #2814, checked 12 September 2026. Transcription produced by David Reed, Karol Pietrzak, and David Widger. |
+| *North and South* by Elizabeth Gaskell | One paragraph from Chapter VII, stored as `north-and-south-1855-milton-smoke`, text version 1 | Project Gutenberg eBook #4276, checked 12 September 2026. Transcription produced by Chuck Greif and the Online Distributed Proofreading Team. |
+| *The Time Machine* by H. G. Wells | One paragraph from Chapter IV, stored as `time-machine-1895-flowing-years`, text version 1 | Project Gutenberg eBook #35, checked 12 September 2026. The source header names no transcription contributor. |
+| *Strange Case of Dr Jekyll and Mr Hyde* by Robert Louis Stevenson | One paragraph from “Henry Jekyll's Full Statement of the Case,” stored as `jekyll-hyde-1886-truly-two`, text version 1 | Project Gutenberg eBook #43, checked 12 September 2026. Transcription produced by David Widger. |
+| *The Age of Innocence* by Edith Wharton | Two paragraphs from Chapter XII, stored as `age-of-innocence-1920-loneliness-and-pretence`, text version 1 | Project Gutenberg eBook #541, checked 12 September 2026. Transcription produced by Judith Boss and Charles Keller; HTML version by Al Haines. |
+| *The Awakening* by Kate Chopin | Three paragraphs from Chapter VI, stored as `awakening-1899-voice-of-the-sea`, text version 1 | Project Gutenberg eBook #160, checked 12 September 2026. Transcription produced by Judith Boss and David Widger. |
+| *The Country of the Pointed Firs* by Sarah Orne Jewett | One paragraph from Chapter I, stored as `pointed-firs-1896-dunnet-landing`, text version 1 | Project Gutenberg eBook #367, checked 12 September 2026. Transcription produced by Judith Boss and David Widger. |
 
 Complete machine-readable provenance, source links, rights evidence,
 attribution, and curation metadata live with each passage in

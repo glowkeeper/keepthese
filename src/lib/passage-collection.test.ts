@@ -13,11 +13,11 @@ import yellowWallpaper from '../content/passages/yellow-wallpaper-1892-light-and
 import ageOfInnocence from '../content/passages/age-of-innocence-1920-loneliness-and-pretence.json';
 import awakening from '../content/passages/awakening-1899-voice-of-the-sea.json';
 import dubliners from '../content/passages/dubliners-1914-eveline-evening.json';
-import heartOfDarkness from '../content/passages/heart-of-darkness-1899-thames-waterway.json';
 import jekyllHyde from '../content/passages/jekyll-hyde-1886-truly-two.json';
 import mrsDalloway from '../content/passages/mrs-dalloway-1925-flowers-and-morning.json';
 import myAntonia from '../content/passages/my-antonia-1918-prairie-transfiguration.json';
 import northAndSouth from '../content/passages/north-and-south-1855-milton-smoke.json';
+import pointedFirs from '../content/passages/pointed-firs-1896-dunnet-landing.json';
 import timeMachine from '../content/passages/time-machine-1895-flowing-years.json';
 import zitkalaSa from '../content/passages/zitkala-sa-1921-impressions-wild-freedom.json';
 import { passageSchema } from './passage-schema';
@@ -36,11 +36,11 @@ const records = [
   ageOfInnocence,
   awakening,
   dubliners,
-  heartOfDarkness,
   jekyllHyde,
   mrsDalloway,
   myAntonia,
   northAndSouth,
+  pointedFirs,
   timeMachine,
   zitkalaSa,
 ];
