@@ -10,6 +10,7 @@ import {
   sharePng,
 } from '../lib/png-export';
 import type { PublicPassage } from '../lib/public-passage';
+import { decodePoemFragment } from '../lib/stateless-poem-link';
 import { segmentPassages } from '../lib/studio-state';
 import BlackoutStudio, { type KeptPoemWork } from './BlackoutStudio';
 
@@ -26,6 +27,12 @@ export function PassageDiscovery({
   const journeySequenceExportRef = useRef<HTMLElement>(null);
   const journeyShareInFlight = useRef(false);
   const passageChooserRef = useRef<HTMLDetailsElement>(null);
+  const [receivedPoem, setReceivedPoem] = useState<{
+    fragment: string;
+    passageId: string;
+    work: KeptPoemWork;
+  } | null>(null);
+  const [poemLinkNotice, setPoemLinkNotice] = useState('');
   const [activeJourneyId, setActiveJourneyId] = useState<string | null>(null);
   const [journeyComplete, setJourneyComplete] = useState(false);
   const [journeyPoems, setJourneyPoems] = useState<
@@ -68,6 +75,85 @@ export function PassageDiscovery({
   }, []);
 
   useEffect(() => {
+    function openPoemFromFragment() {
+      const decoded = decodePoemFragment(window.location.hash);
+      if (decoded.kind === 'none') {
+        setReceivedPoem(null);
+        setPoemLinkNotice('');
+        return;
+      }
+      if (decoded.kind === 'invalid') {
+        setReceivedPoem(null);
+        setPoemLinkNotice(
+          'This poem link is damaged or uses a version Keep These does not support.',
+        );
+        return;
+      }
+
+      const passage = passages.find(
+        ({ passageId }) => passageId === decoded.value.passageId,
+      );
+      const validWordIds = new Set(
+        segmentPassages(passage?.text ?? []).flatMap((segments) =>
+          segments.flatMap((segment) =>
+            segment.kind === 'word' ? [segment.id] : [],
+          ),
+        ),
+      );
+      if (
+        !passage ||
+        passage.textVersion !== decoded.value.textVersion ||
+        !decoded.value.selectedIds.every((id) => validWordIds.has(id))
+      ) {
+        setReceivedPoem(null);
+        setPoemLinkNotice(
+          'This poem link refers to a page version that is not available here.',
+        );
+        return;
+      }
+
+      const selected = new Set(decoded.value.selectedIds);
+      const poem = segmentPassages(passage.text)
+        .flatMap((segments) => segments)
+        .filter(
+          (segment) => segment.kind === 'word' && selected.has(segment.id),
+        )
+        .map((segment) => segment.text)
+        .join(' ');
+      setActiveJourneyId(null);
+      setJourneyComplete(false);
+      setJourneyPoems({});
+      setCurrentPassageId(passage.passageId);
+      setReceivedPoem({
+        fragment: window.location.hash,
+        passageId: passage.passageId,
+        work: {
+          blackout: decoded.value.blackout,
+          material: decoded.value.material,
+          poem,
+          selectedIds: decoded.value.selectedIds,
+        },
+      });
+      setPoemLinkNotice('');
+      requestAnimationFrame(() => {
+        const heading = document.getElementById('received-poem-heading');
+        heading?.focus({ preventScroll: true });
+        heading?.scrollIntoView({
+          behavior: window.matchMedia?.('(prefers-reduced-motion: reduce)')
+            .matches
+            ? 'auto'
+            : 'smooth',
+          block: 'start',
+        });
+      });
+    }
+
+    openPoemFromFragment();
+    window.addEventListener('hashchange', openPoemFromFragment);
+    return () => window.removeEventListener('hashchange', openPoemFromFragment);
+  }, [passages]);
+
+  useEffect(() => {
     if (
       !canShareJourney ||
       !journeyComplete ||
@@ -101,6 +187,7 @@ export function PassageDiscovery({
   }
 
   function choosePassage(passageId: string, journeyId: string | null = null) {
+    leaveReceivedPoem();
     journeyChooserRef.current?.removeAttribute('open');
     passageChooserRef.current?.removeAttribute('open');
     setActiveJourneyId(journeyId);
@@ -120,6 +207,18 @@ export function PassageDiscovery({
         block: 'start',
       });
     });
+  }
+
+  function leaveReceivedPoem() {
+    setReceivedPoem(null);
+    setPoemLinkNotice('');
+    if (window.location.hash.startsWith('#poem=')) {
+      window.history.replaceState(
+        null,
+        '',
+        `${window.location.pathname}${window.location.search}`,
+      );
+    }
   }
 
   function surpriseMe() {
@@ -303,6 +402,42 @@ export function PassageDiscovery({
           </ul>
         </details>
       </nav>
+
+      {poemLinkNotice ? (
+        <p className="poem-link-notice" role="status">
+          {poemLinkNotice}
+        </p>
+      ) : null}
+
+      {receivedPoem ? (
+        <section
+          className="received-poem"
+          aria-labelledby="received-poem-heading"
+        >
+          <div>
+            <p className="eyebrow">A poem shared with you</p>
+            <h2 id="received-poem-heading" tabIndex={-1}>
+              Someone found these words in{' '}
+              <cite>{currentPassage.work.title}</cite>
+            </h2>
+            <p>
+              Explore their reading here, with its author and source attached.
+              Your own saved work for this page remains untouched.
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              leaveReceivedPoem();
+              requestAnimationFrame(() =>
+                document.getElementById('studio-heading')?.focus(),
+              );
+            }}
+            type="button"
+          >
+            Make your own from this page
+          </button>
+        </section>
+      ) : null}
 
       {activeJourney && journeyComplete ? (
         <section
@@ -534,10 +669,15 @@ export function PassageDiscovery({
                 }
               : undefined
           }
-          key={currentPassage.passageId}
+          key={`${currentPassage.passageId}:${receivedPoem?.fragment ?? 'private'}`}
           passage={currentPassage}
+          preservePrivateWork={Boolean(receivedPoem)}
           sessionWork={
-            activeJourney ? journeyPoems[currentPassage.passageId] : undefined
+            receivedPoem?.passageId === currentPassage.passageId
+              ? receivedPoem.work
+              : activeJourney
+                ? journeyPoems[currentPassage.passageId]
+                : undefined
           }
         />
       )}

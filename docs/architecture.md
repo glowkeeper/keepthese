@@ -188,6 +188,30 @@ keep Download available, and are described without treating cancellation as an
 error. Native share targets and recipients belong to the device; Keep These
 receives no poem, image, destination, result, or analytics event.
 
+## Stateless poem links
+
+Version 1 of the stateless link format uses a URL fragment containing a compact
+base64url payload and an integrity checksum. It records the stable passage and
+text version, selected `word-N` identifiers as numeric positions, supported
+material, and blackout state. The fragment is not sent in the HTTP request;
+the existing static client reconstructs and validates it against the bundled
+public passage records. There is no route handler, database, account, upload,
+analytics event, or server-side poem record.
+
+Received work is session-only and is mounted separately from the browser's
+passage-specific autosave. It cannot overwrite or delete the recipient's saved
+work. Leaving the received reading remounts the ordinary studio and restores
+that local work. Malformed checksums, unknown format or text versions, missing
+passages, and invalid word identifiers fail into the ordinary studio with an
+accessible explanation.
+
+The checksum detects damage rather than establishing authorship or resisting a
+deliberate rewrite; the format and privacy limitations are recorded in
+[`stateless-poem-links.md`](stateless-poem-links.md). The received surface uses
+the existing source context, full attribution, and original-work route. PNG
+sharing remains the faithful finished-artwork path when a destination cannot
+preserve URL fragments.
+
 ## Version 1 passage discovery
 
 Astro loads the complete verified finite collection at build time and passes it,
