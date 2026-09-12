@@ -59,4 +59,18 @@ describe('stateless poem links', () => {
       }),
     ).toThrow('Selected word identifiers must be unique and ordered.');
   });
+
+  it('round-trips non-ASCII passage identifiers as UTF-8', () => {
+    const unicodeWork = { ...work, passageId: 'l-étranger-日本語' };
+    expect(decodePoemFragment(encodePoemFragment(unicodeWork))).toEqual({
+      kind: 'poem',
+      value: unicodeWork,
+    });
+  });
+
+  it('does not encode word indexes that its decoder would reject', () => {
+    expect(() =>
+      encodePoemFragment({ ...work, selectedIds: ['word-100001'] }),
+    ).toThrow('Unsupported word identifier: word-100001');
+  });
 });

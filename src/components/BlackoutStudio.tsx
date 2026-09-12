@@ -81,6 +81,7 @@ export function BlackoutStudio({
     'PNG export is created here and stays on this device.',
   );
   const [poemLink, setPoemLink] = useState('');
+  const [poemLinkKey, setPoemLinkKey] = useState('');
   const [poemLinkStatus, setPoemLinkStatus] = useState(
     'Poem links contain your choices and require no account or upload.',
   );
@@ -103,6 +104,11 @@ export function BlackoutStudio({
     .join(' ');
   const shareArtworkKey = `${passage.passageId}:${material}:${state.blackout}:${state.selectedIds.join(',')}`;
   const shareArtworkReady = preparedShare?.key === shareArtworkKey;
+  const currentPoemLink = poemLinkKey === shareArtworkKey ? poemLink : '';
+  const currentPoemLinkStatus =
+    poemLinkKey === shareArtworkKey
+      ? poemLinkStatus
+      : 'Poem links contain your choices and require no account or upload.';
 
   useEffect(() => {
     queueMicrotask(() => setCanShareArtwork(canSharePng()));
@@ -328,6 +334,7 @@ export function BlackoutStudio({
       textVersion: passage.textVersion,
     });
     setPoemLink(link);
+    setPoemLinkKey(shareArtworkKey);
 
     try {
       if (!navigator.clipboard?.writeText)
@@ -599,15 +606,15 @@ export function BlackoutStudio({
             {exportStatus}
           </p>
           <p className="poem-link-status" aria-live="polite">
-            {poemLinkStatus}
+            {currentPoemLinkStatus}
           </p>
-          {poemLink ? (
+          {currentPoemLink ? (
             <input
               aria-label="Shareable poem link"
               className="poem-link-value"
               onFocus={(event) => event.currentTarget.select()}
               readOnly
-              value={poemLink}
+              value={currentPoemLink}
             />
           ) : null}
           <p className="storage-status">{storageStatus}</p>

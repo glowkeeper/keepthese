@@ -688,6 +688,15 @@ test('a poem link reconstructs attributed work without changing recipient work',
   expect(poemLink.length).toBeLessThan(240);
   expect(poemLink).not.toContain('Life');
 
+  await page.getByRole('button', { exact: true, name: 'Ink' }).click();
+  await expect(page.getByLabel('Shareable poem link')).toHaveCount(0);
+  await expect(page.locator('.poem-link-status')).toHaveText(
+    'Poem links contain your choices and require no account or upload.',
+  );
+  await page.getByRole('button', { name: 'Graphite' }).click();
+  await page.getByRole('button', { name: 'Copy poem link' }).click();
+  await expect(page.getByLabel('Shareable poem link')).toHaveValue(poemLink);
+
   const recipientState = {
     blackout: false,
     material: 'ink',

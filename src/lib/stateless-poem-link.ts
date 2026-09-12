@@ -15,12 +15,26 @@ export type DecodedPoemLink =
 
 const fragmentPrefix = '#poem=v1.';
 const wordIdPattern = /^word-(0|[1-9]\d*)$/;
+const maximumPassageIdLength = 120;
+const maximumWordIndex = 100_000;
 
 export function encodePoemFragment(work: StatelessPoemWork): string {
+  if (
+    work.passageId.length === 0 ||
+    work.passageId.length > maximumPassageIdLength ||
+    !Number.isSafeInteger(work.textVersion) ||
+    work.textVersion <= 0
+  ) {
+    throw new Error('Unsupported passage identity or text version.');
+  }
   const wordIndexes = work.selectedIds.map((id) => {
     const match = wordIdPattern.exec(id);
     if (!match) throw new Error(`Unsupported word identifier: ${id}`);
-    return Number(match[1]);
+    const index = Number(match[1]);
+    if (!Number.isSafeInteger(index) || index > maximumWordIndex) {
+      throw new Error(`Unsupported word identifier: ${id}`);
+    }
+    return index;
   });
   if (!isStrictlyIncreasing(wordIndexes)) {
     throw new Error('Selected word identifiers must be unique and ordered.');
@@ -82,7 +96,7 @@ function isCompactPoem(
   return (
     typeof passageId === 'string' &&
     passageId.length > 0 &&
-    passageId.length <= 120 &&
+    passageId.length <= maximumPassageIdLength &&
     Number.isSafeInteger(textVersion) &&
     textVersion > 0 &&
     (material === 0 || material === 1) &&
@@ -90,7 +104,8 @@ function isCompactPoem(
     Array.isArray(wordIndexes) &&
     wordIndexes.length > 0 &&
     wordIndexes.every(
-      (index) => Number.isSafeInteger(index) && index >= 0 && index <= 100_000,
+      (index) =>
+        Number.isSafeInteger(index) && index >= 0 && index <= maximumWordIndex,
     ) &&
     isStrictlyIncreasing(wordIndexes)
   );
@@ -103,7 +118,10 @@ function isStrictlyIncreasing(values: number[]): boolean {
 }
 
 function toBase64Url(value: string): string {
-  return btoa(value)
+  const bytes = new TextEncoder().encode(value);
+  let binary = '';
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary)
     .replaceAll('+', '-')
     .replaceAll('/', '_')
     .replace(/=+$/, '');
@@ -115,7 +133,9 @@ function fromBase64Url(value: string): string {
     .replaceAll('-', '+')
     .replaceAll('_', '/')
     .padEnd(Math.ceil(value.length / 4) * 4, '=');
-  return atob(padded);
+  const binary = atob(padded);
+  const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+  return new TextDecoder('utf-8', { fatal: true }).decode(bytes);
 }
 
 function checksum(value: string): string {
