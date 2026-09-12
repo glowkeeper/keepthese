@@ -217,10 +217,14 @@ export function BlackoutStudio({ passage }: BlackoutStudioProps) {
         <p className="source-byline">
           {passage.work.author.name} · {passage.passageLocation.chapter}
         </p>
-        <p>
-          Keep the words that speak. Your poem will always follow their order on
-          the page. With a keyboard, use the arrow keys to move through words.
-        </p>
+        <details className="studio-help">
+          <summary>How to choose words</summary>
+          <p>
+            Keep the words that speak. Your poem will always follow their order
+            on the page. With a keyboard, use the arrow keys to move through
+            words.
+          </p>
+        </details>
       </div>
 
       <div className="making-surface">

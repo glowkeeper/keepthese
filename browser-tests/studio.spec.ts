@@ -208,6 +208,10 @@ test('the complete shelf changes passages and keeps their work separate', async 
     .click();
 
   await expect(page.getByRole('heading', { name: 'Persuasion' })).toBeVisible();
+  await expect(
+    page.getByText('Choose a page', { exact: true }),
+  ).not.toBeInViewport();
+  await expect(page.locator('.studio-help')).not.toHaveAttribute('open', '');
   await expect(page.getByLabel('Your poem text')).toHaveText(
     'Your chosen words will gather here.',
   );
@@ -217,6 +221,7 @@ test('the complete shelf changes passages and keeps their work separate', async 
       .first(),
   ).toHaveAttribute('href', 'https://www.gutenberg.org/ebooks/105');
 
+  await page.getByText('Choose a page', { exact: true }).click();
   await page
     .getByRole('button', {
       name: /Frankenstein; Or, The Modern Prometheus Mary Wollstonecraft Shelley/,

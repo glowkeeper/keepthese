@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { chooseSurprisePassage } from '../lib/passage-discovery';
 import type { Passage } from '../lib/passage-schema';
@@ -9,6 +9,8 @@ interface PassageDiscoveryProps {
 }
 
 export function PassageDiscovery({ passages }: PassageDiscoveryProps) {
+  const passageChooserRef = useRef<HTMLDetailsElement>(null);
+  const shouldScrollToPassage = useRef(false);
   const [currentPassageId, setCurrentPassageId] = useState(
     passages[0]?.passageId ?? '',
   );
@@ -20,10 +22,26 @@ export function PassageDiscovery({ passages }: PassageDiscoveryProps) {
     throw new Error('The passage shelf requires at least one passage.');
   }
 
+  useEffect(() => {
+    if (!shouldScrollToPassage.current) return;
+
+    shouldScrollToPassage.current = false;
+    const reduceMotion =
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    document.getElementById('studio-heading')?.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  }, [currentPassageId]);
+
+  function choosePassage(passageId: string) {
+    shouldScrollToPassage.current = true;
+    passageChooserRef.current?.removeAttribute('open');
+    setCurrentPassageId(passageId);
+  }
+
   function surpriseMe() {
-    setCurrentPassageId(
-      chooseSurprisePassage(passages, currentPassageId).passageId,
-    );
+    choosePassage(chooseSurprisePassage(passages, currentPassageId).passageId);
   }
 
   return (
@@ -39,14 +57,14 @@ export function PassageDiscovery({ passages }: PassageDiscoveryProps) {
         <button className="surprise-action" onClick={surpriseMe} type="button">
           Surprise me
         </button>
-        <details>
+        <details ref={passageChooserRef}>
           <summary>Choose a page</summary>
           <ul>
             {passages.map((passage) => (
               <li key={passage.passageId}>
                 <button
                   aria-pressed={passage.passageId === currentPassage.passageId}
-                  onClick={() => setCurrentPassageId(passage.passageId)}
+                  onClick={() => choosePassage(passage.passageId)}
                   type="button"
                 >
                   <span>

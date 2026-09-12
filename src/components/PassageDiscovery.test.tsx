@@ -24,6 +24,8 @@ describe('passage discovery', () => {
     );
   });
   it('presents a finite shelf and changes passage with its context intact', () => {
+    const scrollIntoView = vi.fn();
+    Element.prototype.scrollIntoView = scrollIntoView;
     render(<PassageDiscovery passages={passages} />);
 
     expect(screen.getByText('2 pages, carefully chosen')).toBeTruthy();
@@ -34,6 +36,16 @@ describe('passage discovery', () => {
     );
 
     expect(screen.getByRole('heading', { name: 'Persuasion' })).toBeTruthy();
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      block: 'start',
+    });
+    expect(
+      screen
+        .getByText('Choose a page')
+        .closest('details')
+        ?.hasAttribute('open'),
+    ).toBe(false);
     expect(screen.getByText(/Jane Austen · Chapter IV/)).toBeTruthy();
     expect(
       screen
