@@ -190,8 +190,6 @@ export function PassageDiscovery({
       isSharingJourney
     )
       return;
-    if (journeyShareInFlight.current) return;
-    journeyShareInFlight.current = true;
 
     setIsExportingJourney(true);
     setJourneyExportStatus('Preparing your complete sequence…');
@@ -218,6 +216,8 @@ export function PassageDiscovery({
       isSharingJourney
     )
       return;
+    if (journeyShareInFlight.current) return;
+    journeyShareInFlight.current = true;
 
     setIsSharingJourney(true);
     setJourneyExportStatus('Opening your device’s share controls…');

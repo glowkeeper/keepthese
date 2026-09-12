@@ -861,11 +861,13 @@ h1 {
 
 .journey-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: 1rem;
 }
 
 .journey-actions button {
+  max-width: 100%;
   min-height: 2.5rem;
   padding: 0.45rem 0.75rem;
   border: 1px solid #4c443a;

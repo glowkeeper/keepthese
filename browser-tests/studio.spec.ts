@@ -444,7 +444,19 @@ test('a literary path resolves into a five-poem sequence', async ({ page }) => {
     'Complete sequence downloaded to your device.',
   );
 
-  await page.getByRole('button', { name: 'Share complete sequence' }).click();
+  const secondDownloadPromise = page.waitForEvent('download');
+  await page
+    .getByRole('button', { name: 'Download complete sequence' })
+    .click();
+  await secondDownloadPromise;
+
+  await page
+    .getByRole('button', { name: 'Share complete sequence' })
+    .evaluate((button) => {
+      const shareButton = button as HTMLButtonElement;
+      shareButton.click();
+      shareButton.click();
+    });
   await expect(page.locator('.journey-export-status')).toHaveText(
     'Complete sequence passed to your device’s share controls.',
   );
@@ -467,6 +479,25 @@ test('a literary path resolves into a five-poem sequence', async ({ page }) => {
   expect(sharedSequence?.signature).toEqual([137, 80, 78, 71, 13, 10, 26, 10]);
   expect(sharedSequence?.width).toBeGreaterThanOrEqual(1800);
   expect(sharedSequence?.height).toBeGreaterThan(sharedSequence!.width);
+  expect(
+    await page.evaluate(
+      () => (window as Window & { __shareCallCount?: number }).__shareCallCount,
+    ),
+  ).toBe(1);
+
+  await page.setViewportSize({ height: 720, width: 320 });
+  const actionLayout = await page
+    .locator('.journey-actions')
+    .evaluate((row) => {
+      const rowRect = row.getBoundingClientRect();
+      return [...row.children].every((child) => {
+        const childRect = child.getBoundingClientRect();
+        return (
+          childRect.left >= rowRect.left && childRect.right <= rowRect.right
+        );
+      });
+    });
+  expect(actionLayout).toBe(true);
 
   await page.getByRole('button', { name: 'Choose another path' }).click();
   await expect(
@@ -646,6 +677,19 @@ for (const outcome of ['cancelled', 'failed'] as const) {
     await expect(
       page.getByRole('button', { name: 'Download PNG' }),
     ).toBeEnabled();
+
+    await page.getByRole('button', { name: 'Share PNG' }).click();
+    await expect(page.locator('.export-status')).toHaveText(
+      outcome === 'cancelled'
+        ? 'Sharing cancelled. Your poem is still here.'
+        : "We couldn't open your device’s share controls. Your poem is still here; download remains available.",
+    );
+    expect(
+      await page.evaluate(
+        () =>
+          (window as Window & { __shareCallCount?: number }).__shareCallCount,
+      ),
+    ).toBe(2);
   });
 }
 
