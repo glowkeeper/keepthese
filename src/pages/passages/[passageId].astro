@@ -2,7 +2,7 @@
 import PassageDiscovery from '../../components/PassageDiscovery';
 import DiscoveryContext from '../../components/DiscoveryContext.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import { passagePath } from '../../lib/route-paths';
+import { journeyPath, passagePath } from '../../lib/route-paths';
 import { loadSiteContent } from '../../lib/site-content';
 
 export async function getStaticPaths() {
@@ -15,6 +15,12 @@ export async function getStaticPaths() {
 const { content, passage } = Astro.props;
 const path = passagePath(passage.passageId);
 const description = `${passage.curation.context} Choose the words that speak and make a blackout poem.`;
+const relatedJourneys = content.journeys
+  .filter((journey) => journey.passageIds.includes(passage.passageId))
+  .map((journey) => ({
+    href: journeyPath(journey.journeyId),
+    title: journey.title,
+  }));
 ---
 
 <SiteLayout
@@ -26,6 +32,7 @@ const description = `${passage.curation.context} Choose the words that speak and
     eyebrow="One page, carefully chosen"
     title={passage.work.title}
     note={content.discovery.passages[passage.passageId]!}
+    relatedJourneys={relatedJourneys}
   />
   <PassageDiscovery
     initialPassageId={passage.passageId}

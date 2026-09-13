@@ -219,8 +219,9 @@ in the editorial order recorded in `docs/sources/initial-collection.md`, to one
 React discovery-and-studio island. The interface exposes a collapsible shelf and
 a one-action random alternative to the current passage. It introduces no
 catalogue search, ranking, popularity data, remote request, or automatic word
-selection. Changing passage remounts the studio against that passage's separate
-browser-autosave key.
+selection. Shelf choices and the random alternative load the selected
+passage's canonical static route, where the island starts against that
+passage's separate browser-autosave key.
 
 ## Version 1 source context
 
@@ -302,8 +303,11 @@ than reducing the work to extracted poem text. The surface then uses the
 existing on-device PNG renderer and download boundary. No poem or export leaves
 the browser.
 
-The maker can also move directly between members and leave at any time.
-Selecting from the general shelf or using Surprise me leaves the active journey.
+The maker can also move directly between members while the browser remains on
+the journey's canonical route, preserving session-owned journey progress.
+Leaving loads the current passage's canonical route; choosing another path
+returns to the homepage. Selecting from the general shelf or using Surprise me
+loads a canonical passage route and leaves the active journey.
 This is a finite creative conclusion, not a Version 2 personal archive or a
 completion reward. The first editorial set and its boundaries are recorded in
 `sources/literary-journeys.md`.

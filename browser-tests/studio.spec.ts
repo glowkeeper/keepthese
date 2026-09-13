@@ -324,9 +324,14 @@ test('the complete shelf changes passages and keeps their work separate', async 
 test('surprise me replaces the current page in one action', async ({
   page,
 }) => {
+  await page.evaluate(() => {
+    Math.random = () => 0.999;
+  });
   await page.getByRole('link', { name: 'Surprise me' }).click();
 
-  await expect(page).toHaveURL(/\/passages\/[^/]+\/$/);
+  await expect(page).toHaveURL(
+    /\/passages\/pointed-firs-1896-dunnet-landing\/$/,
+  );
   await expect(
     page.getByRole('heading', {
       name: 'Frankenstein; Or, The Modern Prometheus',
@@ -335,6 +340,25 @@ test('surprise me replaces the current page in one action', async ({
   await expect(page.getByLabel('Your poem text')).toHaveText(
     'Your chosen words will gather here.',
   );
+});
+
+test('modified Surprise clicks retain ordinary link behaviour', async ({
+  page,
+}) => {
+  const defaultPrevented = await page
+    .getByRole('link', { name: 'Surprise me' })
+    .evaluate((link) => {
+      const event = new MouseEvent('click', {
+        bubbles: true,
+        button: 0,
+        cancelable: true,
+        metaKey: true,
+      });
+      link.dispatchEvent(event);
+      return event.defaultPrevented;
+    });
+
+  expect(defaultPrevented).toBe(false);
 });
 
 test('a finite literary path shows position and moves between its pages', async ({
@@ -560,8 +584,13 @@ test('a passage route provides editorial context and opens its studio page', asy
   );
   await page.getByText('Choose a page', { exact: true }).click();
   await expect(
-    page.getByRole('link', { name: /Persuasion Jane Austen Chapter IV/ }),
+    page.getByRole('link', {
+      name: /Persuasion.*Jane Austen.*Chapter IV/,
+    }),
   ).toHaveAttribute('aria-current', 'page');
+  await expect(
+    page.getByRole('link', { name: 'Divided and becoming' }),
+  ).toHaveAttribute('href', '/journeys/divided-and-becoming/');
 });
 
 test('a journey route provides its reading context and starts at page one', async ({
@@ -837,6 +866,32 @@ test('a poem link reconstructs attributed work without changing recipient work',
   await expect(page.getByLabel('Your poem text')).toHaveText('death');
   expect(new URL(page.url()).hash).toBe('');
   expect(externalRequests).toEqual([]);
+});
+
+test('a poem fragment on a journey route resolves to its passage canonical', async ({
+  page,
+}) => {
+  const fragment = encodePoemFragment({
+    blackout: true,
+    material: 'ink',
+    passageId: 'frankenstein-1831-chapter-4-life-and-death',
+    selectedIds: ['word-0'],
+    textVersion: 1,
+  });
+
+  await page.goto(`/journeys/divided-and-becoming/${fragment}`);
+
+  await expect
+    .poll(() => new URL(page.url()).pathname)
+    .toBe('/passages/frankenstein-1831-chapter-4-life-and-death/');
+  expect(new URL(page.url()).hash).toBe(fragment);
+  await expect(
+    page.getByRole('heading', { name: /Someone found these words in/ }),
+  ).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://keepthese.com/passages/frankenstein-1831-chapter-4-life-and-death/',
+  );
 });
 
 test('a damaged poem link fails safely without changing saved work', async ({

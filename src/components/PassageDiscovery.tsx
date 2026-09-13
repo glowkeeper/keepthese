@@ -121,6 +121,16 @@ export function PassageDiscovery({
         return;
       }
 
+      if (
+        initialJourneyId ||
+        (passageRouteId && passageRouteId !== passage.passageId)
+      ) {
+        window.location.replace(
+          `${passagePath(passage.passageId)}${window.location.hash}`,
+        );
+        return;
+      }
+
       const selected = new Set(decoded.value.selectedIds);
       const poem = segmentPassages(passage.text)
         .flatMap((segments) => segments)
@@ -160,7 +170,7 @@ export function PassageDiscovery({
     openPoemFromFragment();
     window.addEventListener('hashchange', openPoemFromFragment);
     return () => window.removeEventListener('hashchange', openPoemFromFragment);
-  }, [passages]);
+  }, [initialJourneyId, passageRouteId, passages]);
 
   useEffect(() => {
     if (
@@ -237,6 +247,15 @@ export function PassageDiscovery({
     passages[(currentPassageIndex + 1) % passages.length] ?? currentPassage;
 
   function surpriseMe(event: MouseEvent<HTMLAnchorElement>) {
+    if (
+      event.button !== 0 ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.shiftKey
+    ) {
+      return;
+    }
     event.preventDefault();
     const next = chooseSurprisePassage(passages, currentPassageId);
     window.location.assign(passagePath(next.passageId));
@@ -377,6 +396,9 @@ export function PassageDiscovery({
                 >
                   <span>
                     <cite>{passage.work.title}</cite>
+                    {passage.passageId === currentPassage.passageId ? (
+                      <span className="visually-hidden"> (open)</span>
+                    ) : null}
                     <small>{passage.work.author.name}</small>
                   </span>
                   <span>
