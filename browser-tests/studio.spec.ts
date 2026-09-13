@@ -536,7 +536,10 @@ test('a literary path resolves into a five-poem sequence', async ({ page }) => {
 test('release metadata and local brand assets are complete', async ({
   page,
 }) => {
-  await expect(page).toHaveTitle('Keep These — a quiet blackout poetry studio');
+  await expect(page).toHaveTitle('Keep These — a blackout poetry studio');
+  await expect(page.locator('.site-header .eyebrow')).toHaveText(
+    'A blackout poetry studio',
+  );
   await expect(page.locator('.introduction')).toHaveText(
     'Find the poem that was waiting in the page.',
   );
@@ -677,6 +680,10 @@ test('the blackout poetry guide explains the authorship boundary', async ({
 }) => {
   await page.goto('/blackout-poetry/');
 
+  await expect(page.locator('.site-header .eyebrow')).toHaveText(
+    'A guide to blackout poetry',
+  );
+
   await expect(
     page.getByRole('heading', { name: 'How to make blackout poetry' }),
   ).toBeVisible();
@@ -698,6 +705,12 @@ test('about and privacy pages explain the project and its private design', async
   page,
 }) => {
   await page.goto('/about/');
+  await expect(page.locator('.site-header .eyebrow')).toHaveText(
+    'The project and its principles',
+  );
+  await expect(page.locator('.site-header .introduction')).toHaveText(
+    'An instrument for finding poems in existing writing.',
+  );
   await expect(
     page.getByRole('heading', { name: 'About Keep These' }),
   ).toBeVisible();
@@ -709,6 +722,9 @@ test('about and privacy pages explain the project and its private design', async
   ).toHaveAttribute('href', '/blackout-poetry/');
 
   await page.goto('/privacy/');
+  await expect(page.locator('.site-header .eyebrow')).toHaveText(
+    'How your work stays private',
+  );
   await expect(page.getByRole('heading', { name: 'Privacy' })).toBeVisible();
   await expect(page.locator('.practice-guide')).toContainText(
     'no accounts, analytics, advertising trackers, or poem uploads',

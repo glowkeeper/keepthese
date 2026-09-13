@@ -108,6 +108,17 @@ feel like book content placed inside a software dashboard.
 Avoid ornamental display type, imitation typewriters, distressed fonts,
 handwriting fonts, and exaggerated Victorian styling.
 
+## Interface copy hierarchy
+
+Eyebrows are concise, factual orientation labels. They identify the product,
+content type, context, or current state; they should not merely repeat the
+adjacent heading or carry atmosphere without meaning. The introduction beneath
+may use a warmer explanatory sentence.
+
+Treat this as a durable design convention rather than a fixed list of phrases.
+Copy may evolve, but the distinction between orientation and invitation should
+remain clear.
+
 ## Selected words
 
 Selected words are not stickers, highlights, or glowing interface tokens. They

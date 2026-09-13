@@ -9,7 +9,7 @@ import {
 const origin = 'https://keepthese.com';
 
 function homepage(overrides = '') {
-  const title = 'Keep These — a quiet blackout poetry studio';
+  const title = 'Keep These — a blackout poetry studio';
   const description =
     'Make blackout poetry from a carefully chosen shelf of classic writing.';
   return `<!doctype html><html><head>

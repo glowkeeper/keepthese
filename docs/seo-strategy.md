@@ -200,7 +200,7 @@ state, not indexable variants.
 - Use one unique, descriptive `<title>` and one unique meta description per
   canonical page, present in the initial HTML.
 - Title patterns are implementation constraints, not fixed copy:
-  - home: `Keep These — a quiet blackout poetry studio`;
+  - home: `Keep These — a blackout poetry studio`;
   - guide: `How to make blackout poetry — Keep These`;
   - passage: `Make blackout poetry from {work title} — Keep These`;
   - journey: `{journey title}: a blackout poetry journey — Keep These`.
