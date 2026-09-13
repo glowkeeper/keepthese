@@ -554,7 +554,7 @@ test('release metadata and local brand assets are complete', async ({
     'Keep These',
   );
   await expect(
-    page.getByRole('link', { name: 'How', exact: true }),
+    page.getByRole('link', { name: 'How-to', exact: true }),
   ).toHaveAttribute('href', '/blackout-poetry/');
   await expect(page.getByRole('link', { name: 'About' })).toHaveAttribute(
     'href',
@@ -702,8 +702,11 @@ test('about and privacy pages explain the project and its private design', async
     page.getByRole('heading', { name: 'About Keep These' }),
   ).toBeVisible();
   await expect(page.locator('.practice-guide')).toContainText(
-    'It never chooses words or composes a poem for you.',
+    'Keep These is a blackout-poetry app.',
   );
+  await expect(
+    page.getByRole('link', { name: 'blackout-poetry app' }),
+  ).toHaveAttribute('href', '/blackout-poetry/');
 
   await page.goto('/privacy/');
   await expect(page.getByRole('heading', { name: 'Privacy' })).toBeVisible();
