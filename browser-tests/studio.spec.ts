@@ -672,7 +672,7 @@ test('a journey route provides its reading context and starts at page one', asyn
   ]);
 });
 
-test('the blackout poetry guide explains the human-made practice', async ({
+test('the blackout poetry guide explains the authorship boundary', async ({
   page,
 }) => {
   await page.goto('/blackout-poetry/');

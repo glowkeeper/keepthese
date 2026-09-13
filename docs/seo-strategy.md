@@ -11,7 +11,7 @@ Baseline date: **13 September 2026**.
 
 ## Desired outcome
 
-Someone looking for a human-made blackout-poetry practice, or for a creative
+Someone looking for a hands-on blackout-poetry practice, or for a creative
 encounter with one of the works on the verified shelf, should be able to find a
 useful Keep These page and move naturally into making.
 
@@ -108,7 +108,7 @@ a poem but never chooses words for them.
 | Route type | Pattern | Distinct visitor purpose | Required visible material |
 | --- | --- | --- | --- |
 | Product home | `/` | Understand the whole instrument and begin immediately | Product promise, shelf and journey orientation, initial studio, privacy, attribution |
-| Practice guide | `/blackout-poetry/` | Learn what the form is, how this human-made practice works, and then try it | Concise original explanation, steps that match the interface, authorship and source relationship, route into a real passage |
+| Practice guide | `/blackout-poetry/` | Learn what the form is, how this hands-on practice works, and then try it | Concise original explanation, steps that match the interface, authorship and source relationship, route into a real passage |
 | About | `/about/` | Understand the purpose and boundaries of Keep These | Concise product purpose, human-authorship boundary, source relationship, and route into making |
 | Privacy | `/privacy/` | Understand what remains on the device and what a shared link sends | Plain description of local autosave, device-made exports, stateless fragments, external links, and deletion control |
 | Passage | `/passages/{passageId}/` | Meet and make from one specific verified literary page | Substantial original discovery note, existing curation context, work, author, first-publication year, passage location, motifs used sparingly, source acknowledgement and route, relevant studio entry |

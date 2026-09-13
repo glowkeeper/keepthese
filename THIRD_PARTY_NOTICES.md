@@ -15,10 +15,10 @@ dependency is shipped. The prompts, model, settings, selection decisions, and
 optimisation steps are recorded in [`docs/visual-material-provenance.md`](docs/visual-material-provenance.md).
 
 OpenArt's applicable account and service terms govern the generated outputs and
-their reuse. Keep These does not describe these assets as wholly human-made:
-OpenArt helps build the instrument; it does not play the instrument for the
-maker. Reuse outside this private repository requires maintainer permission
-until an asset-specific notice says otherwise.
+their reuse. These assets were generated with OpenArt: the service helps build
+the instrument; it does not play the instrument for the maker. Reuse outside
+this private repository requires maintainer permission until an asset-specific
+notice says otherwise.
 
 ## Literary source material
 
