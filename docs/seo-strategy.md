@@ -47,15 +47,20 @@ build artefact sizes, not field transfer measurements.
 
 ### Search and performance baseline
 
-Sampled web searches for `site:keepthese.com`, `keepthese blackout poetry`, and
-`online blackout poetry maker classic literature` did not surface Keep These in
-the returned results. Generic results were led by established blackout-poetry
-makers, generators, educational resources, and explanatory pages. This is a
-small, location- and provider-dependent observation. It is not evidence that no
-Keep These URL is indexed and it is not a substitute for Search Console.
+The Codex web-search tool was sampled from a workspace configured for the
+Europe/London region. It does not expose its underlying search provider or
+exact search location. Searches for `site:keepthese.com`,
+`keepthese blackout poetry`, `online blackout poetry maker classic literature`,
+and `online erasure poetry maker classic literature` did not surface Keep These
+in the returned results. Generic results were led by established
+blackout/erasure-poetry makers, generators, educational resources, explanatory
+pages, and poetry organisations. This is a small, provider- and
+location-dependent observation. It is not evidence that no Keep These URL is
+indexed and it is not a substitute for Search Console.
 
-A cold production trace in desktop Chrome, without CPU or network throttling,
-recorded:
+A cold production trace used Chrome 152 through Chrome DevTools MCP on macOS,
+at the browser's current desktop viewport, without CPU or network throttling.
+It recorded:
 
 | Signal | Observed value | Interpretation |
 | --- | ---: | --- |
@@ -65,10 +70,13 @@ recorded:
 | Render-blocking estimated saving | 0 ms | Not an optimisation target |
 | CrUX field data | Not available | No real-user conclusion can be drawn |
 
-A separate mobile Lighthouse navigation audit scored 100 for SEO,
-accessibility, best practices, and agentic browsing. Lighthouse's performance
-category was not part of that run. These laboratory results are a dated
-diagnostic, not a promise of ranking or real-user performance.
+A separate Lighthouse 13.4.1 navigation audit used its simulated mobile preset:
+a 412 × 823 viewport at device scale factor 1.75, simulated 150 ms RTT and
+1,638.4 Kbps throughput, and 4× CPU slowdown. It scored 100 for SEO,
+accessibility, best practices, and the tool's experimental agentic-browsing
+category. Lighthouse's performance category was not part of that run. These
+laboratory results are a dated diagnostic, not a promise of ranking or
+real-user performance.
 
 No Search Console property or report was available to this audit. Impressions,
 clicks, indexed-page counts, query positions, and manual URL-inspection results
@@ -101,17 +109,50 @@ a poem but never chooses words for them.
 | --- | --- | --- | --- |
 | Product home | `/` | Understand the whole instrument and begin immediately | Product promise, shelf and journey orientation, initial studio, privacy, attribution |
 | Practice guide | `/blackout-poetry/` | Learn what the form is, how this human-made practice works, and then try it | Concise original explanation, steps that match the interface, authorship and source relationship, route into a real passage |
-| Passage | `/passages/{passageId}/` | Meet and make from one specific verified literary page | Original curation context, work, author, first-publication year, passage location, motifs used sparingly, source acknowledgement and route, relevant studio entry |
+| Passage | `/passages/{passageId}/` | Meet and make from one specific verified literary page | Substantial original discovery note, existing curation context, work, author, first-publication year, passage location, motifs used sparingly, source acknowledgement and route, relevant studio entry |
 | Journey | `/journeys/{journeyId}/` | Understand and begin one finite thematic sequence | Original title and invitation, ordered member pages with work and author, clear five-page boundary, route to begin |
 
 The passage is the canonical literary entity for this stage. There are twenty
-passage pages and three journey pages. All must be emitted as static Astro pages
-from validated repository data.
+candidate passage pages and three journey pages. A passage is emitted only after
+its discovery note meets the editorial-content rule below. Issue #67 owns
+drafting the twenty notes, adding them to the validated passage records, and
+presenting them to the maintainer for editorial approval. The maintainer retains
+product and editorial authority. Approved discovery notes are original curated
+metadata under the treatment recorded in `LICENSING.md`.
 
-The route may mount the relevant interactive experience or link into it. The
-implementation of issue #67 should preserve a clear canonical URL,
-passage-specific autosave, received-poem isolation, and the existing studio
-experience. URL fragments remain maker state, not indexable variants.
+The guide is original project documentation stored as one validated Astro
+content entry at `src/content/guides/blackout-poetry.md`. Issue #67 owns drafting
+it and presenting it to the maintainer for editorial approval. It must explain
+blackout and erasure as related practices without claiming authority over the
+form, and it must preserve the non-affiliation statement concerning Psyche,
+Andrew Lavers, and Austin Kleon in `PRODUCT.md`. It is covered by the intended
+documentation licence in `LICENSING.md`, not by the literary-source records.
+
+### Route into making
+
+Every passage and journey page mounts the same `PassageDiscovery` island and
+complete verified shelf used by the homepage. The component gains explicit
+initial-passage and optional initial-journey properties set by the static route:
+
+- a passage route starts in ordinary studio mode on that passage;
+- a journey route starts the named journey on its first passage; and
+- the homepage keeps its current default passage and no active journey.
+
+Passage autosave remains keyed only by stable passage and text version, so the
+same unfinished work is available on home, passage, and journey routes.
+Received-poem state remains mounted separately from autosave on every route and
+cannot overwrite it. A copied poem link always uses the canonical passage route
+for the active passage plus the existing `#poem=` fragment, regardless of which
+route created it.
+
+Shelf choices and Surprise me navigate to the selected canonical passage route;
+journey choices navigate to the selected canonical journey route. Journey
+progress stays on its journey URL. Leaving a journey for a standalone passage
+navigates to that passage route. These are ordinary crawlable links enhanced by
+client behaviour where useful; they must retain their destination without
+JavaScript. This model keeps the document URL aligned with the active editorial
+entry point and requires no query-parameter routing. URL fragments remain maker
+state, not indexable variants.
 
 ### Exclude for now
 
@@ -131,9 +172,17 @@ experience. URL fragments remain maker state, not indexable variants.
 
 - Each indexable page must answer one visitor need in server-rendered HTML before
   hydration.
-- A route needs original page-specific context, not only substituted names in a
-  shared template. If the content cannot meet that test, consolidate it into its
-  parent page or keep it non-indexed.
+- A passage route needs an approved, page-specific discovery note of roughly
+  100–180 words in addition to its existing short context. The note must locate
+  the extract in its work, invite close reading through details genuinely
+  present in that passage, and explain why this page offers a distinct creative
+  encounter. It must not reproduce catalogue descriptions, pad the page with a
+  plot summary, make claims beyond the verified record, or prescribe a poem.
+- Journey invitations are currently one sentence. Each journey page likewise
+  needs an approved original note of roughly 100–180 words explaining its arc,
+  the relationship among its five members, and its finite making rhythm.
+- If a passage or journey cannot meet that test honestly, consolidate it into
+  the homepage rather than emitting or indexing a thin route.
 - Source text alone does not make a page editorially distinct. Context,
   provenance, and the invitation to make must remain connected.
 - Search phrasing must read naturally and retain the charter's warm, restrained
@@ -147,16 +196,29 @@ experience. URL fragments remain maker state, not indexable variants.
 - Title patterns are implementation constraints, not fixed copy:
   - home: `Keep These — a quiet blackout poetry studio`;
   - guide: `How to make blackout poetry — Keep These`;
-  - passage: `Make blackout poetry from {short work title} — Keep These`;
+  - passage: `Make blackout poetry from {work title} — Keep These`;
   - journey: `{journey title}: a blackout poetry journey — Keep These`.
-- Keep the distinctive subject near the beginning. Shorten bibliographic titles
-  only through an explicit public display title; never silently alter the
-  authoritative work title.
+- Keep the distinctive subject near the beginning and use the authoritative
+  work title already present in the validated public record. Search interfaces
+  may truncate a long title; do not invent an unrecorded short title merely to
+  control that truncation.
 - Descriptions should state the page-specific invitation and material, usually
   in one or two sentences. Do not copy the same generic description across the
   collection or promise generated poems.
 - The visible heading may be more literary than the title, but must describe the
   same page purpose.
+
+### Social metadata
+
+- Every canonical route uses the same page-specific title and description for
+  Open Graph and Twitter card metadata.
+- `og:url` matches the HTML canonical exactly. `og:site_name` remains
+  `Keep These`, and the card type remains `summary_large_image`.
+- Reuse the existing 1200 × 630 Keep These social image and accurate alt text
+  for this pass. Route-specific social artwork is not justified until a distinct
+  reviewed visual asset exists; metadata must not imply that the shared image
+  depicts a particular source passage.
+- All URLs are absolute on the production origin and present in initial HTML.
 
 ### Canonical and indexing
 
@@ -187,10 +249,13 @@ experience. URL fragments remain maker state, not indexable variants.
 
 ### Structured data
 
-Issue #68 should first add restrained `WebSite` data to the homepage and
-`BreadcrumbList` where the visible hierarchy supports it. Any `WebPage` or
-`CreativeWork` representation must describe Keep These's visible editorial
-page, not claim authorship or publication of the underlying literary work.
+Issue #68 should first add restrained `WebSite` data to the homepage. Passage
+and journey routes have a visible two-level breadcrumb (`Keep These` followed
+by the current passage or journey) and matching `BreadcrumbList` data. The guide
+has a visible route back to `Keep These` but does not need breadcrumb markup.
+Any `WebPage` or `CreativeWork` representation must describe Keep These's
+visible editorial page, not claim authorship or publication of the underlying
+literary work.
 
 Do not add `Article`, `Book`, `HowTo`, ratings, or other rich-result types merely
 because a schema exists. A schema type requires visible supporting content and
