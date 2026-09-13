@@ -14,7 +14,7 @@ journey contains three to six unique passages and records:
 
 The public client receives the title, invitation, and ordered passage IDs. The
 internal rationale remains repository-side. Journey metadata is original
-curated metadata covered by the intended CC BY 4.0 treatment in
+curated metadata covered by the CC BY 4.0 treatment in
 `LICENSING.md`; source passages and facts are not claimed as project-authored
 work.
 

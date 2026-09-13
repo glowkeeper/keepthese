@@ -11,6 +11,38 @@ async function pngDimensions(path: string) {
 }
 
 describe('public release assets', () => {
+  it('keeps reserved rights notices beside public visual assets', async () => {
+    const [publicRights, brandRights, materialRights] = await Promise.all([
+      readFile('public/RIGHTS.md', 'utf8'),
+      readFile('public/brand/RIGHTS.md', 'utf8'),
+      readFile('public/materials/RIGHTS.md', 'utf8'),
+    ]);
+
+    for (const asset of [
+      'apple-touch-icon.png',
+      'favicon-32.png',
+      'favicon.svg',
+    ]) {
+      expect(publicRights).toContain(`\`${asset}\``);
+    }
+    for (const asset of [
+      'keep-these-og.png',
+      'keep-these-og.svg',
+      'keep-these-square.png',
+      'wordmark.svg',
+    ]) {
+      expect(brandRights).toContain(`\`${asset}\``);
+    }
+    for (const asset of [
+      'charcoal-dense.webp',
+      'dry-brush-feathered.webp',
+      'graphite-soft.webp',
+      'warm-paper.webp',
+    ]) {
+      expect(materialRights).toContain(`\`${asset}\``);
+    }
+  });
+
   it('ships the expected favicon and home-screen sizes', async () => {
     await expect(pngDimensions('public/favicon-32.png')).resolves.toEqual({
       height: 32,

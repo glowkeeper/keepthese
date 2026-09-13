@@ -112,8 +112,8 @@ page. The full provenance credit and same source route remain below the page
 and within exported artwork. Project Gutenberg is identified as the
 transcription source; the wording does not imply its endorsement.
 
-These context notes are original curated metadata covered by the intended CC
-BY 4.0 treatment in `LICENSING.md`. Facts, public-domain source texts, and
+These context notes are original curated metadata covered by the CC BY 4.0
+treatment in `LICENSING.md`. Facts, public-domain source texts, and
 third-party catalogue descriptions are not claimed as project-authored work.
 
 ## Editorial limitations

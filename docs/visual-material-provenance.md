@@ -60,8 +60,8 @@ the files as repeating CSS backgrounds; the material layer is decorative and a
 solid colour fallback remains in place if an image cannot load. No runtime
 generation, remote asset loading, or OpenArt dependency was introduced.
 
-The project remains private. Under `LICENSING.md`, these original visual assets
-are reserved Keep These material and are not granted under the intended MIT or
-CC BY 4.0 project licences. OpenArt's applicable account and service terms
-remain relevant to the generated outputs. Final aesthetic readiness belongs to
-the maintainer.
+Under `LICENSING.md` and `public/materials/RIGHTS.md`, these original visual
+assets are reserved Keep These material and are not granted under the MIT or CC
+BY 4.0 project licences. Public access to the repository does not grant reuse
+permission. OpenArt's applicable account and service terms remain relevant to
+the generated outputs. Final aesthetic readiness belongs to the maintainer.
