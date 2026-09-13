@@ -76,7 +76,13 @@ describe('passage discovery', () => {
     ).toThrow('The passage shelf requires at least one passage.');
   });
   it('presents a finite shelf of canonical passage links', () => {
-    render(<PassageDiscovery journeys={journeys} passages={passages} />);
+    render(
+      <PassageDiscovery
+        journeys={journeys}
+        passageRouteId={passages[0]!.passageId}
+        passages={passages}
+      />,
+    );
 
     expect(screen.getByText('2 pages, carefully chosen')).toBeTruthy();
     fireEvent.click(screen.getByText('Choose a page'));
@@ -121,10 +127,25 @@ describe('passage discovery', () => {
   it('offers a one-action surprise without preselecting poem words', () => {
     render(<PassageDiscovery journeys={journeys} passages={passages} />);
 
-    expect(screen.getByRole('button', { name: 'Surprise me' })).toBeTruthy();
+    expect(
+      screen.getByRole('link', { name: 'Surprise me' }).getAttribute('href'),
+    ).toBe('/passages/persuasion-1818-chapter-4-prudence-and-romance/');
     expect(screen.getByLabelText('Your poem text').textContent).toBe(
       'Your chosen words will gather here.',
     );
+  });
+
+  it('does not claim the selected passage is the current page off-route', () => {
+    render(<PassageDiscovery journeys={journeys} passages={passages} />);
+    fireEvent.click(screen.getByText('Choose a page'));
+
+    expect(
+      screen
+        .getByRole('link', {
+          name: /Frankenstein; Or, The Modern Prometheus/,
+        })
+        .hasAttribute('aria-current'),
+    ).toBe(false);
   });
 
   it('offers a finite literary path with clear position and navigation', () => {

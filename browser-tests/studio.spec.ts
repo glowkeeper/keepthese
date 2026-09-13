@@ -324,8 +324,9 @@ test('the complete shelf changes passages and keeps their work separate', async 
 test('surprise me replaces the current page in one action', async ({
   page,
 }) => {
-  await page.getByRole('button', { name: 'Surprise me' }).click();
+  await page.getByRole('link', { name: 'Surprise me' }).click();
 
+  await expect(page).toHaveURL(/\/passages\/[^/]+\/$/);
   await expect(
     page.getByRole('heading', {
       name: 'Frankenstein; Or, The Modern Prometheus',
@@ -529,6 +530,9 @@ test('release metadata and local brand assets are complete', async ({
     'Keep These',
   );
   await expect(page.locator('.site-footer')).toContainText('Private by design');
+  await expect(
+    page.getByRole('link', { name: 'How to make blackout poetry.' }),
+  ).toHaveAttribute('href', '/blackout-poetry/');
 
   for (const path of [
     '/favicon.svg',
@@ -607,6 +611,10 @@ test('editorial entry points remain readable without JavaScript', async ({
   ).toHaveAttribute(
     'href',
     '/passages/frankenstein-1831-chapter-4-life-and-death/',
+  );
+  await expect(page.getByRole('link', { name: 'Surprise me' })).toHaveAttribute(
+    'href',
+    '/passages/jane-eyre-1847-chapter-10-wide-world/',
   );
 
   await context.close();

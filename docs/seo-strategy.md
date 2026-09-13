@@ -115,10 +115,13 @@ a poem but never chooses words for them.
 The passage is the canonical literary entity for this stage. There are twenty
 candidate passage pages and three journey pages. A passage is emitted only after
 its discovery note meets the editorial-content rule below. Issue #67 owns
-drafting the twenty notes, adding them to the validated passage records, and
-presenting them to the maintainer for editorial approval. The maintainer retains
-product and editorial authority. Approved discovery notes are original curated
-metadata under the treatment recorded in `LICENSING.md`.
+drafting the twenty notes, storing them in the separately validated
+`src/content/discovery.json` record, and presenting them to the maintainer for
+editorial approval. Its schema enforces the content threshold, and the site
+content loader requires exact coverage of the passage and journey collections.
+The maintainer retains product and editorial authority. Approved discovery
+notes are original curated metadata under the treatment recorded in
+`LICENSING.md`.
 
 The guide is original project documentation stored as one validated Astro
 content entry at `src/content/guides/blackout-poetry.md`. Issue #67 owns drafting

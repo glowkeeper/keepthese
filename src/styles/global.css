@@ -606,6 +606,8 @@ h1 {
 }
 
 .surprise-action {
+  display: inline-flex;
+  align-items: center;
   justify-self: start;
   min-height: 2.75rem;
   padding: 0.55rem 1rem;
@@ -614,6 +616,8 @@ h1 {
   color: #f8f2e7;
   background: #292621;
   cursor: pointer;
+  font-family: system-ui, sans-serif;
+  text-decoration: none;
 }
 
 .passage-discovery details {
@@ -657,7 +661,7 @@ h1 {
   border-color: #762713;
 }
 
-.passage-chooser li a[aria-current='page'] {
+.passage-chooser li a.is-selected {
   border-color: #762713;
   box-shadow: inset 0.2rem 0 #762713;
 }
@@ -666,6 +670,11 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+}
+
+.passage-chooser li a,
+.journey-card a {
+  font-family: system-ui, sans-serif;
 }
 
 .passage-chooser li small {
@@ -974,7 +983,7 @@ h1 {
   text-underline-offset: 0.2em;
 }
 
-.discovery-context h2,
+.discovery-context h1,
 .practice-guide h1 {
   margin: 0;
   font-size: clamp(2.25rem, 6vw, 4rem);
@@ -1058,7 +1067,7 @@ h1 {
     grid-area: eyebrow;
   }
 
-  .site-header h1 {
+  .site-header .brand-heading {
     grid-area: wordmark;
   }
 

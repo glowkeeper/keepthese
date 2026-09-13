@@ -19,6 +19,7 @@ const {
 } = Astro.props;
 const canonicalUrl = new URL(canonicalPath, Astro.site);
 const socialImageUrl = new URL('/brand/keep-these-og.png', Astro.site);
+const isHomepage = canonicalPath === '/';
 ---
 
 <!doctype html>
@@ -59,11 +60,21 @@ const socialImageUrl = new URL('/brand/keep-these-og.png', Astro.site);
     <main>
       <header class="site-header">
         <p class="eyebrow">{eyebrow}</p>
-        <h1>
-          <a class="wordmark-route" href="/" aria-label="Keep These home"
-            ><Wordmark /></a
-          >
-        </h1>
+        {
+          isHomepage ? (
+            <h1 class="brand-heading">
+              <a class="wordmark-route" href="/" aria-label="Keep These home">
+                <Wordmark />
+              </a>
+            </h1>
+          ) : (
+            <div class="brand-heading">
+              <a class="wordmark-route" href="/" aria-label="Keep These home">
+                <Wordmark />
+              </a>
+            </div>
+          )
+        }
         <p class="introduction">{introduction}</p>
       </header>
       <slot />
@@ -78,6 +89,7 @@ const socialImageUrl = new URL('/brand/keep-these-og.png', Astro.site);
           <p class="eyebrow">In conversation</p><p>
             Every page names its original author and links back to the source
             edition. The words you keep—and the poem you find—are yours.
+            <a href="/blackout-poetry/">How to make blackout poetry.</a>
           </p>
         </div>
       </footer>

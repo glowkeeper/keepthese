@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { type MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { chooseSurprisePassage } from '../lib/passage-discovery';
 import type { PublicLiteraryJourney } from '../lib/literary-journey';
@@ -18,6 +18,7 @@ import BlackoutStudio, { type KeptPoemWork } from './BlackoutStudio';
 interface PassageDiscoveryProps {
   initialJourneyId?: string;
   initialPassageId?: string;
+  passageRouteId?: string;
   journeys: PublicLiteraryJourney[];
   passages: PublicPassage[];
 }
@@ -25,6 +26,7 @@ interface PassageDiscoveryProps {
 export function PassageDiscovery({
   initialJourneyId,
   initialPassageId,
+  passageRouteId,
   journeys,
   passages,
 }: PassageDiscoveryProps) {
@@ -228,7 +230,14 @@ export function PassageDiscovery({
     }
   }
 
-  function surpriseMe() {
+  const currentPassageIndex = passages.findIndex(
+    ({ passageId }) => passageId === currentPassageId,
+  );
+  const surpriseFallback =
+    passages[(currentPassageIndex + 1) % passages.length] ?? currentPassage;
+
+  function surpriseMe(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
     const next = chooseSurprisePassage(passages, currentPassageId);
     window.location.assign(passagePath(next.passageId));
   }
@@ -343,9 +352,13 @@ export function PassageDiscovery({
             you.
           </p>
         </div>
-        <button className="surprise-action" onClick={surpriseMe} type="button">
+        <a
+          className="surprise-action"
+          href={passagePath(surpriseFallback.passageId)}
+          onClick={surpriseMe}
+        >
           Surprise me
-        </button>
+        </a>
         <details className="passage-chooser" ref={passageChooserRef}>
           <summary>Choose a page</summary>
           <ul>
@@ -353,8 +366,11 @@ export function PassageDiscovery({
               <li key={passage.passageId}>
                 <a
                   aria-current={
+                    passage.passageId === passageRouteId ? 'page' : undefined
+                  }
+                  className={
                     passage.passageId === currentPassage.passageId
-                      ? 'page'
+                      ? 'is-selected'
                       : undefined
                   }
                   href={passagePath(passage.passageId)}

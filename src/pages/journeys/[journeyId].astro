@@ -33,7 +33,7 @@ const members = journey.passageIds.map((passageId) => {
   title={`${journey.title}: a blackout poetry journey — Keep These`}
 >
   <DiscoveryContext
-    eyebrow="A five-page literary path"
+    eyebrow={`A ${journey.passageIds.length}-page literary path`}
     title={journey.title}
     note={content.discovery.journeys[journey.journeyId]!}
     members={members}
