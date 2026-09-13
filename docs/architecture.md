@@ -242,6 +242,37 @@ profile system, or additional client state. Context is editorial repository
 data validated at build time and covered by the curated-metadata terms recorded
 in `LICENSING.md`.
 
+## Version 1 search discovery
+
+The expanded literary collection gains a restrained static discovery surface:
+the product homepage, one original guide to the blackout-poetry practice,
+one page for each verified passage, and one page for each finite literary
+journey. Passage pages, rather than separate author or work catalogues, are the
+canonical literary entity while the shelf contains one passage per work and
+author. Author, work, motif, filtered, and maker-poem pages are not introduced.
+
+Astro generates every indexable route at build time. Passage and journey pages
+come from validated repository data; the original practice guide is a validated
+Astro content entry reviewed under the project's documentation and
+non-affiliation boundaries. Each route must contain meaningful page-specific
+HTML before hydration, an absolute self-canonical URL, accurate source context,
+and a clear route into making.
+
+Passage and journey pages mount the same complete discovery-and-studio island
+as the homepage, with route-owned initial passage and journey properties.
+Autosave remains keyed by passage and text version across routes. Copied poem
+links use the active passage's canonical route plus the client-only poem
+fragment; received work remains isolated from autosave. Shelf and journey
+choices use crawlable canonical routes rather than query-parameter state.
+Stateless poem fragments never become sitemap entries or separately indexable
+documents. The route and metadata rules, baseline evidence, editorial-content
+thresholds, excluded page types, and reconsideration conditions are recorded in
+[`seo-strategy.md`](seo-strategy.md).
+
+This discovery surface adds no CMS, remote content, dynamic rendering,
+analytics, account, or backend. Search tooling may be owned and consulted by
+the maintainer without placing behavioural tracking in the product.
+
 ## Finite literary journeys
 
 Astro loads a small, explicitly ordered collection of structured journey
