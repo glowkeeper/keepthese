@@ -2,13 +2,17 @@
 import PassageDiscovery from '../components/PassageDiscovery';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { loadSiteContent } from '../lib/site-content';
+import { websiteStructuredData } from '../lib/structured-data';
 
 const { journeys, passages } = await loadSiteContent();
+const description =
+  'Make blackout poetry from a carefully chosen shelf of classic writing.';
 ---
 
 <SiteLayout
   canonicalPath="/"
-  description="Make blackout poetry from a carefully chosen shelf of classic writing."
+  description={description}
+  structuredData={websiteStructuredData(Astro.site!, description)}
   title="Keep These — a quiet blackout poetry studio"
 >
   <PassageDiscovery journeys={journeys} passages={passages} client:load />

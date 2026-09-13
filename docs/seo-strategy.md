@@ -287,6 +287,9 @@ The product should not add behavioural analytics or infer creative success from
 search traffic. Search evidence can show whether people find the doorway; it
 cannot show whether the making experience is worthwhile.
 
+The repeatable build, production, and optional Search Console procedure is
+recorded in [`seo-verification.md`](seo-verification.md).
+
 ## Reference basis
 
 The implementation rules follow current Google Search Central guidance on
