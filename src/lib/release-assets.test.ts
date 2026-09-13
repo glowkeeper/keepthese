@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 
 import { describe, expect, it } from 'vitest';
 
@@ -10,6 +10,24 @@ async function pngDimensions(path: string) {
   return { height: png.readUInt32BE(20), width: png.readUInt32BE(16) };
 }
 
+async function expectNoticeCoversFiles(
+  directory: string,
+  notice: string,
+  include: (filename: string) => boolean = () => true,
+) {
+  const filenames = (await readdir(directory, { withFileTypes: true }))
+    .filter(
+      (entry) =>
+        entry.isFile() && entry.name !== 'RIGHTS.md' && include(entry.name),
+    )
+    .map(({ name }) => name);
+
+  expect(filenames.length).toBeGreaterThan(0);
+  for (const filename of filenames) {
+    expect(notice).toContain(`\`${filename}\``);
+  }
+}
+
 describe('public release assets', () => {
   it('keeps reserved rights notices beside public visual assets', async () => {
     const [publicRights, brandRights, materialRights] = await Promise.all([
@@ -18,29 +36,13 @@ describe('public release assets', () => {
       readFile('public/materials/RIGHTS.md', 'utf8'),
     ]);
 
-    for (const asset of [
-      'apple-touch-icon.png',
-      'favicon-32.png',
-      'favicon.svg',
-    ]) {
-      expect(publicRights).toContain(`\`${asset}\``);
-    }
-    for (const asset of [
-      'keep-these-og.png',
-      'keep-these-og.svg',
-      'keep-these-square.png',
-      'wordmark.svg',
-    ]) {
-      expect(brandRights).toContain(`\`${asset}\``);
-    }
-    for (const asset of [
-      'charcoal-dense.webp',
-      'dry-brush-feathered.webp',
-      'graphite-soft.webp',
-      'warm-paper.webp',
-    ]) {
-      expect(materialRights).toContain(`\`${asset}\``);
-    }
+    await Promise.all([
+      expectNoticeCoversFiles('public', publicRights, (filename) =>
+        /\.(?:png|svg|webp)$/.test(filename),
+      ),
+      expectNoticeCoversFiles('public/brand', brandRights),
+      expectNoticeCoversFiles('public/materials', materialRights),
+    ]);
   });
 
   it('ships the expected favicon and home-screen sizes', async () => {

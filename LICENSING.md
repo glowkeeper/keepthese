@@ -18,7 +18,7 @@ the public domain or bring it within the software licence.
 | Original project documentation | Root Markdown files and `docs/`, subject to identified exclusions | CC BY 4.0 notice in `LICENSE-CONTENT.md` |
 | Original guide and editorial metadata | `src/content/guides/`, original editorial fields in `src/content/journeys/`, `src/content/passages/`, and `src/content/discovery.json` | CC BY 4.0 notice in `LICENSE-CONTENT.md` |
 | Literary passages and source records | Literary text and third-party transcription/provenance fields in `src/content/passages/` and `docs/sources/` | Not relicensed; individual public-domain evidence and source terms apply |
-| Name, brand, and distinctive visual identity | `public/brand/`, brand-bearing icons in `public/`, and their implementation as a whole | All rights reserved; see the adjacent `RIGHTS.md` notices |
+| Name, brand, and distinctive visual identity | `public/brand/` and brand-bearing icons in `public/` | All rights reserved; see the adjacent `RIGHTS.md` notices. The source that renders these assets remains MIT-licensed |
 | Original generated textures | `public/materials/` | All rights reserved; see the adjacent `RIGHTS.md` |
 | Third-party software and material | As indexed in `THIRD_PARTY_NOTICES.md` and the package lock | Upstream licences and terms apply |
 | Maker-created work | A maker's device or deliberately shared output | The maker retains whatever rights they hold |
@@ -58,6 +58,10 @@ textures, illustrations, social images, icons, and other original visual assets
 remain all rights reserved unless an individual asset carries a separate
 licence. Directory-level notices accompany `public/brand/` and
 `public/materials/`.
+
+The source code and styles that render or arrange those assets remain within
+the MIT licence. That software grant does not grant rights in the marks or asset
+files themselves.
 
 Open-source availability of the application code does not grant permission to
 present another product as Keep These or to reuse its identity wholesale.

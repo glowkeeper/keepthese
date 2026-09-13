@@ -16,10 +16,14 @@ licence and do not imply endorsement by Keep These or its contributors.
 
 - original Markdown documentation in the repository root and `docs/`, except
   for quoted or otherwise identified third-party material;
-- the original blackout-poetry guide in `src/content/guides/`;
-- original discovery notes and original journey titles, descriptions, themes,
-  introductions, and reflection prompts in `src/content/passages/`,
-  `src/content/journeys/`, and `src/content/discovery.json`.
+- the original blackout-poetry guide body and its `title` and `description`
+  fields in `src/content/guides/`;
+- the original passage and journey discovery-note values in
+  `src/content/discovery.json`;
+- the `title`, `invitation`, and internal `rationale` fields in
+  `src/content/journeys/`;
+- the `curation.context`, `curation.rationale`, and `curation.motifs` fields in
+  `src/content/passages/`.
 
 Facts, identifiers, dates, bibliographic records, and public-domain material do
 not acquire copyright merely by appearing beside licensed editorial material.

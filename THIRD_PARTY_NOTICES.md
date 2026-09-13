@@ -54,37 +54,39 @@ its own; these acknowledgements do not imply endorsement.
 ## Software dependencies
 
 The production application is a static build. It has no remotely loaded runtime
-library and no server-side package installation. Its direct npm dependencies
-are:
+library and no server-side package installation. Each package link below opens
+the exact npm distribution record reviewed on 13 September 2026. The copyright
+holder comes from the installed package's licence file, which is the
+authoritative notice distributed with that package.
 
-| Package | Version | Purpose | Licence |
+| Package and source | Copyright notice | Purpose | Licence |
 | --- | --- | --- | --- |
-| `astro` | 7.3.1 | Static site and build framework | MIT |
-| `@astrojs/react` | 6.0.5 | React rendering and hydration integration | MIT |
-| `react` | 19.2.8 | Interactive studio component model | MIT |
-| `react-dom` | 19.2.8 | Browser rendering | MIT |
+| [`astro` 7.3.1](https://www.npmjs.com/package/astro/v/7.3.1) | Fred K. Schott | Static site and build framework | MIT |
+| [`@astrojs/react` 6.0.5](https://www.npmjs.com/package/@astrojs/react/v/6.0.5) | Fred K. Schott | React rendering and hydration integration | MIT |
+| [`react` 19.2.8](https://www.npmjs.com/package/react/v/19.2.8) | Meta Platforms, Inc. and affiliates | Interactive studio component model | MIT |
+| [`react-dom` 19.2.8](https://www.npmjs.com/package/react-dom/v/19.2.8) | Meta Platforms, Inc. and affiliates | Browser rendering | MIT |
 
 The direct development dependencies are used to check, format, test, and build
 the project and are not separately shipped as hosted application services:
 
-| Package | Version | Licence |
+| Package and source | Copyright notice | Licence |
 | --- | --- | --- |
-| `@astrojs/check` | 0.9.10 | MIT |
-| `@eslint/js` | 9.39.5 | MIT |
-| `@playwright/test` | 1.63.0 | Apache-2.0 |
-| `@testing-library/react` | 16.3.3 | MIT |
-| `@types/react` | 19.2.18 | MIT |
-| `@types/react-dom` | 19.2.7 | MIT |
-| `eslint` | 10.10.0 | MIT |
-| `eslint-plugin-astro` | 1.7.0 | MIT |
-| `eslint-plugin-react-hooks` | 7.1.1 | MIT |
-| `happy-dom` | 20.14.0 | MIT |
-| `markdownlint-cli2` | 0.23.2 | MIT |
-| `prettier` | 3.9.6 | MIT |
-| `prettier-plugin-astro` | 0.14.1 | MIT |
-| `typescript` | 6.0.3 | Apache-2.0 |
-| `typescript-eslint` | 8.69.0 | MIT |
-| `vitest` | 5.0.0 | MIT |
+| [`@astrojs/check` 0.9.10](https://www.npmjs.com/package/@astrojs/check/v/0.9.10) | Fred K. Schott | MIT |
+| [`@eslint/js` 9.39.5](https://www.npmjs.com/package/@eslint/js/v/9.39.5) | OpenJS Foundation and other contributors | MIT |
+| [`@playwright/test` 1.63.0](https://www.npmjs.com/package/@playwright/test/v/1.63.0) | Microsoft Corporation | Apache-2.0 |
+| [`@testing-library/react` 16.3.3](https://www.npmjs.com/package/@testing-library/react/v/16.3.3) | Kent C. Dodds | MIT |
+| [`@types/react` 19.2.18](https://www.npmjs.com/package/@types/react/v/19.2.18) | Microsoft Corporation and contributors | MIT |
+| [`@types/react-dom` 19.2.7](https://www.npmjs.com/package/@types/react-dom/v/19.2.7) | Microsoft Corporation and contributors | MIT |
+| [`eslint` 10.10.0](https://www.npmjs.com/package/eslint/v/10.10.0) | OpenJS Foundation and other contributors | MIT |
+| [`eslint-plugin-astro` 1.7.0](https://www.npmjs.com/package/eslint-plugin-astro/v/1.7.0) | Yosuke Ota | MIT |
+| [`eslint-plugin-react-hooks` 7.1.1](https://www.npmjs.com/package/eslint-plugin-react-hooks/v/7.1.1) | Meta Platforms, Inc. and affiliates | MIT |
+| [`happy-dom` 20.14.0](https://www.npmjs.com/package/happy-dom/v/20.14.0) | David Ortner | MIT |
+| [`markdownlint-cli2` 0.23.2](https://www.npmjs.com/package/markdownlint-cli2/v/0.23.2) | David Anson | MIT |
+| [`prettier` 3.9.6](https://www.npmjs.com/package/prettier/v/3.9.6) | James Long and contributors | MIT |
+| [`prettier-plugin-astro` 0.14.1](https://www.npmjs.com/package/prettier-plugin-astro/v/0.14.1) | Nate Moore | MIT |
+| [`typescript` 6.0.3](https://www.npmjs.com/package/typescript/v/6.0.3) | Microsoft Corporation | Apache-2.0 |
+| [`typescript-eslint` 8.69.0](https://www.npmjs.com/package/typescript-eslint/v/8.69.0) | typescript-eslint and other contributors | MIT |
+| [`vitest` 5.0.0](https://www.npmjs.com/package/vitest/v/5.0.0) | VoidZero Inc. and Vitest contributors | MIT |
 
 Exact package names, versions, resolved dependencies, and integrity records are
 stored in `package.json` and `package-lock.json`. The installed package tree was
@@ -94,6 +96,14 @@ MPL-2.0, LGPL-3.0-or-later, and Python-2.0. Copyleft-licensed packages are
 build-time transitive binaries or tools and are not modified or served as part
 of the Keep These application source. Package-local licence files installed by
 npm remain the authoritative notices for each dependency.
+
+The four production rows identify packages used in the generated site or its
+build path. Every development row appears only in the local and CI quality
+toolchain declared by `package.json`. The MIT dependencies require preservation
+of their copyright and permission notices when copied or substantially
+redistributed; the Apache-2.0 tools require preservation of their licence and
+applicable notices. Keep These does not modify or separately redistribute these
+packages.
 
 These records do not replace upstream copyright notices, licence texts, or
 source-offer obligations that may apply when dependencies or build tools are
