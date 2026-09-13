@@ -61,9 +61,35 @@ export function visibleHeading(html) {
 }
 
 export function sitemapUrls(xml) {
-  return [...xml.matchAll(/<loc>([^<]+)<\/loc>/gu)].map((match) =>
-    decodeHtml(match[1]),
+  const document = xml.match(
+    /^\s*<\?xml\s+version="1\.0"\s+encoding="UTF-8"\?>\s*<urlset\s+xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">(.*?)<\/urlset>\s*$/su,
   );
+  if (!document) {
+    throw new Error(
+      'Sitemap must have an XML declaration and one sitemap urlset root.',
+    );
+  }
+
+  const body = document[1];
+  const entries = [...body.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<\/url>/gu)];
+  const unmatched = body.replace(/<url>\s*<loc>[^<]+<\/loc>\s*<\/url>/gu, '');
+  if (unmatched.trim() || entries.length === 0) {
+    throw new Error(
+      'Sitemap urlset must contain only non-empty url elements with one loc.',
+    );
+  }
+
+  return entries.map((match) => {
+    if (/&(?!amp;|quot;|#39;|lt;|gt;)/u.test(match[1])) {
+      throw new Error('Sitemap locations must contain escaped XML entities.');
+    }
+    const value = decodeHtml(match[1]);
+    const url = new URL(value);
+    if (url.protocol !== 'https:') {
+      throw new Error('Sitemap locations must be absolute HTTPS URLs.');
+    }
+    return url.href;
+  });
 }
 
 export function assertPage(html, path) {

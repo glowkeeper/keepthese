@@ -947,7 +947,9 @@ test('a poem fragment on a journey route resolves to its passage canonical', asy
 
   await page.goto(`/journeys/divided-and-becoming/${fragment}`);
 
-  expect(documentRequests.every((url) => !url.includes('#poem='))).toBe(true);
+  expect(documentRequests).toEqual([
+    'http://127.0.0.1:4321/journeys/divided-and-becoming/',
+  ]);
 
   await expect
     .poll(() => new URL(page.url()).pathname)

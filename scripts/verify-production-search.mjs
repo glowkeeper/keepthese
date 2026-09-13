@@ -16,7 +16,12 @@ const check = (condition, message) => {
 const builtUrls = sitemapUrls(await readFile('dist/sitemap.xml', 'utf8'));
 const sitemapResponse = await fetch(`${productionOrigin}/sitemap.xml`);
 const productionSitemap = await sitemapResponse.text();
-const productionUrls = sitemapUrls(productionSitemap);
+let productionUrls = [];
+try {
+  productionUrls = sitemapUrls(productionSitemap);
+} catch (error) {
+  failures.push(`Production sitemap is invalid: ${error.message}`);
+}
 check(
   sitemapResponse.status === 200,
   `sitemap.xml returned ${sitemapResponse.status}.`,
