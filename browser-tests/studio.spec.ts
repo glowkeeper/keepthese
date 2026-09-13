@@ -554,6 +554,9 @@ test('release metadata and local brand assets are complete', async ({
     'Keep These',
   );
   await expect(page.locator('.site-footer')).toContainText('Private by design');
+  await expect(page.locator('.site-footer')).toContainText(
+    'the poem you find—are yours. How to make blackout poetry.',
+  );
   await expect(
     page.getByRole('link', { name: 'How to make blackout poetry.' }),
   ).toHaveAttribute('href', '/blackout-poetry/');
