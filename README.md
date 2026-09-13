@@ -6,7 +6,7 @@ The film presents blackout poetry as the art of finding a new work by framing
 what is already on the page, and as a way through creative block. Lavers in
 turn credits the work of blackout poet Austin Kleon.
 
-That encounter suggested a calm, beautiful web instrument: meet a
+That encounter suggested a calm and beautiful web instrument: meet a
 page, keep the words that speak, and let the rest fall away. Keep These is an
 independent project and is not affiliated with or endorsed by Psyche, Andrew
 Lavers, or Austin Kleon.
