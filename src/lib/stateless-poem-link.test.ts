@@ -29,13 +29,13 @@ describe('stateless poem links', () => {
     expect(
       poemShareUrl(
         {
-          hash: '#old',
           origin: 'https://keepthese.com',
-          pathname: '/',
         },
         work,
       ),
-    ).toBe(`https://keepthese.com/${encodePoemFragment(work)}`);
+    ).toBe(
+      `https://keepthese.com/passages/frankenstein-1831-chapter-4-life-and-death/${encodePoemFragment(work)}`,
+    );
   });
 
   it.each([

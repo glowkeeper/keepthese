@@ -1,0 +1,21 @@
+---
+import { getEntry, render } from 'astro:content';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const guide = await getEntry('guides', 'blackout-poetry');
+if (!guide) throw new Error('The blackout poetry guide is missing.');
+const { Content } = await render(guide);
+---
+
+<SiteLayout
+  canonicalPath="/blackout-poetry/"
+  description={guide.data.description}
+  eyebrow="A human-made poetry practice"
+  introduction="Keep the words that speak. Let the rest fall away."
+  title={`${guide.data.title} — Keep These`}
+>
+  <article class="practice-guide">
+    <h1>{guide.data.title}</h1>
+    <Content />
+  </article>
+</SiteLayout>

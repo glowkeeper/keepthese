@@ -1,0 +1,34 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  note: string;
+  members?: { href: string; title: string; author: string }[];
+}
+const { eyebrow, title, note, members = [] } = Astro.props;
+---
+
+<section class="discovery-context" aria-labelledby="discovery-context-heading">
+  <nav aria-label="Breadcrumb">
+    <a href="/">Keep These</a><span aria-hidden="true">/</span><span
+      aria-current="page">{title}</span
+    >
+  </nav>
+  <p class="eyebrow">{eyebrow}</p>
+  <h2 id="discovery-context-heading">{title}</h2>
+  <p>{note}</p>
+  {
+    members.length > 0 && (
+      <ol>
+        {members.map((member) => (
+          <li>
+            <a href={member.href}>
+              <cite>{member.title}</cite>
+              <span>{member.author}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</section>

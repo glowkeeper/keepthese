@@ -289,14 +289,13 @@ test('the complete shelf changes passages and keeps their work separate', async 
     'Saved privately in this browser.',
   );
   await page
-    .getByRole('button', { name: /Persuasion Jane Austen Chapter IV/ })
+    .getByRole('link', { name: /Persuasion Jane Austen Chapter IV/ })
     .click();
 
-  await expect(page.getByRole('heading', { name: 'Persuasion' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Persuasion' })).toBeFocused();
-  await expect(
-    page.getByText('Choose a page', { exact: true }),
-  ).not.toBeInViewport();
+  await expect(page).toHaveURL(
+    /\/passages\/persuasion-1818-chapter-4-prudence-and-romance\/$/,
+  );
+  await expect(page.locator('#studio-heading')).toHaveText('Persuasion');
   await expect(page.locator('.studio-help')).not.toHaveAttribute('open', '');
   await expect(page.getByLabel('Your poem text')).toHaveText(
     'Your chosen words will gather here.',
@@ -309,10 +308,13 @@ test('the complete shelf changes passages and keeps their work separate', async 
 
   await page.getByText('Choose a page', { exact: true }).click();
   await page
-    .getByRole('button', {
+    .getByRole('link', {
       name: /Frankenstein; Or, The Modern Prometheus Mary Wollstonecraft Shelley/,
     })
     .click();
+  await expect(page).toHaveURL(
+    /\/passages\/frankenstein-1831-chapter-4-life-and-death\/$/,
+  );
   await expect(
     page.getByRole('button', { exact: true, name: 'Remove Life' }),
   ).toBeVisible();
@@ -343,14 +345,12 @@ test('a finite literary path shows position and moves between its pages', async 
     'The sequence begins with curiosity, moves through a consciously imagined departure',
   );
   await page
-    .getByRole('button', { name: 'Begin this 5-page path' })
+    .getByRole('link', { name: 'Begin this 5-page path' })
     .first()
     .click();
 
+  await expect(page).toHaveURL(/\/journeys\/thresholds-and-departures\/$/);
   await expect(page.getByText('Literary path · page 1 of 5')).toBeVisible();
-  await expect(
-    page.getByRole('heading', { name: 'Thresholds and departures' }),
-  ).toBeFocused();
   await expect(
     page.getByRole('heading', { name: "Alice's Adventures in Wonderland" }),
   ).toBeVisible();
@@ -360,15 +360,16 @@ test('a finite literary path shows position and moves between its pages', async 
 
   await page.getByRole('button', { name: 'Next page' }).click();
   await expect(page.getByText('Literary path · page 2 of 5')).toBeVisible();
-  await expect(
-    page.getByRole('heading', { name: 'Thresholds and departures' }),
-  ).toBeFocused();
+  await expect(page.locator('#journey-heading')).toBeFocused();
 
-  await page.getByRole('button', { name: 'Leave this path' }).click();
+  await page.getByRole('link', { name: 'Leave this path' }).click();
+  await expect(page).toHaveURL(
+    /\/passages\/jane-eyre-1847-chapter-10-wide-world\/$/,
+  );
   await expect(page.locator('.active-journey')).toHaveCount(0);
-  await expect(
-    page.getByRole('heading', { name: 'Jane Eyre: An Autobiography' }),
-  ).toBeVisible();
+  await expect(page.locator('#studio-heading')).toHaveText(
+    'Jane Eyre: An Autobiography',
+  );
 });
 
 test('a literary path resolves into a five-poem sequence', async ({ page }) => {
@@ -376,7 +377,7 @@ test('a literary path resolves into a five-poem sequence', async ({ page }) => {
   await enablePngSharing(page);
   await page.getByText('Follow a literary path', { exact: true }).click();
   await page
-    .getByRole('button', { name: 'Begin this 5-page path' })
+    .getByRole('link', { name: 'Begin this 5-page path' })
     .first()
     .click();
 
@@ -502,18 +503,15 @@ test('a literary path resolves into a five-poem sequence', async ({ page }) => {
     });
   expect(actionLayout).toBe(true);
 
-  await page.getByRole('button', { name: 'Choose another path' }).click();
-  await expect(
-    page.getByText('Follow a literary path', { exact: true }),
-  ).toBeFocused();
-  await expect(page.locator('.journey-chooser')).toHaveAttribute('open', '');
+  await page.getByRole('link', { name: 'Choose another path' }).click();
+  await expect(page).toHaveURL(/\/$/);
   await expect(page.locator('.studio')).toBeVisible();
 });
 
 test('release metadata and local brand assets are complete', async ({
   page,
 }) => {
-  await expect(page).toHaveTitle('Keep These');
+  await expect(page).toHaveTitle('Keep These — a quiet blackout poetry studio');
   await expect(page.locator('.introduction')).toHaveText(
     'Find the poem that was waiting in the page.',
   );
@@ -540,6 +538,78 @@ test('release metadata and local brand assets are complete', async ({
   ]) {
     expect((await page.request.get(path)).status()).toBe(200);
   }
+});
+
+test('a passage route provides editorial context and opens its studio page', async ({
+  page,
+}) => {
+  await page.goto('/passages/persuasion-1818-chapter-4-prudence-and-romance/');
+
+  await expect(page).toHaveTitle(
+    'Make blackout poetry from Persuasion — Keep These',
+  );
+  await expect(page.locator('.discovery-context')).toContainText(
+    'Anne Elliot looks back at the advice that separated her from an early attachment.',
+  );
+  await expect(page.getByRole('heading', { name: 'Persuasion' })).toHaveCount(
+    2,
+  );
+  await page.getByText('Choose a page', { exact: true }).click();
+  await expect(
+    page.getByRole('link', { name: /Persuasion Jane Austen Chapter IV/ }),
+  ).toHaveAttribute('aria-current', 'page');
+});
+
+test('a journey route provides its reading context and starts at page one', async ({
+  page,
+}) => {
+  await page.goto('/journeys/thresholds-and-departures/');
+
+  await expect(page.locator('.discovery-context')).toContainText(
+    'This five-page path begins beside Alice’s riverbank',
+  );
+  await expect(page.getByText('Literary path · page 1 of 5')).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: "Alice's Adventures in Wonderland" }),
+  ).toBeVisible();
+});
+
+test('the blackout poetry guide explains the human-made practice', async ({
+  page,
+}) => {
+  await page.goto('/blackout-poetry/');
+
+  await expect(
+    page.getByRole('heading', { name: 'How to make blackout poetry' }),
+  ).toBeVisible();
+  await expect(page.locator('.practice-guide')).toContainText(
+    'Keep These does not generate a poem or suggest which words belong together.',
+  );
+  await expect(page.locator('.practice-guide')).toContainText(
+    'not affiliated with or endorsed by Psyche, Andrew Lavers or Austin Kleon',
+  );
+});
+
+test('editorial entry points remain readable without JavaScript', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+
+  await page.goto('/passages/persuasion-1818-chapter-4-prudence-and-romance/');
+  await expect(page.locator('.discovery-context')).toContainText(
+    'Anne Elliot looks back at the advice that separated her from an early attachment.',
+  );
+  await expect(
+    page.locator(
+      '.passage-chooser a[href="/passages/frankenstein-1831-chapter-4-life-and-death/"]',
+    ),
+  ).toHaveAttribute(
+    'href',
+    '/passages/frankenstein-1831-chapter-4-life-and-death/',
+  );
+
+  await context.close();
 });
 
 test('unknown routes offer a calm way back', async ({ page }) => {
@@ -684,7 +754,9 @@ test('a poem link reconstructs attributed work without changing recipient work',
   await page.getByRole('button', { name: 'Copy poem link' }).click();
   const poemLink = await page.getByLabel('Shareable poem link').inputValue();
 
-  expect(poemLink).toContain('/#poem=v1.');
+  expect(poemLink).toContain(
+    '/passages/frankenstein-1831-chapter-4-life-and-death/#poem=v1.',
+  );
   expect(poemLink.length).toBeLessThan(240);
   expect(poemLink).not.toContain('Life');
 

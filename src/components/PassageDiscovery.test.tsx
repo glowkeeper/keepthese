@@ -75,9 +75,7 @@ describe('passage discovery', () => {
       render(<PassageDiscovery journeys={journeys} passages={[]} />),
     ).toThrow('The passage shelf requires at least one passage.');
   });
-  it('presents a finite shelf and changes passage with its context intact', () => {
-    const scrollIntoView = installScrollIntoViewMock();
-    const runAnimationFrame = captureAnimationFrame();
+  it('presents a finite shelf of canonical passage links', () => {
     render(<PassageDiscovery journeys={journeys} passages={passages} />);
 
     expect(screen.getByText('2 pages, carefully chosen')).toBeTruthy();
@@ -88,77 +86,42 @@ describe('passage discovery', () => {
         .closest('details')
         ?.querySelectorAll('li'),
     ).toHaveLength(2);
-    fireEvent.click(
-      screen.getByRole('button', { name: /Persuasion Jane Austen/ }),
-    );
-    runAnimationFrame();
-
-    const heading = screen.getByRole('heading', { name: 'Persuasion' });
-    expect(heading).toBeTruthy();
-    expect(document.activeElement).toBe(heading);
-    expect(scrollIntoView).toHaveBeenCalledWith({
-      behavior: 'smooth',
-      block: 'start',
-    });
     expect(
       screen
-        .getByText('Choose a page')
-        .closest('details')
-        ?.hasAttribute('open'),
-    ).toBe(false);
+        .getByRole('link', { name: /Persuasion Jane Austen/ })
+        .getAttribute('href'),
+    ).toBe('/passages/persuasion-1818-chapter-4-prudence-and-romance/');
+    expect(document.querySelector('.source-byline')?.textContent).toBe(
+      'by Mary Wollstonecraft Shelley · first published 1818',
+    );
+    expect(
+      screen
+        .getByRole('link', {
+          name: /Frankenstein; Or, The Modern Prometheus/,
+        })
+        .getAttribute('aria-current'),
+    ).toBe('page');
+  });
+
+  it('opens on a passage selected by its route', () => {
+    render(
+      <PassageDiscovery
+        initialPassageId={passages[1]!.passageId}
+        journeys={journeys}
+        passages={passages}
+      />,
+    );
+
+    expect(screen.getByRole('heading', { name: 'Persuasion' })).toBeTruthy();
     expect(document.querySelector('.source-byline')?.textContent).toBe(
       'by Jane Austen · first published 1817',
     );
-    expect(
-      screen.getByText(
-        'Chapter IV · Project Gutenberg English transcription, presented as 1818',
-      ),
-    ).toBeTruthy();
-    expect(
-      screen
-        .getByRole('button', { name: /Persuasion Jane Austen/ })
-        .getAttribute('aria-pressed'),
-    ).toBe('true');
   });
 
-  it('avoids smooth scrolling when reduced motion is preferred', () => {
-    const scrollIntoView = installScrollIntoViewMock();
-    const runAnimationFrame = captureAnimationFrame();
-    vi.stubGlobal(
-      'matchMedia',
-      vi.fn(() => ({ matches: true })),
-    );
+  it('offers a one-action surprise without preselecting poem words', () => {
     render(<PassageDiscovery journeys={journeys} passages={passages} />);
 
-    fireEvent.click(screen.getByText('Choose a page'));
-    fireEvent.click(
-      screen.getByRole('button', {
-        name: /Frankenstein; Or, The Modern Prometheus/,
-      }),
-    );
-    runAnimationFrame();
-
-    expect(scrollIntoView).toHaveBeenCalledWith({
-      behavior: 'auto',
-      block: 'start',
-    });
-  });
-
-  it('offers a one-action surprise without choosing poem words', () => {
-    const scrollIntoView = installScrollIntoViewMock();
-    const runAnimationFrame = captureAnimationFrame();
-    vi.spyOn(Math, 'random').mockReturnValue(0);
-    render(<PassageDiscovery journeys={journeys} passages={passages} />);
-
-    fireEvent.click(screen.getByRole('button', { name: 'Surprise me' }));
-    runAnimationFrame();
-
-    const heading = screen.getByRole('heading', { name: 'Persuasion' });
-    expect(document.activeElement).toBe(heading);
-    expect(scrollIntoView).toHaveBeenCalledWith({
-      behavior: 'smooth',
-      block: 'start',
-    });
+    expect(screen.getByRole('button', { name: 'Surprise me' })).toBeTruthy();
     expect(screen.getByLabelText('Your poem text').textContent).toBe(
       'Your chosen words will gather here.',
     );
@@ -167,19 +130,16 @@ describe('passage discovery', () => {
   it('offers a finite literary path with clear position and navigation', () => {
     installScrollIntoViewMock();
     const runAnimationFrame = captureAnimationFrame();
-    render(<PassageDiscovery journeys={journeys} passages={passages} />);
-
-    fireEvent.click(screen.getByText('Follow a literary path'));
-    expect(screen.getByRole('heading', { name: 'A test path' })).toBeTruthy();
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Begin this 2-page path' }),
+    render(
+      <PassageDiscovery
+        initialJourneyId={journeys[0]!.journeyId}
+        initialPassageId={passages[1]!.passageId}
+        journeys={journeys}
+        passages={passages}
+      />,
     );
-    runAnimationFrame();
 
     expect(screen.getByText('Literary path · page 1 of 2')).toBeTruthy();
-    expect(document.activeElement).toBe(
-      screen.getByRole('heading', { name: 'A test path', level: 2 }),
-    );
     expect(screen.getByRole('heading', { name: 'Persuasion' })).toBeTruthy();
     expect(
       screen
@@ -198,20 +158,24 @@ describe('passage discovery', () => {
         name: 'Frankenstein; Or, The Modern Prometheus',
       }),
     ).toBeTruthy();
-    fireEvent.click(screen.getByRole('button', { name: 'Leave this path' }));
-    expect(screen.queryByText('Literary path · page 2 of 2')).toBeNull();
+    expect(
+      screen
+        .getByRole('link', { name: 'Leave this path' })
+        .getAttribute('href'),
+    ).toBe('/passages/frankenstein-1831-chapter-4-life-and-death/');
   });
 
   it('keeps each journey poem and resolves into an ordered sequence', async () => {
     installScrollIntoViewMock();
     const runAnimationFrame = captureAnimationFrame();
-    render(<PassageDiscovery journeys={journeys} passages={passages} />);
-
-    fireEvent.click(screen.getByText('Follow a literary path'));
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Begin this 2-page path' }),
+    render(
+      <PassageDiscovery
+        initialJourneyId={journeys[0]!.journeyId}
+        initialPassageId={passages[1]!.passageId}
+        journeys={journeys}
+        passages={passages}
+      />,
     );
-    runAnimationFrame();
 
     fireEvent.click(screen.getAllByRole('button', { name: /^Keep / })[0]!);
     fireEvent.click(
@@ -254,8 +218,10 @@ describe('passage discovery', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Complete this path' }));
     runAnimationFrame();
-    fireEvent.click(screen.getByRole('button', { name: 'Leave this path' }));
-    expect(screen.queryByText('Literary path complete')).toBeNull();
-    expect(screen.getByRole('heading', { name: 'Your poem' })).toBeTruthy();
+    expect(
+      screen
+        .getByRole('link', { name: 'Leave this path' })
+        .getAttribute('href'),
+    ).toContain('/passages/');
   });
 });

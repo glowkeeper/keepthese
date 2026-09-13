@@ -12,14 +12,19 @@ import {
 import type { PublicPassage } from '../lib/public-passage';
 import { decodePoemFragment } from '../lib/stateless-poem-link';
 import { segmentPassages } from '../lib/studio-state';
+import { journeyPath, passagePath } from '../lib/route-paths';
 import BlackoutStudio, { type KeptPoemWork } from './BlackoutStudio';
 
 interface PassageDiscoveryProps {
+  initialJourneyId?: string;
+  initialPassageId?: string;
   journeys: PublicLiteraryJourney[];
   passages: PublicPassage[];
 }
 
 export function PassageDiscovery({
+  initialJourneyId,
+  initialPassageId,
   journeys,
   passages,
 }: PassageDiscoveryProps) {
@@ -33,7 +38,9 @@ export function PassageDiscovery({
     work: KeptPoemWork;
   } | null>(null);
   const [poemLinkNotice, setPoemLinkNotice] = useState('');
-  const [activeJourneyId, setActiveJourneyId] = useState<string | null>(null);
+  const [activeJourneyId, setActiveJourneyId] = useState<string | null>(
+    initialJourneyId ?? null,
+  );
   const [journeyComplete, setJourneyComplete] = useState(false);
   const [journeyPoems, setJourneyPoems] = useState<
     Record<string, KeptPoemWork>
@@ -49,7 +56,7 @@ export function PassageDiscovery({
     'The complete sequence is created here and stays on this device.',
   );
   const [currentPassageId, setCurrentPassageId] = useState(
-    passages[0]?.passageId ?? '',
+    initialPassageId ?? passages[0]?.passageId ?? '',
   );
   const currentPassage = passages.find(
     ({ passageId }) => passageId === currentPassageId,
@@ -222,29 +229,8 @@ export function PassageDiscovery({
   }
 
   function surpriseMe() {
-    choosePassage(chooseSurprisePassage(passages, currentPassageId).passageId);
-  }
-
-  function beginJourney(journey: PublicLiteraryJourney) {
-    const firstPassageId = journey.passageIds[0];
-    if (!firstPassageId) return;
-    setJourneyPoems({});
-    choosePassage(firstPassageId, journey.journeyId);
-  }
-
-  function leaveJourney(openChooser = false) {
-    setActiveJourneyId(null);
-    setJourneyComplete(false);
-    setJourneyPoems({});
-
-    if (openChooser) {
-      requestAnimationFrame(() => {
-        journeyChooserRef.current?.setAttribute('open', '');
-        const summary = journeyChooserRef.current?.querySelector('summary');
-        summary?.focus({ preventScroll: true });
-        summary?.scrollIntoView({ block: 'start' });
-      });
-    }
+    const next = chooseSurprisePassage(passages, currentPassageId);
+    window.location.assign(passagePath(next.passageId));
   }
 
   function keepJourneyPoem(work: KeptPoemWork) {
@@ -365,10 +351,13 @@ export function PassageDiscovery({
           <ul>
             {passages.map((passage) => (
               <li key={passage.passageId}>
-                <button
-                  aria-pressed={passage.passageId === currentPassage.passageId}
-                  onClick={() => choosePassage(passage.passageId)}
-                  type="button"
+                <a
+                  aria-current={
+                    passage.passageId === currentPassage.passageId
+                      ? 'page'
+                      : undefined
+                  }
+                  href={passagePath(passage.passageId)}
                 >
                   <span>
                     <cite>{passage.work.title}</cite>
@@ -380,7 +369,7 @@ export function PassageDiscovery({
                       {passage.curation.motifs.slice(0, 2).join(' · ')}
                     </small>
                   </span>
-                </button>
+                </a>
               </li>
             ))}
           </ul>
@@ -393,9 +382,9 @@ export function PassageDiscovery({
                 <div className="journey-card">
                   <h3>{journey.title}</h3>
                   <p>{journey.invitation}</p>
-                  <button onClick={() => beginJourney(journey)} type="button">
+                  <a href={journeyPath(journey.journeyId)}>
                     Begin this {journey.passageIds.length}-page path
-                  </button>
+                  </a>
                 </div>
               </li>
             ))}
@@ -576,12 +565,8 @@ export function PassageDiscovery({
                     : 'Preparing sequence to share…'}
               </button>
             ) : null}
-            <button onClick={() => leaveJourney()} type="button">
-              Leave this path
-            </button>
-            <button onClick={() => leaveJourney(true)} type="button">
-              Choose another path
-            </button>
+            <a href={passagePath(currentPassage.passageId)}>Leave this path</a>
+            <a href="/">Choose another path</a>
           </div>
           <p className="journey-export-status" aria-live="polite">
             {journeyExportStatus}
@@ -599,9 +584,7 @@ export function PassageDiscovery({
                 {activeJourney.title}
               </h2>
             </div>
-            <button onClick={() => leaveJourney()} type="button">
-              Leave this path
-            </button>
+            <a href={passagePath(currentPassage.passageId)}>Leave this path</a>
           </div>
           <p>{activeJourney.invitation}</p>
           <ol aria-label={`${activeJourney.title} pages`}>

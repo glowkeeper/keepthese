@@ -1,0 +1,36 @@
+---
+import PassageDiscovery from '../../components/PassageDiscovery';
+import DiscoveryContext from '../../components/DiscoveryContext.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { passagePath } from '../../lib/route-paths';
+import { loadSiteContent } from '../../lib/site-content';
+
+export async function getStaticPaths() {
+  const content = await loadSiteContent();
+  return content.passages.map((passage) => ({
+    params: { passageId: passage.passageId },
+    props: { content, passage },
+  }));
+}
+const { content, passage } = Astro.props;
+const path = passagePath(passage.passageId);
+const description = `${passage.curation.context} Choose the words that speak and make a blackout poem.`;
+---
+
+<SiteLayout
+  canonicalPath={path}
+  description={description}
+  title={`Make blackout poetry from ${passage.work.title} — Keep These`}
+>
+  <DiscoveryContext
+    eyebrow="One page, carefully chosen"
+    title={passage.work.title}
+    note={content.discovery.passages[passage.passageId]!}
+  />
+  <PassageDiscovery
+    initialPassageId={passage.passageId}
+    journeys={content.journeys}
+    passages={content.passages}
+    client:load
+  />
+</SiteLayout>
