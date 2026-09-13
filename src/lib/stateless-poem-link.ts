@@ -82,10 +82,10 @@ export function decodePoemFragment(fragment: string): DecodedPoemLink {
 }
 
 export function poemShareUrl(
-  location: Pick<Location, 'hash' | 'origin' | 'pathname'>,
+  location: Pick<Location, 'origin'>,
   work: StatelessPoemWork,
 ): string {
-  return `${location.origin}${location.pathname}${encodePoemFragment(work)}`;
+  return `${location.origin}/passages/${encodeURIComponent(work.passageId)}/${encodePoemFragment(work)}`;
 }
 
 function isCompactPoem(

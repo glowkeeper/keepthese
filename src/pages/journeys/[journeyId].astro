@@ -1,0 +1,48 @@
+---
+import PassageDiscovery from '../../components/PassageDiscovery';
+import DiscoveryContext from '../../components/DiscoveryContext.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { journeyPath, passagePath } from '../../lib/route-paths';
+import { loadSiteContent } from '../../lib/site-content';
+
+export async function getStaticPaths() {
+  const content = await loadSiteContent();
+  return content.journeys.map((journey) => ({
+    params: { journeyId: journey.journeyId },
+    props: { content, journey },
+  }));
+}
+const { content, journey } = Astro.props;
+const path = journeyPath(journey.journeyId);
+const members = journey.passageIds.map((passageId) => {
+  const passage = content.passages.find(
+    (candidate) => candidate.passageId === passageId,
+  );
+  if (!passage) throw new Error(`Missing passage ${passageId}.`);
+  return {
+    href: passagePath(passageId),
+    title: passage.work.title,
+    author: passage.work.author.name,
+  };
+});
+---
+
+<SiteLayout
+  canonicalPath={path}
+  description={journey.invitation}
+  title={`${journey.title}: a blackout poetry journey — Keep These`}
+>
+  <DiscoveryContext
+    eyebrow={`A ${journey.passageIds.length}-page literary path`}
+    title={journey.title}
+    note={content.discovery.journeys[journey.journeyId]!}
+    members={members}
+  />
+  <PassageDiscovery
+    initialJourneyId={journey.journeyId}
+    initialPassageId={journey.passageIds[0]}
+    journeys={content.journeys}
+    passages={content.passages}
+    client:load
+  />
+</SiteLayout>

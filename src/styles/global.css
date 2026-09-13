@@ -81,6 +81,11 @@ h1 {
   line-height: 0.88;
 }
 
+.wordmark-route {
+  color: inherit;
+  text-decoration: none;
+}
+
 .wordmark__line {
   position: relative;
   z-index: 0;
@@ -601,6 +606,8 @@ h1 {
 }
 
 .surprise-action {
+  display: inline-flex;
+  align-items: center;
   justify-self: start;
   min-height: 2.75rem;
   padding: 0.55rem 1rem;
@@ -609,6 +616,8 @@ h1 {
   color: #f8f2e7;
   background: #292621;
   cursor: pointer;
+  font-family: system-ui, sans-serif;
+  text-decoration: none;
 }
 
 .passage-discovery details {
@@ -633,7 +642,7 @@ h1 {
   list-style: none;
 }
 
-.passage-chooser li button {
+.passage-chooser li a {
   display: grid;
   gap: 0.4rem 1rem;
   width: 100%;
@@ -644,14 +653,15 @@ h1 {
   color: #292621;
   background: rgb(248 242 231 / 55%);
   cursor: pointer;
+  text-decoration: none;
   text-align: left;
 }
 
-.passage-chooser li button:hover {
+.passage-chooser li a:hover {
   border-color: #762713;
 }
 
-.passage-chooser li button[aria-pressed='true'] {
+.passage-chooser li a.is-selected {
   border-color: #762713;
   box-shadow: inset 0.2rem 0 #762713;
 }
@@ -660,6 +670,11 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+}
+
+.passage-chooser li a,
+.journey-card a {
+  font-family: system-ui, sans-serif;
 }
 
 .passage-chooser li small {
@@ -689,7 +704,8 @@ h1 {
   line-height: 1.5;
 }
 
-.journey-card button {
+.journey-card a {
+  display: inline-block;
   margin-top: 0.85rem;
   padding: 0;
   border: 0;
@@ -863,13 +879,14 @@ h1 {
   justify-content: space-between;
 }
 
-.active-journey-heading > button,
+.active-journey-heading > a,
 .journey-actions button,
+.journey-actions a,
 .active-journey ol button {
   font-family: system-ui, sans-serif;
 }
 
-.active-journey-heading > button {
+.active-journey-heading > a {
   padding: 0;
   border: 0;
   color: #655e55;
@@ -933,6 +950,115 @@ h1 {
   cursor: pointer;
 }
 
+.journey-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #4c443a;
+  color: #292621;
+  text-underline-offset: 0.2em;
+}
+
+.discovery-context,
+.practice-guide {
+  max-width: 46rem;
+  margin-top: clamp(2.5rem, 7vw, 5rem);
+}
+
+.discovery-context nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 2rem;
+  color: #655e55;
+  font-family: system-ui, sans-serif;
+  font-size: 0.82rem;
+}
+
+.discovery-context nav a,
+.discovery-context ol a,
+.practice-guide a {
+  color: #762713;
+  text-underline-offset: 0.2em;
+}
+
+.discovery-context h1,
+.practice-guide h1 {
+  margin: 0;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  line-height: 1.05;
+}
+
+.discovery-context > p:last-of-type,
+.practice-guide > p,
+.practice-guide li {
+  font-size: clamp(1.05rem, 2vw, 1.18rem);
+  line-height: 1.65;
+}
+
+.discovery-context ol {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.discovery-context ol a {
+  display: flex;
+  gap: 0.35rem 1rem;
+  justify-content: space-between;
+  padding: 0.7rem 0;
+  border-top: 1px solid rgb(41 38 33 / 20%);
+}
+
+.discovery-context ol span {
+  color: #655e55;
+  font-family: system-ui, sans-serif;
+  font-size: 0.82rem;
+  text-align: right;
+}
+
+.related-journeys {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgb(41 38 33 / 20%);
+}
+
+.related-journeys h2 {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.related-journeys ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.related-journeys a {
+  color: #762713;
+  text-underline-offset: 0.2em;
+}
+
+.practice-guide h2 {
+  margin: 2.5rem 0 0.5rem;
+  font-size: clamp(1.65rem, 4vw, 2.4rem);
+}
+
+.practice-guide blockquote {
+  margin: 2rem 0;
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  border-left: 0.25rem solid #762713;
+}
+
 .journey-actions button:disabled {
   cursor: not-allowed;
   opacity: 0.45;
@@ -969,7 +1095,7 @@ h1 {
     grid-area: eyebrow;
   }
 
-  .site-header h1 {
+  .site-header .brand-heading {
     grid-area: wordmark;
   }
 
@@ -987,7 +1113,7 @@ h1 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .passage-chooser li button {
+  .passage-chooser li a {
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   }
 
