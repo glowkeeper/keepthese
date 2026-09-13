@@ -22,9 +22,9 @@ journey collections as the public routes. It then runs
 - an indexable page is `noindex`, the 404 is not `noindex`, or `robots.txt`
   stops declaring the production sitemap.
 
-The sitemap contains only the homepage, practice guide, twenty passage pages,
-and three literary journeys. Error pages and maker-state fragments are never
-entries.
+The sitemap contains only the homepage, practice guide, about and privacy
+pages, twenty passage pages, and three literary journeys. Error pages and
+maker-state fragments are never entries.
 
 ## Deployment verification
 
@@ -81,9 +81,10 @@ behaviour. The strengthened check correctly failed because production still
 had the pre-implementation one-URL sitemap and had not yet deployed the new
 JSON-LD records.
 
-The issue is not production-verified until the post-deployment command passes
-with all 25 routes. Add that successful timestamp to this section after the
-change reaches `https://keepthese.com`.
+The post-deployment command passed all 25 routes at
+`2026-09-13T12:08:33.165Z` for merge commit `ed86331`. The later addition of
+the about and privacy routes increases the intended canonical set to 27 and
+must receive the same production check after deployment.
 
 The pre-commit local verification on the same date covered homepage, guide,
 passage, and journey routes. Mobile Lighthouse returned 100 for accessibility

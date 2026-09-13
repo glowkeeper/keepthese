@@ -276,9 +276,10 @@ and matching Open Graph and Twitter metadata. It also emits a restrained
 visible two-level navigation on passage and journey pages. No schema claims
 authorship or publication of the underlying literary work.
 
-The sitemap is a static Astro endpoint generated from the same validated
-passage and journey collections as the pages. The build verifies its exact
-parity with every indexable HTML canonical and checks metadata uniqueness,
+The sitemap is a static Astro endpoint generated from the fixed public utility
+routes and the same validated passage and journey collections as the pages.
+The build verifies its exact parity with every indexable HTML canonical and
+checks metadata uniqueness,
 structured-data shape, crawler directives, and the 404's `noindex`. Production
 response and canonical-host checks are maintained in
 [`seo-verification.md`](seo-verification.md).

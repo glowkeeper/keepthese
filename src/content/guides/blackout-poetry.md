@@ -23,10 +23,12 @@ choose ink or graphite for the finished page. You can download an attributed PNG
 or copy a stateless link. Unfinished work stays in this browser; Keep These has
 no accounts, analytics or poem uploads.
 
+## Stay in conversation with the source
+
 The original work does not disappear from the encounter. Every page names its
-author, publication context and source edition, with a route back to the text.
-The words you keep form your poem, while that visible credit preserves the
-conversation from which it came.
+original author and links back to the source edition. The words you keep—and
+the poem you find—are yours, while that visible credit preserves the
+conversation from which they came.
 
 ## Make the choices yourself
 
