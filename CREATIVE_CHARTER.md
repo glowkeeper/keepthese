@@ -2,7 +2,7 @@
 
 ## Central tenet
 
-Keep These should be **calm, beautiful, and human-made**.
+Keep These should be **calm and beautiful**.
 
 It is a quiet instrument for finding poems. The source author supplies the
 landscape; the maker notices and chooses a new path through it.

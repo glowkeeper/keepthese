@@ -1,6 +1,6 @@
 ---
 title: How to make blackout poetry
-description: Meet a page of classic writing, keep the words that speak, and let the rest fall away in a private, human-made poetry practice.
+description: Meet a page of classic writing, keep the words that speak, and let the rest fall away in a private blackout-poetry practice.
 ---
 
 ## Begin with a page, not a blank
