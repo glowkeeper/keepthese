@@ -90,19 +90,12 @@ const isHomepage = canonicalPath === '/';
       </header>
       <slot />
       <footer class="site-footer">
-        <div>
-          <p class="eyebrow">Private by design</p><p>
-            Your unfinished work stays in this browser. PNGs are made on your
-            device. Keep These has no accounts, analytics, or poem uploads.
-          </p>
-        </div>
-        <div>
-          <p class="eyebrow">In conversation</p><p>
-            Every page names its original author and links back to the source
-            edition. The words you keep—and the poem you find—are yours.{' '}
-            <a href="/blackout-poetry/">How to make blackout poetry.</a>
-          </p>
-        </div>
+        <nav aria-label="Footer">
+          <a href="/blackout-poetry/">How</a>
+          <a href="/about/">About</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+        <p><small>© 2026 Keep These</small></p>
       </footer>
     </main>
   </body>

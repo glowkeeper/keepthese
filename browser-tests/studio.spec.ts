@@ -553,13 +553,18 @@ test('release metadata and local brand assets are complete', async ({
     'aria-label',
     'Keep These',
   );
-  await expect(page.locator('.site-footer')).toContainText('Private by design');
-  await expect(page.locator('.site-footer')).toContainText(
-    'the poem you find—are yours. How to make blackout poetry.',
-  );
   await expect(
-    page.getByRole('link', { name: 'How to make blackout poetry.' }),
+    page.getByRole('link', { name: 'How', exact: true }),
   ).toHaveAttribute('href', '/blackout-poetry/');
+  await expect(page.getByRole('link', { name: 'About' })).toHaveAttribute(
+    'href',
+    '/about/',
+  );
+  await expect(page.getByRole('link', { name: 'Privacy' })).toHaveAttribute(
+    'href',
+    '/privacy/',
+  );
+  await expect(page.locator('.site-footer')).toContainText('© 2026 Keep These');
 
   for (const path of [
     '/favicon.svg',
@@ -591,7 +596,9 @@ test('search metadata describes the site and exact canonical route set', async (
   expect(sitemapResponse.status()).toBe(200);
   expect(sitemapResponse.headers()['content-type']).toContain('xml');
   const sitemap = await sitemapResponse.text();
-  expect([...sitemap.matchAll(/<loc>/gu)]).toHaveLength(25);
+  expect([...sitemap.matchAll(/<loc>/gu)]).toHaveLength(27);
+  expect(sitemap).toContain('<loc>https://keepthese.com/about/</loc>');
+  expect(sitemap).toContain('<loc>https://keepthese.com/privacy/</loc>');
   expect(sitemap).toContain(
     '<loc>https://keepthese.com/passages/frankenstein-1831-chapter-4-life-and-death/</loc>',
   );
@@ -679,8 +686,29 @@ test('the blackout poetry guide explains the human-made practice', async ({
   await expect(page.locator('.practice-guide')).toContainText(
     'not affiliated with or endorsed by Psyche, Andrew Lavers or Austin Kleon',
   );
+  await expect(page.locator('.practice-guide')).toContainText(
+    'Every page names its original author and links back to the source edition.',
+  );
   await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(
     0,
+  );
+});
+
+test('about and privacy pages explain the project and its private design', async ({
+  page,
+}) => {
+  await page.goto('/about/');
+  await expect(
+    page.getByRole('heading', { name: 'About Keep These' }),
+  ).toBeVisible();
+  await expect(page.locator('.practice-guide')).toContainText(
+    'It never chooses words or composes a poem for you.',
+  );
+
+  await page.goto('/privacy/');
+  await expect(page.getByRole('heading', { name: 'Privacy' })).toBeVisible();
+  await expect(page.locator('.practice-guide')).toContainText(
+    'no accounts, analytics, advertising trackers, or poem uploads',
   );
 });
 
