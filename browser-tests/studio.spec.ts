@@ -568,6 +568,37 @@ test('release metadata and local brand assets are complete', async ({
   }
 });
 
+test('search metadata describes the site and exact canonical route set', async ({
+  page,
+}) => {
+  const websiteData = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ??
+      '',
+  );
+  expect(websiteData).toEqual({
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    description:
+      'Make blackout poetry from a carefully chosen shelf of classic writing.',
+    name: 'Keep These',
+    url: 'https://keepthese.com/',
+  });
+
+  const sitemapResponse = await page.request.get('/sitemap.xml');
+  expect(sitemapResponse.status()).toBe(200);
+  expect(sitemapResponse.headers()['content-type']).toContain('xml');
+  const sitemap = await sitemapResponse.text();
+  expect([...sitemap.matchAll(/<loc>/gu)]).toHaveLength(25);
+  expect(sitemap).toContain(
+    '<loc>https://keepthese.com/passages/frankenstein-1831-chapter-4-life-and-death/</loc>',
+  );
+  expect(sitemap).toContain(
+    '<loc>https://keepthese.com/journeys/thresholds-and-departures/</loc>',
+  );
+  expect(sitemap).not.toContain('#poem=');
+  expect(sitemap).not.toContain('/404');
+});
+
 test('a passage route provides editorial context and opens its studio page', async ({
   page,
 }) => {
@@ -582,6 +613,11 @@ test('a passage route provides editorial context and opens its studio page', asy
   await expect(page.getByRole('heading', { name: 'Persuasion' })).toHaveCount(
     2,
   );
+  const breadcrumbData = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ??
+      '',
+  );
+  expect(breadcrumbData.itemListElement[1].name).toBe('Persuasion');
   await page.getByText('Choose a page', { exact: true }).click();
   await expect(
     page.getByRole('link', {
@@ -605,6 +641,25 @@ test('a journey route provides its reading context and starts at page one', asyn
   await expect(
     page.getByRole('heading', { name: "Alice's Adventures in Wonderland" }),
   ).toBeVisible();
+  const breadcrumbData = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ??
+      '',
+  );
+  expect(breadcrumbData['@type']).toBe('BreadcrumbList');
+  expect(breadcrumbData.itemListElement).toEqual([
+    {
+      '@type': 'ListItem',
+      item: 'https://keepthese.com/',
+      name: 'Keep These',
+      position: 1,
+    },
+    {
+      '@type': 'ListItem',
+      item: 'https://keepthese.com/journeys/thresholds-and-departures/',
+      name: 'Thresholds and departures',
+      position: 2,
+    },
+  ]);
 });
 
 test('the blackout poetry guide explains the human-made practice', async ({
@@ -620,6 +675,9 @@ test('the blackout poetry guide explains the human-made practice', async ({
   );
   await expect(page.locator('.practice-guide')).toContainText(
     'not affiliated with or endorsed by Psyche, Andrew Lavers or Austin Kleon',
+  );
+  await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(
+    0,
   );
 });
 
@@ -655,6 +713,9 @@ test('unknown routes offer a calm way back', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'This page fell away.' }),
   ).toBeVisible();
+  await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(
+    0,
+  );
   await page.getByRole('link', { name: 'Return to Keep These' }).click();
   await expect(page).toHaveURL('/');
 });
@@ -871,6 +932,11 @@ test('a poem link reconstructs attributed work without changing recipient work',
 test('a poem fragment on a journey route resolves to its passage canonical', async ({
   page,
 }) => {
+  const documentRequests: string[] = [];
+  page.on('request', (request) => {
+    if (request.resourceType() === 'document')
+      documentRequests.push(request.url());
+  });
   const fragment = encodePoemFragment({
     blackout: true,
     material: 'ink',
@@ -880,6 +946,8 @@ test('a poem fragment on a journey route resolves to its passage canonical', asy
   });
 
   await page.goto(`/journeys/divided-and-becoming/${fragment}`);
+
+  expect(documentRequests.every((url) => !url.includes('#poem='))).toBe(true);
 
   await expect
     .poll(() => new URL(page.url()).pathname)

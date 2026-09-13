@@ -4,6 +4,7 @@ import DiscoveryContext from '../../components/DiscoveryContext.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import { journeyPath, passagePath } from '../../lib/route-paths';
 import { loadSiteContent } from '../../lib/site-content';
+import { breadcrumbStructuredData } from '../../lib/structured-data';
 
 export async function getStaticPaths() {
   const content = await loadSiteContent();
@@ -30,6 +31,7 @@ const members = journey.passageIds.map((passageId) => {
 <SiteLayout
   canonicalPath={path}
   description={journey.invitation}
+  structuredData={breadcrumbStructuredData(Astro.site!, journey.title, path)}
   title={`${journey.title}: a blackout poetry journey — Keep These`}
 >
   <DiscoveryContext

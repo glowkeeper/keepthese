@@ -8,6 +8,7 @@ interface Props {
   canonicalPath: string;
   eyebrow?: string;
   introduction?: string;
+  structuredData?: Record<string, unknown>;
 }
 
 const {
@@ -16,6 +17,7 @@ const {
   canonicalPath,
   eyebrow = 'A quiet blackout poetry studio',
   introduction = 'Find the poem that was waiting in the page.',
+  structuredData,
 } = Astro.props;
 const canonicalUrl = new URL(canonicalPath, Astro.site);
 const socialImageUrl = new URL('/brand/keep-these-og.png', Astro.site);
@@ -54,6 +56,15 @@ const isHomepage = canonicalPath === '/';
       name="twitter:image:alt"
       content="Keep These — find a poem hiding in a page"
     />
+    {
+      structuredData && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(structuredData).replace(/</gu, '\\u003c')}
+        />
+      )
+    }
     <title>{title}</title>
   </head>
   <body>
@@ -63,13 +74,13 @@ const isHomepage = canonicalPath === '/';
         {
           isHomepage ? (
             <h1 class="brand-heading">
-              <a class="wordmark-route" href="/" aria-label="Keep These home">
+              <a class="wordmark-route" href="/">
                 <Wordmark />
               </a>
             </h1>
           ) : (
             <div class="brand-heading">
-              <a class="wordmark-route" href="/" aria-label="Keep These home">
+              <a class="wordmark-route" href="/">
                 <Wordmark />
               </a>
             </div>

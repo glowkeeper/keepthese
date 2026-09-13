@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run typecheck && astro build",
+    "build": "npm run typecheck && astro build && node scripts/verify-search-output.mjs",
     "preview": "astro preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -13,6 +13,7 @@
     "typecheck": "astro check",
     "lint": "eslint . --max-warnings 0",
     "lint:markdown": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
+    "verify:search:production": "npm run build && node scripts/verify-production-search.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check": "npm run format:check && npm run lint && npm run lint:markdown && npm test && npm run build"
