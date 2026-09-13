@@ -21,6 +21,11 @@ Keep These currently uses Astro for its static, content-led site and React for
 the interactive studio boundary. It requires the Node.js release pinned in
 `.node-version` and npm.
 
+No environment variables or service credentials are required to build, test,
+or run the application locally. Keep local credentials in ignored `.env` or
+`*.local` files and never commit them. If configuration is introduced later,
+commit only a value-free `.env.example` describing the required names.
+
 ```sh
 npm ci
 npm run dev
