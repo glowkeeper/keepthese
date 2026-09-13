@@ -90,14 +90,28 @@ treating previews as an accepted contribution path. See Cloudflare's
 After the maintainer gives explicit approval:
 
 1. apply the agreed GitHub repository profile and Actions settings;
-2. change repository visibility to public;
-3. enable the public-repository security settings and protect `main`;
-4. clone the repository anonymously into a clean directory;
-5. run `npm ci` and `npm run check` from that clone;
-6. verify <https://keepthese.com> still serves the production deployment;
-7. confirm the Cloudflare production branch and preview policy;
-8. record the settings, commands, results, and publication time in issue #79;
-9. close issue #79 only after all acceptance criteria are evidenced.
+2. verify the final GitHub and Cloudflare permissions and record them in issue
+   #79;
+3. repeat the reachable-history signature and entropy scans against the final
+   `main` commit;
+4. clone the final `main` from GitHub into a new directory without local object
+   sharing, using authenticated access while the repository remains private;
+5. confirm that clone contains only the intended tracked paths and no
+   unexpected remote branch or tag;
+6. in that clone, run `npm ci`, `npm run check`,
+   `npx playwright install chromium`, and `npm run test:browser`;
+7. record all pre-publication results in issue #79 and stop if any result is not
+   clean;
+8. change repository visibility to public;
+9. enable the public-repository security settings and protect `main`;
+10. anonymously clone the public repository into another clean directory and
+    confirm the expected final commit, tracked paths, branches, and tags, then
+    run `npm ci` and `npm run check` there;
+11. verify <https://keepthese.com> still serves the production deployment and
+    confirm the Cloudflare production branch and preview policy;
+12. record the public URL, anonymous-clone result, final settings, and
+    publication time in issue #79;
+13. close issue #79 only after all acceptance criteria are evidenced.
 
 If any post-publication check fails, record the failure immediately and either
 correct it or return the repository to private while the cause is assessed.

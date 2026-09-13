@@ -14,9 +14,12 @@ details, exploit steps, private poem content, credentials, or personal data.
 
 Use GitHub's
 [private vulnerability reporting form](https://github.com/glowkeeper/keepthese/security/advisories/new).
-If that form is unavailable, use the private contact route on the maintainer's
-GitHub profile and include only enough non-sensitive information to arrange a
-secure follow-up.
+Until that form is enabled as part of the public-repository release, or whenever
+it is unavailable, email the maintainer at
+[steve@huckle.studio](mailto:steve@huckle.studio). The address is also published
+on the maintainer's GitHub profile. Use the subject `Keep These security report`
+and include only enough information to arrange a secure follow-up if ordinary
+email is not suitable for the sensitive details.
 
 Include, where safe:
 

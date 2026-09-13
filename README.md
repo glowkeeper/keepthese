@@ -88,11 +88,12 @@ Browser failures retain screenshots and traces in ignored local directories.
 
 ## Contributing
 
-The source is public primarily for transparency, learning, and permitted reuse.
-Bug reports, accessibility findings, and focused corrections are welcome, but
-public availability does not create an obligation to accept a proposal or
-provide support. Please read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening
-an issue or pull request.
+The source is being prepared for public release primarily for transparency,
+learning, and permitted reuse. Bug reports, accessibility findings, and focused
+corrections are welcome once that release is complete, but public availability
+will not create an obligation to accept a proposal or provide support. Please
+read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening an issue or pull
+request.
 
 Report vulnerabilities privately as described in
 [`SECURITY.md`](SECURITY.md), never through a public issue.

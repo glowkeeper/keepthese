@@ -2,11 +2,11 @@
 
 Thank you for taking the time to improve Keep These.
 
-The repository is public primarily for transparency, learning, and reuse under
-its stated licences. Thoughtful bug reports, accessibility findings, and
-focused corrections are welcome. The maintainer is not currently committing to
-accept unsolicited features, expand the literary shelf, or provide individual
-support.
+The repository is intended to be public primarily for transparency, learning,
+and reuse under its stated licences. Once publication is complete, thoughtful
+bug reports, accessibility findings, and focused corrections are welcome. The
+maintainer is not currently committing to accept unsolicited features, expand
+the literary shelf, or provide individual support.
 
 ## Before opening an issue
 
