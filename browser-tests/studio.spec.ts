@@ -702,7 +702,7 @@ test('about and privacy pages explain the project and its private design', async
     page.getByRole('heading', { name: 'About Keep These' }),
   ).toBeVisible();
   await expect(page.locator('.practice-guide')).toContainText(
-    'Keep These is a blackout-poetry app.',
+    'Keep These is a blackout-poetry app that never chooses words or composes a poem for you.',
   );
   await expect(
     page.getByRole('link', { name: 'blackout-poetry app' }),
