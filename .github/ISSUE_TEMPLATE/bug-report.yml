@@ -1,0 +1,61 @@
+name: Bug report
+description: Report a reproducible problem with Keep These.
+title: ""
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        Thank you for helping improve Keep These. Do not include vulnerabilities,
+        credentials, private poem content, or another person's personal data.
+        Use the private route in SECURITY.md for sensitive reports.
+  - type: textarea
+    id: observed
+    attributes:
+      label: What happened?
+      description: Describe the observed behaviour and its effect.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Give the smallest safe sequence that reproduces the problem.
+      placeholder: |-
+        1. Open…
+        2. Choose…
+        3. Observe…
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and device
+      description: Include browser version, operating system, and device or viewport where relevant.
+      placeholder: Firefox 143, macOS 27, desktop
+    validations:
+      required: true
+  - type: dropdown
+    id: input
+    attributes:
+      label: Input method
+      options:
+        - Pointer or mouse
+        - Touch
+        - Keyboard
+        - Assistive technology
+        - Not applicable
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safe public report
+      options:
+        - label: This report contains no vulnerability details, credentials, private poem content, or personal data.
+          required: true

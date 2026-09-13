@@ -3,6 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "license": "SEE LICENSE IN LICENSING.md",
+  "homepage": "https://keepthese.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glowkeeper/keepthese.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glowkeeper/keepthese/issues"
+  },
   "type": "module",
   "scripts": {
     "dev": "astro dev",
