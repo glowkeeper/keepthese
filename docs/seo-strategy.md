@@ -130,8 +130,9 @@ content entry at `src/content/guides/blackout-poetry.md`. Issue #67 owns draftin
 it and presenting it to the maintainer for editorial approval. It must explain
 blackout and erasure as related practices without claiming authority over the
 form, and it must preserve the non-affiliation statement concerning Psyche,
-Andrew Lavers, and Austin Kleon in `PRODUCT.md`. It is covered by the intended
-documentation licence in `LICENSING.md`, not by the literary-source records.
+Andrew Lavers, and Austin Kleon in `PRODUCT.md`. It is covered by the active
+documentation licence in `LICENSE-CONTENT.md`, not by the literary-source
+records.
 
 ### Route into making
 

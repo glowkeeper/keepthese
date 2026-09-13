@@ -67,6 +67,7 @@ independent job on pull requests and pushes to `main`.
 - [Version 0 evaluation](docs/evaluations/version-0.md)
 - [Source material and rights](docs/source-material.md)
 - [Licensing](LICENSING.md)
+- [Documentation and metadata licence](LICENSE-CONTENT.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
 - [Project workflow](docs/project-workflow.md)
 - [First public release](docs/release.md)

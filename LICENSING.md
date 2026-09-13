@@ -2,26 +2,34 @@
 
 ## Current status
 
-Keep These is currently developed in a private repository. No permission is
-granted to copy, distribute, modify, publish, or otherwise reuse unpublished
-original project material except where this document or another accompanying
-notice explicitly says otherwise.
+Keep These is preparing its repository for public distribution. The licences
+and reservations below are active for material in this repository from
+13 September 2026; they do not depend on GitHub repository visibility.
 
-Repository access does not itself grant a licence. This preserves the project's
-options while its code, visual identity, editorial collection, and release
-model are still being formed.
+Repository access alone grants no rights beyond an applicable licence or other
+accompanying notice. In particular, public access to a file does not place it in
+the public domain or bring it within the software licence.
 
-## Intended public-release model
+## Licence map
 
-Before the repository or application source is distributed publicly, the
-project intends to activate the following licences. This statement records an
-intention; it is not itself the grant of those future licences.
+| Material | Location | Treatment |
+| --- | --- | --- |
+| Original application and test code | `src/` except `src/content/`; `scripts/`; functional text files in `public/`; root configuration files; `.github/` | MIT License in `LICENSE` |
+| Original project documentation | Root Markdown files and `docs/`, subject to identified exclusions | CC BY 4.0 notice in `LICENSE-CONTENT.md` |
+| Original guide and editorial metadata | `src/content/guides/`, original editorial fields in `src/content/journeys/`, `src/content/passages/`, and `src/content/discovery.json` | CC BY 4.0 notice in `LICENSE-CONTENT.md` |
+| Literary passages and source records | Literary text and third-party transcription/provenance fields in `src/content/passages/` and `docs/sources/` | Not relicensed; individual public-domain evidence and source terms apply |
+| Name, brand, and distinctive visual identity | `public/brand/` and brand-bearing icons in `public/` | All rights reserved; see the adjacent `RIGHTS.md` notices. The source that renders these assets remains MIT-licensed |
+| Original generated textures | `public/materials/` | All rights reserved; see the adjacent `RIGHTS.md` |
+| Third-party software and material | As indexed in `THIRD_PARTY_NOTICES.md` and the package lock | Upstream licences and terms apply |
+| Maker-created work | A maker's device or deliberately shared output | The maker retains whatever rights they hold |
+
+Mixed files must be read field by field: a CC BY 4.0 editorial note beside a
+public-domain passage does not change the passage's status, and bibliographic
+facts do not acquire copyright through inclusion in the record.
 
 ### Original application source code
 
-Original software code will be released under the MIT License unless a later
-recorded decision changes that choice. The formal MIT licence text will be
-added immediately before public distribution.
+Original software code is released under the MIT License in `LICENSE`.
 
 The software licence will not cover the Keep These name or branding, original
 visual assets, project documentation, curated metadata, literary source texts,
@@ -29,25 +37,33 @@ or user-created work.
 
 ### Project documentation
 
-Original project documentation will be released under the Creative Commons
-Attribution 4.0 International licence (CC BY 4.0). Reuse will require
+Original project documentation is released under the Creative Commons
+Attribution 4.0 International licence (CC BY 4.0) under the notice and material
+scope in `LICENSE-CONTENT.md`. Reuse requires
 appropriate credit, a link to the licence, and an indication of changes. It
 must not imply endorsement by Keep These or its contributors.
 
 ### Curated metadata
 
-Original editorial metadata created for the passage collection will be
-released under CC BY 4.0. This includes original contextual notes and curation,
+Eligible original editorial metadata created for the passage collection is
+released under CC BY 4.0 under the notice and material scope in
+`LICENSE-CONTENT.md`. This includes original contextual notes and curation,
 but not facts, public-domain material, third-party descriptions, or rights the
 project does not own.
 
 ### Brand and original visual assets
 
 The Keep These name, wordmark, logo, distinctive visual identity, original
-textures, illustrations, and other original visual assets remain all rights
-reserved unless an individual asset carries a separate licence.
+textures, illustrations, social images, icons, and other original visual assets
+remain all rights reserved unless an individual asset carries a separate
+licence. Directory-level notices accompany `public/brand/` and
+`public/materials/`.
 
-Open-source availability of the application code will not grant permission to
+The source code and styles that render or arrange those assets remain within
+the MIT licence. That software grant does not grant rights in the marks or asset
+files themselves.
+
+Open-source availability of the application code does not grant permission to
 present another product as Keep These or to reuse its identity wholesale.
 
 ## Literary source texts
@@ -103,18 +119,20 @@ The application should generate source attribution from structured passage
 records. Notices must not imply that an original author, estate, publisher,
 archive, catalogue, or technology provider endorses Keep These.
 
-## Before public distribution
+## Before changing repository visibility
 
-Before making the repository or a source distribution public:
+The licence activation and material notices are complete. Before changing the
+GitHub repository from private to public, the project must still:
 
-1. add the complete MIT License text with the correct copyright notice;
-2. add a CC BY 4.0 notice covering the identified documentation and metadata;
-3. mark reserved brand and visual assets clearly;
-4. complete all applicable third-party notices;
-5. audit every bundled passage's rights and provenance record;
-6. reconcile package metadata, file headers, exports, and application credits
-   with this policy;
-7. obtain professional advice where a material uncertainty remains.
+1. audit the current tree and complete reachable Git history for secrets,
+   personal data, private operational records, and material that cannot be
+   publicly distributed;
+2. verify that every bundled passage retains its rights and provenance record;
+3. confirm public repository settings, contribution expectations, security
+   reporting, and deployment permissions;
+4. reconcile any material introduced after this licence audit with this policy;
+5. obtain professional advice where a material uncertainty remains;
+6. obtain the maintainer's explicit approval for the visibility change.
 
-This document records project policy and intended licensing. It is not legal
-advice and does not determine rights the project does not own.
+This document records project policy and licensing. It is not legal advice and
+does not determine rights the project does not own.

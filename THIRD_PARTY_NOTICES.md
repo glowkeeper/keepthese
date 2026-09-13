@@ -1,11 +1,12 @@
 # Third-party notices
 
-Keep These is currently a private project. It contains application and
-development dependencies managed through npm, twenty public-domain literary
-passages, and four original visual textures generated through OpenArt and
-curated for this project. The textures remain reserved as Keep These visual assets
-under `LICENSING.md`; they are not covered by the software or documentation
-licences.
+Keep These contains application and development dependencies managed through
+npm, twenty public-domain literary passages, and four original visual textures
+generated through OpenArt and curated for this project. Public repository
+access does not change the terms of any third-party material. The textures
+remain reserved as Keep These visual assets under `LICENSING.md` and
+`public/materials/RIGHTS.md`; they are not covered by the software or
+documentation licences.
 
 ## Generated visual materials
 
@@ -16,9 +17,8 @@ optimisation steps are recorded in [`docs/visual-material-provenance.md`](docs/v
 
 OpenArt's applicable account and service terms govern the generated outputs and
 their reuse. These assets were generated with OpenArt: the service helps build
-the instrument; it does not play the instrument for the maker. Reuse outside
-this private repository requires maintainer permission until an asset-specific
-notice says otherwise.
+the instrument; it does not play the instrument for the maker. Reuse requires
+maintainer permission unless an asset-specific notice says otherwise.
 
 ## Literary source material
 
@@ -51,24 +51,66 @@ attribution, and curation metadata live with each passage in
 limitations are in `docs/sources/`. Project Gutenberg's name and terms remain
 its own; these acknowledgements do not imply endorsement.
 
-## Application dependencies
+## Software dependencies
 
-The static application currently uses:
+The production application is a static build. It has no remotely loaded runtime
+library and no server-side package installation. Each package link below opens
+the exact npm distribution record reviewed on 13 September 2026. The copyright
+holder comes from the installed package's licence file, which is the
+authoritative notice distributed with that package.
 
-| Component | Purpose | Licence |
+| Package and source | Copyright notice | Purpose | Licence |
+| --- | --- | --- | --- |
+| [`astro` 7.3.1](https://www.npmjs.com/package/astro/v/7.3.1) | Fred K. Schott | Static site and build framework | MIT |
+| [`@astrojs/react` 6.0.5](https://www.npmjs.com/package/@astrojs/react/v/6.0.5) | Fred K. Schott | React rendering and hydration integration | MIT |
+| [`react` 19.2.8](https://www.npmjs.com/package/react/v/19.2.8) | Meta Platforms, Inc. and affiliates | Interactive studio component model | MIT |
+| [`react-dom` 19.2.8](https://www.npmjs.com/package/react-dom/v/19.2.8) | Meta Platforms, Inc. and affiliates | Browser rendering | MIT |
+
+The direct development dependencies are used to check, format, test, and build
+the project and are not separately shipped as hosted application services:
+
+| Package and source | Copyright notice | Licence |
 | --- | --- | --- |
-| Astro | Static site and build framework | MIT |
-| Astro React integration | React rendering and hydration | MIT |
-| React | Interactive studio component model | MIT |
-| React DOM | Browser rendering for React | MIT |
+| [`@astrojs/check` 0.9.10](https://www.npmjs.com/package/@astrojs/check/v/0.9.10) | Fred K. Schott | MIT |
+| [`@eslint/js` 9.39.5](https://www.npmjs.com/package/@eslint/js/v/9.39.5) | OpenJS Foundation and other contributors | MIT |
+| [`@playwright/test` 1.63.0](https://www.npmjs.com/package/@playwright/test/v/1.63.0) | Microsoft Corporation | Apache-2.0 |
+| [`@testing-library/react` 16.3.3](https://www.npmjs.com/package/@testing-library/react/v/16.3.3) | Kent C. Dodds | MIT |
+| [`@types/react` 19.2.18](https://www.npmjs.com/package/@types/react/v/19.2.18) | Microsoft Corporation and contributors | MIT |
+| [`@types/react-dom` 19.2.7](https://www.npmjs.com/package/@types/react-dom/v/19.2.7) | Microsoft Corporation and contributors | MIT |
+| [`eslint` 10.10.0](https://www.npmjs.com/package/eslint/v/10.10.0) | OpenJS Foundation and other contributors | MIT |
+| [`eslint-plugin-astro` 1.7.0](https://www.npmjs.com/package/eslint-plugin-astro/v/1.7.0) | Yosuke Ota | MIT |
+| [`eslint-plugin-react-hooks` 7.1.1](https://www.npmjs.com/package/eslint-plugin-react-hooks/v/7.1.1) | Meta Platforms, Inc. and affiliates | MIT |
+| [`happy-dom` 20.14.0](https://www.npmjs.com/package/happy-dom/v/20.14.0) | David Ortner | MIT |
+| [`markdownlint-cli2` 0.23.2](https://www.npmjs.com/package/markdownlint-cli2/v/0.23.2) | David Anson | MIT |
+| [`prettier` 3.9.6](https://www.npmjs.com/package/prettier/v/3.9.6) | James Long and contributors | MIT |
+| [`prettier-plugin-astro` 0.14.1](https://www.npmjs.com/package/prettier-plugin-astro/v/0.14.1) | Nate Moore | MIT |
+| [`typescript` 6.0.3](https://www.npmjs.com/package/typescript/v/6.0.3) | Microsoft Corporation | Apache-2.0 |
+| [`typescript-eslint` 8.69.0](https://www.npmjs.com/package/typescript-eslint/v/8.69.0) | typescript-eslint and other contributors | MIT |
+| [`vitest` 5.0.0](https://www.npmjs.com/package/vitest/v/5.0.0) | VoidZero Inc. and Vitest contributors | MIT |
 
 Exact package names, versions, resolved dependencies, and integrity records are
-stored in `package.json` and `package-lock.json`. These records do not replace
-the upstream licence texts or notices that must accompany a public source or
-application distribution.
+stored in `package.json` and `package-lock.json`. The installed package tree was
+reviewed on 13 September 2026. Its declared licences include MIT, Apache-2.0,
+ISC, BSD-2-Clause, BSD-3-Clause, 0BSD, BlueOak-1.0.0, CC0-1.0, CC-BY-4.0,
+MPL-2.0, LGPL-3.0-or-later, and Python-2.0. Copyleft-licensed packages are
+build-time transitive binaries or tools and are not modified or served as part
+of the Keep These application source. Package-local licence files installed by
+npm remain the authoritative notices for each dependency.
 
-Development-only quality tools are also declared and locked there. Their
-licences must be audited with the production bundle before public distribution.
+The four production rows identify packages used in the generated site or its
+build path. Every development row appears only in the local and CI quality
+toolchain declared by `package.json`. The MIT dependencies require preservation
+of their copyright and permission notices when copied or substantially
+redistributed; the Apache-2.0 tools require preservation of their licence and
+applicable notices. Keep These does not modify or separately redistribute these
+packages.
+
+These records do not replace upstream copyright notices, licence texts, or
+source-offer obligations that may apply when dependencies or build tools are
+redistributed. Keep These does not vendor `node_modules`; recipients install
+the locked packages from their upstream distributions. A distributor that
+ships dependencies, build tooling, or a different compiled bundle must preserve
+the relevant package-local notices and review its distribution independently.
 
 This file is the required index for third-party material as it is introduced.
 Each entry must identify:

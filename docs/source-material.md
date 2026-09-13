@@ -9,8 +9,8 @@ of the product rather than administrative tasks.
 This document records project policy, not legal advice. Requirements should be
 reviewed for each jurisdiction and source before publication.
 
-The repository-wide material boundaries and intended public-release licences
-are recorded in `../LICENSING.md`. A software or documentation licence never
+The repository-wide material boundaries and public-release licences are
+recorded in `../LICENSING.md`. A software or documentation licence never
 applies automatically to a literary source passage.
 
 ## Initial collection
