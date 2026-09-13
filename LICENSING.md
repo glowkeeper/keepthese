@@ -104,6 +104,18 @@ hosted feature is introduced later, its terms must explain the narrow licence
 needed to operate that feature, its duration, withdrawal, deletion, and the
 rights associated with the underlying source.
 
+## Inbound contributions
+
+Contributors must have the right to submit everything they contribute. Unless
+the maintainer agrees otherwise before submission, original code contributions
+are provided under the repository's MIT License, while eligible original
+documentation and editorial metadata are provided under CC BY 4.0.
+
+A contribution does not grant rights in third-party material, public-domain
+source texts, the Keep These name or brand, reserved visual assets, or
+maker-created work. Publication of the repository also creates no obligation to
+accept, support, or incorporate a proposed contribution.
+
 ## Attribution and notices
 
 Attribution should identify the relevant layer rather than collapse several

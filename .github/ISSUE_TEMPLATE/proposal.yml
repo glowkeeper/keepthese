@@ -1,0 +1,43 @@
+name: Change proposal
+description: Propose a focused improvement that fits the current product stage
+title: "Proposal: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to propose an improvement. Please read `CONTRIBUTING.md` first. A proposal is discussion, not a commitment to implementation.
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Intended outcome
+      description: What should become better for the person making a poem?
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current limitation
+      description: What happens today, and why is it a problem?
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Possible approach
+      description: Describe a small, inspectable change if you have one in mind.
+  - type: textarea
+    id: implications
+    attributes:
+      label: Privacy, rights, and material implications
+      description: Note any data collection, source material, attribution, licensing, branding, or third-party dependency involved. Write "none known" when none apply.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched for an existing issue covering this proposal.
+          required: true
+        - label: I understand that Backlog means captured, not committed, and that implementation begins only after the maintainer moves work to Ready.
+          required: true
