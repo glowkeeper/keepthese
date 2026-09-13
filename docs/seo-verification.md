@@ -82,9 +82,10 @@ had the pre-implementation one-URL sitemap and had not yet deployed the new
 JSON-LD records.
 
 The post-deployment command passed all 25 routes at
-`2026-09-13T12:08:33.165Z` for merge commit `ed86331`. The later addition of
-the about and privacy routes increases the intended canonical set to 27 and
-must receive the same production check after deployment.
+`2026-09-13T12:08:33.165Z` for merge commit `ed86331`. After the addition of
+the about and privacy routes, it passed all 27 canonical routes at
+`2026-09-13T13:00:03.443Z` for production commit `599646f`, with no failures
+and a clean working tree.
 
 The pre-commit local verification on the same date covered homepage, guide,
 passage, and journey routes. Mobile Lighthouse returned 100 for accessibility
