@@ -1,7 +1,7 @@
 # Keep These
 
-[Keep These](https://keepthese.com) is a web app for making blackout poetry from a small, carefully curated shelf of
-classic writing.
+[Keep These](https://keepthese.com) is a web app for making blackout poetry
+from a small, carefully curated shelf of classic writing.
 
 Meet one page, keep the words that speak, and let the rest fall away. Keep These
 never chooses words or composes a poem for you. Work is saved in your browser,
