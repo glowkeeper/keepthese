@@ -1,7 +1,6 @@
 # Keep These
 
-[Keep These](https://keepthese.com) is a calm, private-by-default web
-instrument for making blackout poetry from a small, carefully curated shelf of
+[Keep These](https://keepthese.com) is a web app for making blackout poetry from a small, carefully curated shelf of
 classic writing.
 
 Meet one page, keep the words that speak, and let the rest fall away. Keep These
@@ -16,8 +15,7 @@ affiliated with or endorsed by Psyche, Andrew Lavers, or Austin Kleon.
 
 ## Try it
 
-The current Version 1 product is available at
-[keepthese.com](https://keepthese.com). It is a static site with no accounts,
+The current app is available at [keepthese.com](https://keepthese.com). It is a static site with no accounts,
 analytics, advertising trackers, poem uploads, backend, or runtime cloud
 dependency.
 
@@ -31,14 +29,14 @@ dependency.
 - staged development, with later capabilities gated by evidence and explicit
   decisions.
 
-The fuller product and authorship boundaries are recorded in
+The fuller app and authorship boundaries are recorded in
 [`PRODUCT.md`](PRODUCT.md) and [`CREATIVE_CHARTER.md`](CREATIVE_CHARTER.md).
 
 ## Technology
 
 Keep These uses Astro for its static, content-led site and React for one
 interactive studio island. Creative state and PNG generation remain on the
-device. The twenty literary passages and their rights, provenance, attribution,
+device. The literary passages and their rights, provenance, attribution,
 and editorial records are validated at build time.
 
 ## Local development
@@ -88,10 +86,10 @@ Browser failures retain screenshots and traces in ignored local directories.
 
 ## Contributing
 
-The source is being prepared for public release primarily for transparency,
+The source is available publicly primarily for transparency,
 learning, and permitted reuse. Bug reports, accessibility findings, and focused
-corrections are welcome once that release is complete, but public availability
-will not create an obligation to accept a proposal or provide support. Please
+corrections are welcome, but public availability
+does not create an obligation to accept a proposal or provide support. Please
 read [`CONTRIBUTING.md`](CONTRIBUTING.md) before opening an issue or pull
 request.
 
