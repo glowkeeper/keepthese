@@ -15,9 +15,9 @@ affiliated with or endorsed by Psyche, Andrew Lavers, or Austin Kleon.
 
 ## Try it
 
-The current app is available at [keepthese.com](https://keepthese.com). It is a static site with no accounts,
-analytics, advertising trackers, poem uploads, backend, or runtime cloud
-dependency.
+The current app is available at [keepthese.com](https://keepthese.com). It is a
+static site with no accounts, analytics, advertising trackers, poem uploads,
+backend, or runtime cloud dependency.
 
 ## Product principles
 

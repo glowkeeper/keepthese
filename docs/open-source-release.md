@@ -4,17 +4,24 @@ This runbook records the intended public-repository posture and the evidence
 needed to publish Keep These safely. It complements the completed disclosure
 audit in [`public-repository-audit.md`](public-repository-audit.md).
 
-## Release gate
+## Status
 
-Repository visibility must remain private until all of the following are true:
+Keep These was published as a public repository on 13 September 2026 after the
+release gate below was completed. The publication and post-publication evidence
+is recorded in [issue #79](https://github.com/glowkeeper/keepthese/issues/79).
+
+## Completed release gate
+
+Repository visibility was required to remain private until all of the following
+were true:
 
 - the preparation pull request has merged and its checks pass;
 - the maintainer has reviewed the settings below;
 - the maintainer gives explicit approval for the visibility change;
 - there is no unresolved licensing, privacy, security, or deployment concern.
 
-Changing visibility is a separate release action. Merging the preparation pull
-request does not itself authorise that action.
+Changing visibility was a separate release action. Merging the preparation pull
+request did not itself authorise that action.
 
 ## Public repository profile
 
