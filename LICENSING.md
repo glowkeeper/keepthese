@@ -2,9 +2,9 @@
 
 ## Current status
 
-Keep These is preparing its repository for public distribution. The licences
-and reservations below are active for material in this repository from
-13 September 2026; they do not depend on GitHub repository visibility.
+Keep These has been publicly available since 13 September 2026. The licences
+and reservations below are active for material in this repository from that
+date; they do not depend on GitHub repository visibility.
 
 Repository access alone grants no rights beyond an applicable licence or other
 accompanying notice. In particular, public access to a file does not place it in
@@ -131,10 +131,11 @@ The application should generate source attribution from structured passage
 records. Notices must not imply that an original author, estate, publisher,
 archive, catalogue, or technology provider endorses Keep These.
 
-## Before changing repository visibility
+## Repository publication
 
-The licence activation and material notices are complete. Before changing the
-GitHub repository from private to public, the project must still:
+The repository was made public on 13 September 2026 after the licence activation
+and material notices were completed. Before that change, the project was
+required to:
 
 1. audit the current tree and complete reachable Git history for secrets,
    personal data, private operational records, and material that cannot be
@@ -145,6 +146,9 @@ GitHub repository from private to public, the project must still:
 4. reconcile any material introduced after this licence audit with this policy;
 5. obtain professional advice where a material uncertainty remains;
 6. obtain the maintainer's explicit approval for the visibility change.
+
+The completed checks, approval, publication, and post-publication verification
+are recorded in [issue #79](https://github.com/glowkeeper/keepthese/issues/79).
 
 This document records project policy and licensing. It is not legal advice and
 does not determine rights the project does not own.
