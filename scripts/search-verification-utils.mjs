@@ -5,6 +5,7 @@ export function decodeHtml(value) {
     .replaceAll('&amp;', '&')
     .replaceAll('&quot;', '"')
     .replaceAll('&#39;', "'")
+    .replaceAll('&#x27;', "'")
     .replaceAll('&lt;', '<')
     .replaceAll('&gt;', '>');
 }

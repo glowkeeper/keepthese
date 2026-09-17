@@ -33,6 +33,7 @@ describe('blackout studio', () => {
   it('offers correction, restart, blackout, and source attribution', () => {
     render(<BlackoutStudio passage={passage} />);
 
+    expect(screen.queryByText('Begin with')).toBeNull();
     expect(screen.getByText(passage.curation.context)).toBeTruthy();
     expect(
       screen.getByText(

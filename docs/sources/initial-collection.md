@@ -107,10 +107,12 @@ the passage belongs in the collection and is neither interface copy nor part of
 the hydrated browser payload.
 
 The creative introduction presents the work, author, first-publication year,
-passage location, context note, and a route to the sourced original before the
-page. The full provenance credit and same source route remain below the page
-and within exported artwork. Project Gutenberg is identified as the
-transcription source; the wording does not imply its endorsement.
+passage location, concise context note, and a route to the sourced original
+immediately before the selectable page. Canonical passage routes do not add a
+longer editorial introduction ahead of this shared studio treatment. The full
+provenance credit and same source route remain below the page and within
+exported artwork. Project Gutenberg is identified as the transcription source;
+the wording does not imply its endorsement.
 
 These context notes are original curated metadata covered by the CC BY 4.0
 treatment in `LICENSING.md`. Facts, public-domain source texts, and

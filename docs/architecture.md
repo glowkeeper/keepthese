@@ -228,8 +228,11 @@ passage's separate browser-autosave key.
 Each passage record carries a concise public `curation.context` note distinct
 from its internal selection rationale. The studio introduction renders that
 note with the work, author, first-publication year, passage location, and a
-direct route to the recorded source before making begins. The full provenance
-credit and source route remain attached to the page and its PNG export.
+direct route to the recorded source immediately before the selectable page.
+Canonical passage routes place only a compact breadcrumb and the shared
+discovery controls ahead of that studio: a longer editorial preamble must not
+delay making or duplicate the concise context. The full provenance credit and
+source route remain attached to the page and its PNG export.
 
 Astro projects each validated repository record into an explicit public
 passage shape before passing it to the hydrated React island. The browser
@@ -257,7 +260,9 @@ come from validated repository data; the original practice guide is a validated
 Astro content entry reviewed under the project's documentation and
 non-affiliation boundaries. Each route must contain meaningful page-specific
 HTML before hydration, an absolute self-canonical URL, accurate source context,
-and a clear route into making.
+and a clear route into making. On passage routes, the source passage, its concise
+context, and the creative interaction provide that substance without a separate
+long-form introduction.
 
 Passage and journey pages mount the same complete discovery-and-studio island
 as the homepage, with route-owned initial passage and journey properties.

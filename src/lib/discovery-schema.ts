@@ -9,7 +9,6 @@ export const discoveryNoteSchema = z
   });
 
 export const discoverySchema = z.object({
-  passages: z.record(z.string(), discoveryNoteSchema),
   journeys: z.record(z.string(), discoveryNoteSchema),
 });
 
