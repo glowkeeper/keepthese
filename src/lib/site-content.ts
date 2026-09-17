@@ -36,9 +36,6 @@ export const journeyOrder = [
 
 export async function loadSiteContent() {
   const discovery = discoverySchema.parse(discoveryRecord);
-  if (Object.keys(discovery.passages).length !== passageOrder.length) {
-    throw new Error('The passage discovery notes and shelf are out of sync.');
-  }
   if (Object.keys(discovery.journeys).length !== journeyOrder.length) {
     throw new Error(
       'The journey discovery notes and collection are out of sync.',
@@ -50,10 +47,8 @@ export async function loadSiteContent() {
   );
   const passages = passageOrder.map((passageId) => {
     const passage = passageById.get(passageId);
-    if (!passage || !discovery.passages[passageId]) {
-      throw new Error(
-        `The passage shelf is missing discovery content for ${passageId}.`,
-      );
+    if (!passage) {
+      throw new Error(`The passage shelf is missing ${passageId}.`);
     }
     return toPublicPassage(passage);
   });
