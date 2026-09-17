@@ -4,15 +4,8 @@ interface Props {
   title: string;
   note: string;
   members?: { href: string; title: string; author: string }[];
-  relatedJourneys?: { href: string; title: string }[];
 }
-const {
-  eyebrow,
-  title,
-  note,
-  members = [],
-  relatedJourneys = [],
-} = Astro.props;
+const { eyebrow, title, note, members = [] } = Astro.props;
 ---
 
 <section class="discovery-context" aria-labelledby="discovery-context-heading">
@@ -36,23 +29,6 @@ const {
           </li>
         ))}
       </ol>
-    )
-  }
-  {
-    relatedJourneys.length > 0 && (
-      <aside
-        class="related-journeys"
-        aria-labelledby="related-journeys-heading"
-      >
-        <h2 id="related-journeys-heading">Continue with a literary path</h2>
-        <ul>
-          {relatedJourneys.map((journey) => (
-            <li>
-              <a href={journey.href}>{journey.title}</a>
-            </li>
-          ))}
-        </ul>
-      </aside>
     )
   }
 </section>
