@@ -620,12 +620,17 @@ test('a passage route provides editorial context and opens its studio page', asy
   await expect(page).toHaveTitle(
     'Make blackout poetry from Persuasion — Keep These',
   );
-  await expect(page.locator('.discovery-context')).toContainText(
-    'Anne Elliot looks back at the advice that separated her from an early attachment.',
+  await expect(page.locator('.discovery-context')).toHaveCount(0);
+  await expect(page.locator('.passage-breadcrumb')).toContainText(
+    'Keep These/Persuasion',
   );
-  await expect(page.getByRole('heading', { name: 'Persuasion' })).toHaveCount(
-    2,
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Persuasion' }),
+  ).toBeVisible();
+  await expect(page.locator('.passage-context')).toHaveText(
+    'In Chapter IV of Austen’s final completed novel, Anne Elliot reflects on the advice that separated her from an early attachment.',
   );
+  await expect(page.getByText('Begin with', { exact: true })).toHaveCount(0);
   const breadcrumbData = JSON.parse(
     (await page.locator('script[type="application/ld+json"]').textContent()) ??
       '',
@@ -637,8 +642,12 @@ test('a passage route provides editorial context and opens its studio page', asy
       name: /Persuasion.*Jane Austen.*Chapter IV/,
     }),
   ).toHaveAttribute('aria-current', 'page');
+  await page.getByText('Follow a literary path', { exact: true }).click();
   await expect(
-    page.getByRole('link', { name: 'Divided and becoming' }),
+    page
+      .locator('.journey-card')
+      .filter({ hasText: 'Divided and becoming' })
+      .getByRole('link'),
   ).toHaveAttribute('href', '/journeys/divided-and-becoming/');
 });
 
@@ -738,8 +747,12 @@ test('editorial entry points remain readable without JavaScript', async ({
   const page = await context.newPage();
 
   await page.goto('/passages/persuasion-1818-chapter-4-prudence-and-romance/');
-  await expect(page.locator('.discovery-context')).toContainText(
-    'Anne Elliot looks back at the advice that separated her from an early attachment.',
+  await expect(page.locator('.discovery-context')).toHaveCount(0);
+  await expect(page.locator('.passage-breadcrumb')).toContainText(
+    'Keep These/Persuasion',
+  );
+  await expect(page.locator('.passage-context')).toHaveText(
+    'In Chapter IV of Austen’s final completed novel, Anne Elliot reflects on the advice that separated her from an early attachment.',
   );
   await expect(
     page.locator(

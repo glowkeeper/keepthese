@@ -383,7 +383,6 @@ export function BlackoutStudio({
   return (
     <section className="studio" aria-labelledby="studio-heading">
       <div className="studio-introduction">
-        <p className="eyebrow">Begin with</p>
         <h2 id="studio-heading" tabIndex={-1}>
           <cite>{passage.work.title}</cite>
         </h2>

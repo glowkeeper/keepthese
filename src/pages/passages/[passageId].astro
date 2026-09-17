@@ -1,8 +1,7 @@
 ---
 import PassageDiscovery from '../../components/PassageDiscovery';
-import DiscoveryContext from '../../components/DiscoveryContext.astro';
 import SiteLayout from '../../layouts/SiteLayout.astro';
-import { journeyPath, passagePath } from '../../lib/route-paths';
+import { passagePath } from '../../lib/route-paths';
 import { loadSiteContent } from '../../lib/site-content';
 import { breadcrumbStructuredData } from '../../lib/structured-data';
 
@@ -16,12 +15,6 @@ export async function getStaticPaths() {
 const { content, passage } = Astro.props;
 const path = passagePath(passage.passageId);
 const description = `${passage.curation.context} Choose the words that speak and make a blackout poem.`;
-const relatedJourneys = content.journeys
-  .filter((journey) => journey.passageIds.includes(passage.passageId))
-  .map((journey) => ({
-    href: journeyPath(journey.journeyId),
-    title: journey.title,
-  }));
 ---
 
 <SiteLayout
@@ -34,12 +27,14 @@ const relatedJourneys = content.journeys
   )}
   title={`Make blackout poetry from ${passage.work.title} — Keep These`}
 >
-  <DiscoveryContext
-    eyebrow="One page, carefully chosen"
-    title={passage.work.title}
-    note={content.discovery.passages[passage.passageId]!}
-    relatedJourneys={relatedJourneys}
-  />
+  <nav class="passage-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Keep These</a><span aria-hidden="true">/</span><h1
+      aria-current="page"
+      class="passage-breadcrumb-current"
+    >
+      {passage.work.title}
+    </h1>
+  </nav>
   <PassageDiscovery
     initialPassageId={passage.passageId}
     passageRouteId={passage.passageId}

@@ -111,18 +111,16 @@ a poem but never chooses words for them.
 | Practice guide | `/blackout-poetry/` | Learn what the form is, how this hands-on practice works, and then try it | Concise original explanation, steps that match the interface, authorship and source relationship, route into a real passage |
 | About | `/about/` | Understand the purpose and boundaries of Keep These | Concise product purpose, human-authorship boundary, source relationship, and route into making |
 | Privacy | `/privacy/` | Understand what remains on the device and what a shared link sends | Plain description of local autosave, device-made exports, stateless fragments, external links, and deletion control |
-| Passage | `/passages/{passageId}/` | Meet and make from one specific verified literary page | Substantial original discovery note, existing curation context, work, author, first-publication year, passage location, motifs used sparingly, source acknowledgement and route, relevant studio entry |
+| Passage | `/passages/{passageId}/` | Meet and make from one specific verified literary page | Concise original context, complete source passage, work, author, first-publication year, passage location, source acknowledgement and route, immediate studio entry |
 | Journey | `/journeys/{journeyId}/` | Understand and begin one finite thematic sequence | Original title and invitation, ordered member pages with work and author, clear five-page boundary, route to begin |
 
 The passage is the canonical literary entity for this stage. There are twenty
-candidate passage pages and three journey pages. A passage is emitted only after
-its discovery note meets the editorial-content rule below. Issue #67 owns
-drafting the twenty notes, storing them in the separately validated
-`src/content/discovery.json` record, and presenting them to the maintainer for
-editorial approval. Its schema enforces the content threshold, and the site
-content loader requires exact coverage of the passage and journey collections.
-The maintainer retains product and editorial authority. Approved discovery
-notes are original curated metadata under the treatment recorded in
+passage pages and three journey pages. A passage route leads with the shared
+creative studio rather than placing a long editorial introduction before it.
+Its validated `curation.context`, complete source text, provenance, and creative
+interaction provide page-specific substance without duplicating the context or
+delaying making. The maintainer retains product and editorial authority. The
+original curated metadata remains under the treatment recorded in
 `LICENSING.md`.
 
 The guide is original project documentation stored as one validated Astro
@@ -178,17 +176,16 @@ state, not indexable variants.
 
 - Each indexable page must answer one visitor need in server-rendered HTML before
   hydration.
-- A passage route needs an approved, page-specific discovery note of roughly
-  100–180 words in addition to its existing short context. The note must locate
-  the extract in its work, invite close reading through details genuinely
-  present in that passage, and explain why this page offers a distinct creative
-  encounter. It must not reproduce catalogue descriptions, pad the page with a
-  plot summary, make claims beyond the verified record, or prescribe a poem.
+- A passage route leads into the creative surface with its concise, approved
+  `curation.context`. The work, complete source passage, provenance, and maker-led
+  interaction distinguish the route; do not add a longer editorial preamble
+  that delays the selectable page or prescribes a reading.
 - Journey invitations are currently one sentence. Each journey page likewise
   needs an approved original note of roughly 100–180 words explaining its arc,
   the relationship among its five members, and its finite making rhythm.
-- If a passage or journey cannot meet that test honestly, consolidate it into
-  the homepage rather than emitting or indexing a thin route.
+- If a passage or journey cannot remain distinct without padded editorial copy,
+  consolidate it into the homepage rather than emitting or indexing a thin
+  route.
 - Source text alone does not make a page editorially distinct. Context,
   provenance, and the invitation to make must remain connected.
 - Search phrasing must read naturally and retain the charter's warm, restrained

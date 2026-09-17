@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   assertPage,
+  decodeHtml,
   robotsFailures,
   sitemapUrls,
 } from './search-verification-utils.mjs';
@@ -47,6 +48,12 @@ function sitemap(body) {
 }
 
 describe('search-output verification helpers', () => {
+  it('decodes decimal and hexadecimal apostrophe entities', () => {
+    expect(decodeHtml('Alice&#39;s and Alice&#x27;s')).toBe(
+      "Alice's and Alice's",
+    );
+  });
+
   it('accepts complete metadata regardless of attribute order', () => {
     expect(assertPage(homepage(), '/').failures).toEqual([]);
   });
