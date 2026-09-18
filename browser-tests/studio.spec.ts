@@ -667,6 +667,38 @@ test('the homepage opens with the studio before discovery', async ({
   await expect(page.locator('.site-navigation')).toBeVisible();
 });
 
+test('the shared wordmark keeps identical dimensions across routes', async ({
+  page,
+}) => {
+  await page.setViewportSize({ height: 900, width: 1280 });
+
+  const dimensions = async () =>
+    page.locator('.site-header .wordmark').evaluate((wordmark) => {
+      const bounds = wordmark.getBoundingClientRect();
+      const styles = getComputedStyle(wordmark);
+      return {
+        fontSize: styles.fontSize,
+        height: bounds.height,
+        letterSpacing: styles.letterSpacing,
+        width: bounds.width,
+      };
+    });
+
+  await expect(page.locator('.site-header h1 .wordmark')).toHaveCount(1);
+  const homepageDimensions = await dimensions();
+
+  for (const path of [
+    '/explore/',
+    '/blackout-poetry/',
+    '/about/',
+    '/privacy/',
+  ]) {
+    await page.goto(path);
+    await expect(page.locator('.site-header h1 .wordmark')).toHaveCount(0);
+    expect(await dimensions()).toEqual(homepageDimensions);
+  }
+});
+
 test('the Explore page presents the finite shelf and literary paths', async ({
   page,
 }) => {

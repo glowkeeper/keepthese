@@ -82,6 +82,7 @@ h1 {
   display: inline-grid;
   color: #292621;
   font-size: clamp(3.5rem, 10vw, 5.75rem);
+  letter-spacing: normal;
   line-height: 0.88;
 }
 
