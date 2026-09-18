@@ -407,9 +407,8 @@ export function BlackoutStudio({
         <details className="studio-help">
           <summary>How to choose words</summary>
           <p>
-            Keep the words that speak. Your poem will always follow their order
-            on the page. With a keyboard, use the arrow keys to move through
-            words.
+            Keep the words that speak. Your poem follows their order on the
+            page. With a keyboard, move through words using the arrow keys.
           </p>
         </details>
       </div>
