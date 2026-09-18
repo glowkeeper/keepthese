@@ -45,6 +45,9 @@ export function ExplorePage({ journeys, passages }: ExplorePageProps) {
             Choose for me
           </a>
         </div>
+        <p className="explore-section-introduction">
+          Choose any page on the shelf, or let chance choose for you.
+        </p>
         <ul className="explore-passage-list">
           {passages.map((passage) => (
             <li key={passage.passageId}>
@@ -68,6 +71,10 @@ export function ExplorePage({ journeys, passages }: ExplorePageProps) {
       <section aria-labelledby="explore-journeys-heading">
         <p className="eyebrow">Five pages, one path</p>
         <h2 id="explore-journeys-heading">Follow a literary path</h2>
+        <p className="explore-section-introduction">
+          Take five pages in sequence and notice what changes from one to the
+          next.
+        </p>
         <ul className="explore-journey-list">
           {journeys.map((journey) => (
             <li key={journey.journeyId}>

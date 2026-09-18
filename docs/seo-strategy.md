@@ -107,7 +107,8 @@ a poem but never chooses words for them.
 
 | Route type | Pattern | Distinct visitor purpose | Required visible material |
 | --- | --- | --- | --- |
-| Product home | `/` | Understand the whole instrument and begin immediately | Product promise, shelf and journey orientation, initial studio, privacy, attribution |
+| Product home | `/` | Understand the whole instrument and begin immediately | Product promise, initial studio, privacy, attribution, and route to Explore |
+| Explore | `/explore/` | Choose from the finite passage shelf, accept a chance selection, or begin a literary path | Complete verified shelf, one-action random alternative, three finite literary journeys, and routes into making |
 | Practice guide | `/blackout-poetry/` | Learn what the form is, how this hands-on practice works, and then try it | Concise original explanation, steps that match the interface, authorship and source relationship, route into a real passage |
 | About | `/about/` | Understand the purpose and boundaries of Keep These | Concise product purpose, human-authorship boundary, source relationship, and route into making |
 | Privacy | `/privacy/` | Understand what remains on the device and what a shared link sends | Plain description of local autosave, device-made exports, stateless fragments, external links, and deletion control |

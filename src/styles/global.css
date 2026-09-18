@@ -750,9 +750,15 @@ h1 {
   margin-bottom: 0.5rem;
 }
 
+.explore-section-introduction {
+  margin: var(--flow-gap) 0 0;
+  font-size: clamp(1.05rem, 2vw, 1.18rem);
+  line-height: 1.55;
+}
+
 .explore-passage-list,
 .explore-journey-list {
-  margin-top: 1.5rem;
+  margin-top: var(--flow-gap);
 }
 
 .journey-card {
