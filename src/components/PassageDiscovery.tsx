@@ -16,6 +16,7 @@ import { journeyPath, passagePath } from '../lib/route-paths';
 import BlackoutStudio, { type KeptPoemWork } from './BlackoutStudio';
 
 interface PassageDiscoveryProps {
+  homepage?: boolean;
   initialJourneyId?: string;
   initialPassageId?: string;
   passageRouteId?: string;
@@ -24,6 +25,7 @@ interface PassageDiscoveryProps {
 }
 
 export function PassageDiscovery({
+  homepage = false,
   initialJourneyId,
   initialPassageId,
   passageRouteId,
@@ -78,7 +80,6 @@ export function PassageDiscovery({
           .join('|')}`
       : '';
   const journeyShareReady = preparedJourneyShare?.key === journeyShareKey;
-  const isHomepage = !initialJourneyId && !passageRouteId;
 
   useEffect(() => {
     queueMicrotask(() => setCanShareJourney(canSharePng()));
@@ -364,7 +365,7 @@ export function PassageDiscovery({
 
   const discoveryControls = (
     <nav
-      className={`passage-discovery${isHomepage ? ' passage-discovery--homepage' : ''}`}
+      className={`passage-discovery${homepage ? ' passage-discovery--homepage' : ''}`}
       aria-label="Explore other pages"
     >
       <p className="eyebrow passage-discovery-heading">Explore further</p>
@@ -430,7 +431,7 @@ export function PassageDiscovery({
 
   return (
     <>
-      {isHomepage ? null : discoveryControls}
+      {homepage ? null : discoveryControls}
 
       {poemLinkNotice ? (
         <p className="poem-link-notice" role="status">
@@ -682,7 +683,7 @@ export function PassageDiscovery({
 
       {journeyComplete ? null : (
         <BlackoutStudio
-          introductionLabel={isHomepage ? 'Begin with this page' : undefined}
+          introductionLabel={homepage ? 'Begin with this page' : undefined}
           journeyAction={
             activeJourney
               ? {
@@ -706,7 +707,7 @@ export function PassageDiscovery({
         />
       )}
 
-      {isHomepage && !journeyComplete ? discoveryControls : null}
+      {homepage && !journeyComplete ? discoveryControls : null}
     </>
   );
 }

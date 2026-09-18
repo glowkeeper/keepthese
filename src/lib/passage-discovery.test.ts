@@ -30,7 +30,7 @@ describe('passage discovery', () => {
 
   it('rejects an empty shelf', () => {
     expect(() => chooseSurprisePassage([], first.passageId)).toThrow(
-      'Surprise me requires at least one passage.',
+      'Random passage choice requires at least one passage.',
     );
   });
 });

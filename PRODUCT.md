@@ -73,7 +73,7 @@ Create a real, publishable product that remains entirely static and private:
 - local autosave;
 - PNG export;
 - source attribution;
-- a surprise-me action.
+- a one-action random alternative to the current page.
 
 The central standard is one excellent creative surface. Word selection should
 be reliable, marks tactile, typography lovely, and exported work faithful to

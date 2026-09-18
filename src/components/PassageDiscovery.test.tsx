@@ -122,10 +122,22 @@ describe('passage discovery', () => {
     expect(document.querySelector('.source-byline')?.textContent).toBe(
       'by Jane Austen · first published 1817',
     );
+    expect(screen.queryByText('Begin with this page')).toBeNull();
+    const discovery = screen.getByRole('navigation', {
+      name: 'Explore other pages',
+    });
+    const studio = document.querySelector('.studio');
+    expect(studio).toBeTruthy();
+    expect(
+      discovery.compareDocumentPosition(studio!) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   });
 
   it('offers a one-action alternative without preselecting poem words', () => {
-    render(<PassageDiscovery journeys={journeys} passages={passages} />);
+    render(
+      <PassageDiscovery homepage journeys={journeys} passages={passages} />,
+    );
 
     expect(
       screen.getByRole('link', { name: 'Choose for me' }).getAttribute('href'),

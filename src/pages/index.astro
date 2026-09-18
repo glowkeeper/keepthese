@@ -16,5 +16,10 @@ const description =
   structuredData={websiteStructuredData(Astro.site!, description)}
   title="Keep These — a blackout poetry studio"
 >
-  <PassageDiscovery journeys={journeys} passages={passages} client:load />
+  <PassageDiscovery
+    homepage
+    journeys={journeys}
+    passages={passages}
+    client:load
+  />
 </SiteLayout>
