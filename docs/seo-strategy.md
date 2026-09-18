@@ -107,7 +107,8 @@ a poem but never chooses words for them.
 
 | Route type | Pattern | Distinct visitor purpose | Required visible material |
 | --- | --- | --- | --- |
-| Product home | `/` | Understand the whole instrument and begin immediately | Product promise, shelf and journey orientation, initial studio, privacy, attribution |
+| Product home | `/` | Understand the whole instrument and begin immediately | Product promise, initial studio, privacy, attribution, and route to Explore |
+| Explore | `/explore/` | Choose from the finite passage shelf, accept a chance selection, or begin a literary path | Complete verified shelf, one-action random alternative, three finite literary journeys, and routes into making |
 | Practice guide | `/blackout-poetry/` | Learn what the form is, how this hands-on practice works, and then try it | Concise original explanation, steps that match the interface, authorship and source relationship, route into a real passage |
 | About | `/about/` | Understand the purpose and boundaries of Keep These | Concise product purpose, human-authorship boundary, source relationship, and route into making |
 | Privacy | `/privacy/` | Understand what remains on the device and what a shared link sends | Plain description of local autosave, device-made exports, stateless fragments, external links, and deletion control |
@@ -134,13 +135,20 @@ records.
 
 ### Route into making
 
-Every passage and journey page mounts the same `PassageDiscovery` island and
-complete verified shelf used by the homepage. The component gains explicit
+The homepage, every passage page, and every journey page mount the same
+`PassageDiscovery` studio island. The component receives explicit
 initial-passage and optional initial-journey properties set by the static route:
 
 - a passage route starts in ordinary studio mode on that passage;
 - a journey route starts the named journey on its first passage; and
 - the homepage keeps its current default passage and no active journey.
+
+The homepage contains no collection browser after the studio. A separate,
+static `/explore/` route presents the complete verified shelf, the one-action
+random alternative, and the three finite literary journeys. It is a bounded
+editorial index rather than a search or catalogue system. Passage and journey
+routes retain only compact local passage-switching controls alongside the
+global route to Explore.
 
 Passage autosave remains keyed only by stable passage and text version, so the
 same unfinished work is available on home, passage, and journey routes.
@@ -165,7 +173,7 @@ state, not indexable variants.
 | Author pages | Do not create them while each author has only one passage. They would mostly repeat the passage page and imply a catalogue depth the product does not have. Reconsider when an author has multiple independently contextualised encounters. |
 | Work or book pages | Do not create a separate page while each work has only one passage. The passage page can carry the complete work context without a second near-duplicate URL. Reconsider when a work has multiple passages or distinct work-level editorial material. |
 | Motif or tag pages | Do not index programmatic motif combinations. Current motifs support editorial understanding, not a public taxonomy. |
-| General passage index | Keep the restrained shelf on the homepage rather than adding a catalogue route. Reconsider only if twenty visible choices cannot remain understandable there. |
+| General passage index | Provide one finite `/explore/` route for the complete verified shelf and literary paths. Keep it bounded and editorial: no search, filters, ranking, pagination, or external catalogue expansion. |
 | Individual poem links | Never index maker-state fragments. Keep These does not host a separate poem document, and fragment content is not sent to the server. |
 | Search-result or filtered pages | No site search or filter routes are justified by a finite twenty-page shelf. |
 | Automatically generated guides | Do not create templated “how to make blackout poetry from X” pages. A single honest guide and specific passage encounters cover the present need. |
@@ -238,9 +246,10 @@ state, not indexable variants.
 
 ### Internal links
 
-- The homepage links to the guide, every passage, and each journey through
-  restrained shelf and journey controls that remain discoverable without
-  JavaScript.
+- The homepage links to the guide and dedicated Explore route through ordinary
+  anchors in the rendered HTML. Explore links to every passage and journey.
+- The shared header uses one consistent brand invitation and navigation on
+  every route; page-specific explanation appears with the route's main heading.
 - The guide links to the homepage and a small, editorially chosen starting
   passage rather than duplicating the whole shelf.
 - Each passage links to home, its source edition, and any journey containing it.

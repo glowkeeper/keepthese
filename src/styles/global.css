@@ -1,4 +1,8 @@
 :root {
+  --content-start-gap: clamp(1.75rem, 4vw, 2.75rem);
+  --content-width: 72rem;
+  --flow-gap: clamp(0.75rem, 1.5vw, 1rem);
+  --major-section-gap: clamp(3rem, 5vw, 4rem);
   color: #292621;
   background: #e8e0d1;
   font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
@@ -51,7 +55,7 @@ main {
 }
 
 .site-header {
-  max-width: 64rem;
+  max-width: 72rem;
 }
 
 .eyebrow {
@@ -116,17 +120,33 @@ h1 {
 .introduction {
   max-width: 32rem;
   margin: 0.75rem 0 0;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgb(41 38 33 / 28%);
   font-size: clamp(1.125rem, 2.5vw, 1.35rem);
   line-height: 1.4;
 }
 
+.site-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 0.75rem;
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+}
+
+.site-navigation a {
+  color: #762713;
+  text-underline-offset: 0.2em;
+}
+
 .studio {
   margin-top: 0;
-  padding-top: clamp(1.75rem, 4vw, 2.75rem);
+  padding-top: var(--content-start-gap);
 }
 
 .studio-introduction {
-  max-width: 38rem;
+  max-width: var(--content-width);
 }
 
 .studio-introduction-label {
@@ -153,7 +173,7 @@ h1 {
 }
 
 .passage-context {
-  max-width: 35rem;
+  max-width: var(--content-width);
   margin: 1rem 0 0;
   font-size: clamp(1.05rem, 2vw, 1.18rem);
   line-height: 1.55;
@@ -183,7 +203,7 @@ h1 {
 }
 
 .studio-help p {
-  max-width: 38rem;
+  max-width: var(--content-width);
   margin: 0.6rem 0 0;
   font-size: 1.125rem;
   line-height: 1.6;
@@ -464,7 +484,7 @@ h1 {
 .poem-link-notice,
 .received-poem {
   max-width: 72rem;
-  margin: 1.5rem auto 0;
+  margin: var(--flow-gap) auto 0;
 }
 
 .poem-link-notice {
@@ -487,7 +507,7 @@ h1 {
 }
 
 .received-poem > div {
-  max-width: 44rem;
+  flex: 1 1 40rem;
 }
 
 .received-poem h2,
@@ -515,7 +535,7 @@ h1 {
   gap: 1rem 2rem;
   align-items: baseline;
   justify-content: space-between;
-  margin-top: clamp(5rem, 12vh, 9rem);
+  margin-top: var(--major-section-gap);
   padding-block: 2rem;
   border-top: 1px solid rgb(41 38 33 / 28%);
   color: #544d44;
@@ -599,17 +619,13 @@ h1 {
   display: grid;
   gap: 1rem;
   max-width: 72rem;
-  margin: clamp(1.25rem, 3vh, 2rem) 0 0;
-  padding: 1rem 0;
-  border-block: 1px solid rgb(41 38 33 / 25%);
+  margin: var(--flow-gap) 0 0;
+  padding: 0;
 }
 
-.passage-discovery--homepage {
-  margin-top: clamp(2.5rem, 6vw, 4.5rem);
-}
-
-.passage-discovery-heading {
-  margin: 0;
+.passage-discovery--local {
+  grid-template-columns: auto auto 1fr;
+  justify-items: start;
 }
 
 .passage-discovery button,
@@ -622,7 +638,7 @@ h1 {
   align-items: center;
   justify-self: start;
   min-height: 2.75rem;
-  padding: 0.55rem 1rem;
+  padding: 0.4rem 0;
   border: 0;
   color: #762713;
   background: transparent;
@@ -647,7 +663,8 @@ h1 {
 }
 
 .passage-chooser ul,
-.journey-chooser ul {
+.explore-passage-list,
+.explore-journey-list {
   display: grid;
   gap: 0.5rem;
   margin: 0.75rem 0 0;
@@ -655,7 +672,8 @@ h1 {
   list-style: none;
 }
 
-.passage-chooser li a {
+.passage-chooser li a,
+.explore-passage-list li a {
   display: grid;
   gap: 0.4rem 1rem;
   width: 100%;
@@ -670,7 +688,8 @@ h1 {
   text-align: left;
 }
 
-.passage-chooser li a:hover {
+.passage-chooser li a:hover,
+.explore-passage-list li a:hover {
   border-color: #762713;
 }
 
@@ -679,25 +698,67 @@ h1 {
   box-shadow: inset 0.2rem 0 #762713;
 }
 
-.passage-chooser li span {
+.passage-chooser li span,
+.explore-passage-list li span {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
 }
 
 .passage-chooser li a,
+.explore-passage-list li a,
 .journey-card a {
   font-family: system-ui, sans-serif;
 }
 
-.passage-chooser li small {
+.passage-chooser li small,
+.explore-passage-list li small {
   color: #655e55;
   font-size: 0.78rem;
   line-height: 1.35;
 }
 
-.journey-chooser ul {
+.explore-journey-list {
   gap: 0.75rem;
+}
+
+.explore-introduction {
+  max-width: var(--content-width);
+}
+
+.explore-page {
+  display: grid;
+  gap: var(--major-section-gap);
+  margin-top: var(--flow-gap);
+}
+
+.explore-page h2 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+.explore-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: end;
+  justify-content: space-between;
+}
+
+.explore-section-heading .eyebrow,
+.explore-page > section > .eyebrow {
+  margin-bottom: 0.5rem;
+}
+
+.explore-section-introduction {
+  margin: var(--flow-gap) 0 0;
+  font-size: clamp(1.05rem, 2vw, 1.18rem);
+  line-height: 1.55;
+}
+
+.explore-passage-list,
+.explore-journey-list {
+  margin-top: var(--flow-gap);
 }
 
 .journey-card {
@@ -731,27 +792,25 @@ h1 {
 }
 
 .active-journey {
-  margin-top: 1.25rem;
+  margin-top: var(--flow-gap);
   padding: 1.25rem;
   border: 1px solid rgb(41 38 33 / 25%);
   background: rgb(248 242 231 / 45%);
 }
 
 .journey-complete {
-  margin-top: 1.25rem;
+  margin-top: var(--flow-gap);
   padding: clamp(1.25rem, 4vw, 2.5rem);
   border: 1px solid rgb(41 38 33 / 25%);
   background: rgb(248 242 231 / 55%);
 }
 
 .journey-complete > h2 {
-  max-width: 44rem;
   margin: 0;
   font-size: clamp(2rem, 5vw, 3.5rem);
 }
 
 .journey-complete > p:not(.eyebrow) {
-  max-width: 42rem;
   line-height: 1.6;
 }
 
@@ -910,7 +969,6 @@ h1 {
 }
 
 .active-journey > p {
-  max-width: 48rem;
   margin: 0.65rem 0 0;
   line-height: 1.5;
 }
@@ -975,15 +1033,36 @@ h1 {
 
 .discovery-context,
 .practice-guide {
-  max-width: 46rem;
-  margin-top: clamp(2.5rem, 7vw, 5rem);
+  max-width: var(--content-width);
+}
+
+.page-introduction {
+  margin-top: var(--content-start-gap);
+}
+
+.page-introduction h1 {
+  margin: 0;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  line-height: 1.05;
+}
+
+.page-introduction h1 + p {
+  margin: 1rem 0 0;
+  font-size: clamp(1.05rem, 2vw, 1.18rem);
+  line-height: 1.65;
+}
+
+.passage-discovery--local + .studio,
+.active-journey + .studio,
+.received-poem + .studio {
+  padding-top: var(--flow-gap);
 }
 
 .passage-breadcrumb {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-  margin-top: clamp(2.5rem, 7vw, 5rem);
+  margin-top: var(--content-start-gap);
   color: #655e55;
   font-family: system-ui, sans-serif;
   font-size: 0.82rem;
@@ -1014,13 +1093,6 @@ h1 {
 .practice-guide a {
   color: #762713;
   text-underline-offset: 0.2em;
-}
-
-.discovery-context h1,
-.practice-guide h1 {
-  margin: 0;
-  font-size: clamp(2.25rem, 6vw, 4rem);
-  line-height: 1.05;
 }
 
 .discovery-context > p:last-of-type,
@@ -1089,11 +1161,11 @@ h1 {
   .site-header {
     display: grid;
     grid-template-areas:
-      'eyebrow introduction'
-      'wordmark introduction';
-    grid-template-columns: auto minmax(18rem, 1fr);
-    gap: 0 clamp(2rem, 6vw, 5rem);
-    align-items: end;
+      'eyebrow navigation'
+      'wordmark navigation'
+      'introduction navigation';
+    grid-template-columns: auto 1fr;
+    column-gap: clamp(2rem, 6vw, 5rem);
   }
 
   .site-header > .eyebrow {
@@ -1106,15 +1178,21 @@ h1 {
 
   .site-header .introduction {
     grid-area: introduction;
-    margin: 0 0 0.35rem;
+    margin-top: 0.75rem;
   }
 
-  .site-header--compact .wordmark {
+  .site-header .site-navigation {
+    grid-area: navigation;
+    justify-self: end;
+    margin-top: 0;
+  }
+
+  .site-header .wordmark {
     font-size: clamp(3.5rem, 8vw, 4.75rem);
   }
 
   .passage-discovery {
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: auto auto 1fr;
     align-items: center;
   }
 
@@ -1122,15 +1200,21 @@ h1 {
     grid-column: auto;
   }
 
-  .passage-chooser ul {
+  .passage-discovery details[open] {
+    grid-column: 1 / -1;
+  }
+
+  .passage-chooser ul,
+  .explore-passage-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .passage-chooser li a {
+  .passage-chooser li a,
+  .explore-passage-list li a {
     grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
   }
 
-  .journey-chooser ul {
+  .explore-journey-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 

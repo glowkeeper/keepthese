@@ -8,7 +8,10 @@ interface Props {
 const { eyebrow, title, note, members = [] } = Astro.props;
 ---
 
-<section class="discovery-context" aria-labelledby="discovery-context-heading">
+<section
+  class="page-introduction discovery-context"
+  aria-labelledby="discovery-context-heading"
+>
   <nav aria-label="Breadcrumb">
     <a href="/">Keep These</a><span aria-hidden="true">/</span><span
       aria-current="page">{title}</span
