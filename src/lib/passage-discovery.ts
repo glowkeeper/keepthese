@@ -4,7 +4,7 @@ export function chooseSurprisePassage<T extends { passageId: string }>(
   randomValue = Math.random(),
 ): T {
   if (passages.length === 0) {
-    throw new Error('Surprise me requires at least one passage.');
+    throw new Error('Random passage choice requires at least one passage.');
   }
 
   const alternatives = passages.filter(

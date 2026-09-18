@@ -149,7 +149,7 @@ cannot overwrite it. A copied poem link always uses the canonical passage route
 for the active passage plus the existing `#poem=` fragment, regardless of which
 route created it.
 
-Shelf choices and Surprise me navigate to the selected canonical passage route;
+Shelf choices and “Choose for me” navigate to the selected canonical passage route;
 journey choices navigate to the selected canonical journey route. Journey
 progress stays on its journey URL. Leaving a journey for a standalone passage
 navigates to that passage route. These are ordinary crawlable links enhanced by

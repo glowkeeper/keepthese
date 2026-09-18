@@ -129,6 +129,10 @@ h1 {
   max-width: 38rem;
 }
 
+.studio-introduction-label {
+  margin-bottom: 0.65rem;
+}
+
 .studio-introduction h2 {
   margin: 0;
   font-size: clamp(2.35rem, 6vw, 4rem);
@@ -596,14 +600,16 @@ h1 {
   gap: 1rem;
   max-width: 72rem;
   margin: clamp(1.25rem, 3vh, 2rem) 0 0;
-  padding: 0.75rem 0;
+  padding: 1rem 0;
   border-block: 1px solid rgb(41 38 33 / 25%);
 }
 
-.passage-discovery-introduction {
-  max-width: 40rem;
-  margin: 0.35rem 0 0;
-  line-height: 1.55;
+.passage-discovery--homepage {
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.passage-discovery-heading {
+  margin: 0;
 }
 
 .passage-discovery button,
@@ -617,13 +623,14 @@ h1 {
   justify-self: start;
   min-height: 2.75rem;
   padding: 0.55rem 1rem;
-  border: 1px solid #4c443a;
-  border-radius: 0.2rem;
-  color: #f8f2e7;
-  background: #292621;
+  border: 0;
+  color: #762713;
+  background: transparent;
   cursor: pointer;
   font-family: system-ui, sans-serif;
-  text-decoration: none;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .passage-discovery details {
@@ -1102,9 +1109,17 @@ h1 {
     margin: 0 0 0.35rem;
   }
 
+  .site-header--compact .wordmark {
+    font-size: clamp(3.5rem, 8vw, 4.75rem);
+  }
+
   .passage-discovery {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
     align-items: center;
+  }
+
+  .passage-discovery details {
+    grid-column: auto;
   }
 
   .passage-chooser ul {

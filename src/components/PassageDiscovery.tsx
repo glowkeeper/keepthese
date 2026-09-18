@@ -16,6 +16,7 @@ import { journeyPath, passagePath } from '../lib/route-paths';
 import BlackoutStudio, { type KeptPoemWork } from './BlackoutStudio';
 
 interface PassageDiscoveryProps {
+  homepage?: boolean;
   initialJourneyId?: string;
   initialPassageId?: string;
   passageRouteId?: string;
@@ -24,6 +25,7 @@ interface PassageDiscoveryProps {
 }
 
 export function PassageDiscovery({
+  homepage = false,
   initialJourneyId,
   initialPassageId,
   passageRouteId,
@@ -361,74 +363,75 @@ export function PassageDiscovery({
     }
   }
 
+  const discoveryControls = (
+    <nav
+      className={`passage-discovery${homepage ? ' passage-discovery--homepage' : ''}`}
+      aria-label="Explore other pages"
+    >
+      <p className="eyebrow passage-discovery-heading">Explore further</p>
+      <a
+        className="surprise-action"
+        href={passagePath(surpriseFallback.passageId)}
+        onClick={surpriseMe}
+      >
+        Choose for me
+      </a>
+      <details className="passage-chooser" ref={passageChooserRef}>
+        <summary>Choose another</summary>
+        <ul>
+          {passages.map((passage) => (
+            <li key={passage.passageId}>
+              <a
+                aria-current={
+                  passage.passageId === passageRouteId ? 'page' : undefined
+                }
+                className={
+                  passage.passageId === currentPassage.passageId
+                    ? 'is-selected'
+                    : undefined
+                }
+                href={passagePath(passage.passageId)}
+              >
+                <span>
+                  <cite>{passage.work.title}</cite>
+                  {passage.passageId === currentPassage.passageId ? (
+                    <span className="visually-hidden"> (open)</span>
+                  ) : null}
+                  <small>{passage.work.author.name}</small>
+                </span>
+                <span>
+                  <small>{passage.passageLocation.chapter}</small>
+                  <small>
+                    {passage.curation.motifs.slice(0, 2).join(' · ')}
+                  </small>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+      <details className="journey-chooser" ref={journeyChooserRef}>
+        <summary>Follow a literary path</summary>
+        <ul>
+          {journeys.map((journey) => (
+            <li key={journey.journeyId}>
+              <div className="journey-card">
+                <h3>{journey.title}</h3>
+                <p>{journey.invitation}</p>
+                <a href={journeyPath(journey.journeyId)}>
+                  Begin this {journey.passageIds.length}-page path
+                </a>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </details>
+    </nav>
+  );
+
   return (
     <>
-      <nav className="passage-discovery" aria-label="Passage shelf">
-        <div>
-          <p className="eyebrow">{passages.length} pages, carefully chosen</p>
-          <p className="passage-discovery-introduction">
-            Stay with this page, choose another, or let chance place one before
-            you.
-          </p>
-        </div>
-        <a
-          className="surprise-action"
-          href={passagePath(surpriseFallback.passageId)}
-          onClick={surpriseMe}
-        >
-          Surprise me
-        </a>
-        <details className="passage-chooser" ref={passageChooserRef}>
-          <summary>Choose a page</summary>
-          <ul>
-            {passages.map((passage) => (
-              <li key={passage.passageId}>
-                <a
-                  aria-current={
-                    passage.passageId === passageRouteId ? 'page' : undefined
-                  }
-                  className={
-                    passage.passageId === currentPassage.passageId
-                      ? 'is-selected'
-                      : undefined
-                  }
-                  href={passagePath(passage.passageId)}
-                >
-                  <span>
-                    <cite>{passage.work.title}</cite>
-                    {passage.passageId === currentPassage.passageId ? (
-                      <span className="visually-hidden"> (open)</span>
-                    ) : null}
-                    <small>{passage.work.author.name}</small>
-                  </span>
-                  <span>
-                    <small>{passage.passageLocation.chapter}</small>
-                    <small>
-                      {passage.curation.motifs.slice(0, 2).join(' · ')}
-                    </small>
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </details>
-        <details className="journey-chooser" ref={journeyChooserRef}>
-          <summary>Follow a literary path</summary>
-          <ul>
-            {journeys.map((journey) => (
-              <li key={journey.journeyId}>
-                <div className="journey-card">
-                  <h3>{journey.title}</h3>
-                  <p>{journey.invitation}</p>
-                  <a href={journeyPath(journey.journeyId)}>
-                    Begin this {journey.passageIds.length}-page path
-                  </a>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </details>
-      </nav>
+      {homepage ? null : discoveryControls}
 
       {poemLinkNotice ? (
         <p className="poem-link-notice" role="status">
@@ -680,6 +683,7 @@ export function PassageDiscovery({
 
       {journeyComplete ? null : (
         <BlackoutStudio
+          introductionLabel={homepage ? 'Begin with this page' : undefined}
           journeyAction={
             activeJourney
               ? {
@@ -702,6 +706,8 @@ export function PassageDiscovery({
           }
         />
       )}
+
+      {homepage && !journeyComplete ? discoveryControls : null}
     </>
   );
 }

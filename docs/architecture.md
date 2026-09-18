@@ -325,7 +325,7 @@ the browser.
 The maker can also move directly between members while the browser remains on
 the journey's canonical route, preserving session-owned journey progress.
 Leaving loads the current passage's canonical route; choosing another path
-returns to the homepage. Selecting from the general shelf or using Surprise me
+returns to the homepage. Selecting from the general shelf or using “Choose for me”
 loads a canonical passage route and leaves the active journey.
 This is a finite creative conclusion, not a Version 2 personal archive or a
 completion reward. The first editorial set and its boundaries are recorded in

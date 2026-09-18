@@ -6,6 +6,7 @@ interface Props {
   title: string;
   description: string;
   canonicalPath: string;
+  compactHeader?: boolean;
   eyebrow?: string;
   introduction?: string;
   structuredData?: Record<string, unknown>;
@@ -15,6 +16,7 @@ const {
   title,
   description,
   canonicalPath,
+  compactHeader = false,
   eyebrow = 'A blackout poetry studio',
   introduction = 'Find the poem that was waiting in the page.',
   structuredData,
@@ -69,7 +71,9 @@ const isHomepage = canonicalPath === '/';
   </head>
   <body>
     <main>
-      <header class="site-header">
+      <header
+        class:list={['site-header', { 'site-header--compact': compactHeader }]}
+      >
         <p class="eyebrow">{eyebrow}</p>
         {
           isHomepage ? (
