@@ -10,10 +10,6 @@
   text-rendering: optimizeLegibility;
 }
 
-html {
-  scrollbar-gutter: stable;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -1162,6 +1158,10 @@ h1 {
 }
 
 @media (min-width: 42rem) {
+  html {
+    scrollbar-gutter: stable;
+  }
+
   .site-header {
     display: grid;
     grid-template-areas:

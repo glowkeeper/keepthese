@@ -992,6 +992,13 @@ test('about and privacy pages explain the project and its private design', async
     ),
   ).toBe(aboutTitleSize);
 
+  await page.goto('/blackout-poetry/');
+  expect(
+    await page
+      .locator('main')
+      .evaluate((main) => main.getBoundingClientRect().left),
+  ).toBe(sharedFrameLeft);
+
   await page.goto('/privacy/');
   expect(
     await page
@@ -1008,6 +1015,17 @@ test('about and privacy pages explain the project and its private design', async
   await expect(
     page.getByRole('link', { name: 'Return to the studio' }),
   ).toHaveCount(0);
+
+  await page.setViewportSize({ height: 640, width: 320 });
+  expect(
+    await page.evaluate(() => ({
+      hasHorizontalOverflow:
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth,
+      scrollbarGutter: getComputedStyle(document.documentElement)
+        .scrollbarGutter,
+    })),
+  ).toEqual({ hasHorizontalOverflow: false, scrollbarGutter: 'auto' });
 });
 
 test('editorial entry points remain readable without JavaScript', async ({
