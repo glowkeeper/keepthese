@@ -941,7 +941,22 @@ test('the blackout poetry guide explains the authorship boundary', async ({
 test('about and privacy pages explain the project and its private design', async ({
   page,
 }) => {
+  await page.setViewportSize({ height: 900, width: 1280 });
+  await page.goto('/explore/');
+  const sharedFrameLeft = await page
+    .locator('main')
+    .evaluate((main) => main.getBoundingClientRect().left);
+
   await page.goto('/about/');
+  expect(
+    await page.locator('main').evaluate((main) => {
+      return {
+        left: main.getBoundingClientRect().left,
+        scrollbarGutter: getComputedStyle(document.documentElement)
+          .scrollbarGutter,
+      };
+    }),
+  ).toEqual({ left: sharedFrameLeft, scrollbarGutter: 'stable' });
   await expect(page.locator('.site-header .eyebrow')).toHaveText(
     'A blackout poetry studio',
   );
@@ -978,6 +993,11 @@ test('about and privacy pages explain the project and its private design', async
   ).toBe(aboutTitleSize);
 
   await page.goto('/privacy/');
+  expect(
+    await page
+      .locator('main')
+      .evaluate((main) => main.getBoundingClientRect().left),
+  ).toBe(sharedFrameLeft);
   await expect(page.locator('.site-header .eyebrow')).toHaveText(
     'A blackout poetry studio',
   );
