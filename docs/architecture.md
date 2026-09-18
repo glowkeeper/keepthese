@@ -249,9 +249,11 @@ in `LICENSING.md`.
 ## Version 1 search discovery
 
 The expanded literary collection gains a restrained static discovery surface:
-the product homepage, one original guide to the blackout-poetry practice,
-one page for each verified passage, and one page for each finite literary
-journey. Passage pages, rather than separate author or work catalogues, are the
+the product homepage, one finite Explore page, one original guide to the
+blackout-poetry practice, one page for each verified passage, and one page for
+each finite literary journey. Explore owns the complete bounded shelf and the
+routes into literary paths so the homepage can remain wholly centred on the
+studio. Passage pages, rather than separate author or work catalogues, are the
 canonical literary entity while the shelf contains one passage per work and
 author. Author, work, motif, filtered, and maker-poem pages are not introduced.
 
@@ -264,8 +266,11 @@ and a clear route into making. On passage routes, the source passage, its concis
 context, and the creative interaction provide that substance without a separate
 long-form introduction.
 
-Passage and journey pages mount the same complete discovery-and-studio island
-as the homepage, with route-owned initial passage and journey properties.
+The homepage, passage pages, and journey pages mount the same studio island,
+with route-owned initial passage and journey properties. Passage and journey
+routes expose compact local passage-switching controls rather than the complete
+shelf. The static Explore route mounts a separate finite discovery island over
+the same public passage and journey projections.
 Autosave remains keyed by passage and text version across routes. Copied poem
 links use the active passage's canonical route plus the client-only poem
 fragment; received work remains isolated from autosave. Shelf and journey
@@ -280,6 +285,34 @@ and matching Open Graph and Twitter metadata. It also emits a restrained
 `WebSite` JSON-LD record on the homepage or a `BreadcrumbList` matching the
 visible two-level navigation on passage and journey pages. No schema claims
 authorship or publication of the underlying literary work.
+
+The layout also keeps one stable brand header on every route: the same studio
+eyebrow, wordmark, invitation, navigation, scale, and spacing. Route-specific
+context belongs beneath the header with the route heading rather than replacing
+the brand invitation or changing the visual rhythm between pages. A quiet rule
+sits beneath the wordmark invitation rather than dividing the full page width.
+Top-level editorial routes use one page-title scale and one
+title-to-introduction rhythm, and do not repeat “Keep These” in visible page
+headings when the adjacent wordmark already supplies the brand. Main editorial
+surfaces—including studio introductions, page introductions, journey context,
+guides, privacy copy, and operational instructions—share the full content width.
+They must not introduce narrower route-specific text columns that leave an
+arbitrary dead area or create avoidable line breaks. A shared flow gap governs
+consecutive visible blocks; separate content-start and major-section tokens are
+reserved for the two genuinely different structural boundaries. Component
+padding must not silently add extra vertical space to the shared flow gap.
+
+The shared wordmark is the consistent home route. Editorial pages do not add
+isolated “Return to the studio” links that duplicate it. “The studio” remains
+plain language for the making surface rather than a separately named product or
+navigation destination. A not-found page may retain an explicit recovery link
+because the ordinary site context has failed there.
+
+Editorial hierarchy follows a content-first invariant: a heading that is
+followed by another heading must have meaningful introductory prose between
+them. Pages should read as heading, text, heading, text—not as stacked headings
+whose relationship the reader has to infer. Eyebrows, breadcrumbs, and other
+navigation labels do not count as content headings for this rule.
 
 The sitemap is a static Astro endpoint generated from the fixed public utility
 routes and the same validated passage and journey collections as the pages.
@@ -325,7 +358,7 @@ the browser.
 The maker can also move directly between members while the browser remains on
 the journey's canonical route, preserving session-owned journey progress.
 Leaving loads the current passage's canonical route; choosing another path
-returns to the homepage. Selecting from the general shelf or using “Choose for me”
+returns to Explore. Selecting from the general shelf or using “Choose for me”
 loads a canonical passage route and leaves the active journey.
 This is a finite creative conclusion, not a Version 2 personal archive or a
 completion reward. The first editorial set and its boundaries are recorded in

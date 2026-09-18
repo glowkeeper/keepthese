@@ -6,21 +6,10 @@ interface Props {
   title: string;
   description: string;
   canonicalPath: string;
-  compactHeader?: boolean;
-  eyebrow?: string;
-  introduction?: string;
   structuredData?: Record<string, unknown>;
 }
 
-const {
-  title,
-  description,
-  canonicalPath,
-  compactHeader = false,
-  eyebrow = 'A blackout poetry studio',
-  introduction = 'Find the poem that was waiting in the page.',
-  structuredData,
-} = Astro.props;
+const { title, description, canonicalPath, structuredData } = Astro.props;
 const canonicalUrl = new URL(canonicalPath, Astro.site);
 const socialImageUrl = new URL('/brand/keep-these-og.png', Astro.site);
 const isHomepage = canonicalPath === '/';
@@ -71,10 +60,8 @@ const isHomepage = canonicalPath === '/';
   </head>
   <body>
     <main>
-      <header
-        class:list={['site-header', { 'site-header--compact': compactHeader }]}
-      >
-        <p class="eyebrow">{eyebrow}</p>
+      <header class="site-header">
+        <p class="eyebrow">A blackout poetry studio</p>
         {
           isHomepage ? (
             <h1 class="brand-heading">
@@ -90,16 +77,21 @@ const isHomepage = canonicalPath === '/';
             </div>
           )
         }
-        <p class="introduction">{introduction}</p>
+        <p class="introduction">Find the poem waiting on the page.</p>
+        <nav class="site-navigation" aria-label="Primary">
+          <a href="/explore/">Explore</a>
+          <a href="/blackout-poetry/">How-to</a>
+          <a href="/about/">About</a>
+        </nav>
       </header>
       <slot />
       <footer class="site-footer">
         <nav aria-label="Footer">
-          <a href="/blackout-poetry/">How-to</a>
-          <a href="/about/">About</a>
           <a href="/privacy/">Privacy</a>
         </nav>
-        <p><small>© 2026 Keep These</small></p>
+        <p>
+          <small>© 2026 <a href="https://huckle.studio">Steve Huckle</a></small>
+        </p>
       </footer>
     </main>
   </body>

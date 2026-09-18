@@ -10,12 +10,14 @@ const { Content } = await render(guide);
 <SiteLayout
   canonicalPath="/blackout-poetry/"
   description={guide.data.description}
-  eyebrow="A guide to blackout poetry"
-  introduction="Keep the words that speak. Let the rest fall away."
   title={`${guide.data.title} — Keep These`}
 >
-  <article class="practice-guide">
+  <article class="page-introduction practice-guide">
     <h1>{guide.data.title}</h1>
+    <p>
+      Blackout poetry begins with close reading. Keep the words that speak and
+      let the rest fall away.
+    </p>
     <Content />
   </article>
 </SiteLayout>

@@ -9,6 +9,7 @@ export const GET: APIRoute = async ({ site }) => {
   const { journeys, passages } = await loadSiteContent();
   const paths = [
     '/',
+    '/explore/',
     '/blackout-poetry/',
     '/about/',
     '/privacy/',

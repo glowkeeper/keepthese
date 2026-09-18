@@ -124,7 +124,7 @@ describe('passage discovery', () => {
     );
     expect(screen.queryByText('Begin with this page')).toBeNull();
     const discovery = screen.getByRole('navigation', {
-      name: 'Explore other pages',
+      name: 'Choose another page',
     });
     const studio = document.querySelector('.studio');
     expect(studio).toBeTruthy();
@@ -134,25 +134,18 @@ describe('passage discovery', () => {
     ).toBeTruthy();
   });
 
-  it('offers a one-action alternative without preselecting poem words', () => {
+  it('keeps the homepage focused on making', () => {
     render(
       <PassageDiscovery homepage journeys={journeys} passages={passages} />,
     );
 
-    expect(
-      screen.getByRole('link', { name: 'Choose for me' }).getAttribute('href'),
-    ).toBe('/passages/persuasion-1818-chapter-4-prudence-and-romance/');
     expect(screen.getByLabelText('Your poem text').textContent).toBe(
       'Your chosen words will gather here.',
     );
     expect(screen.getByText('Begin with this page')).toBeTruthy();
-    const studio = document.querySelector('.studio');
-    expect(studio).toBeTruthy();
     expect(
-      studio!.compareDocumentPosition(
-        screen.getByRole('navigation', { name: 'Explore other pages' }),
-      ) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
+      screen.queryByRole('navigation', { name: 'Choose another page' }),
+    ).toBeNull();
   });
 
   it('does not claim the selected passage is the current page off-route', () => {

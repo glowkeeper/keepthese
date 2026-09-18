@@ -1,0 +1,24 @@
+---
+import ExplorePage from '../components/ExplorePage';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { loadSiteContent } from '../lib/site-content';
+
+const { journeys, passages } = await loadSiteContent();
+const description =
+  'Choose a carefully selected page of classic writing or follow a finite literary path, then find a blackout poem of your own.';
+---
+
+<SiteLayout
+  canonicalPath="/explore/"
+  description={description}
+  title="Explore pages for blackout poetry — Keep These"
+>
+  <section class="page-introduction explore-introduction">
+    <h1>Explore</h1>
+    <p>
+      Choose a page deliberately, let chance place one before you, or follow a
+      five-page path through the collection.
+    </p>
+  </section>
+  <ExplorePage journeys={journeys} passages={passages} client:load />
+</SiteLayout>

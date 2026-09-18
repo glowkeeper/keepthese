@@ -22,9 +22,9 @@ journey collections as the public routes. It then runs
 - an indexable page is `noindex`, the 404 is not `noindex`, or `robots.txt`
   stops declaring the production sitemap.
 
-The sitemap contains only the homepage, practice guide, about and privacy
-pages, twenty passage pages, and three literary journeys. Error pages and
-maker-state fragments are never entries.
+The sitemap contains only the homepage, Explore page, practice guide, about and
+privacy pages, twenty passage pages, and three literary journeys. Error pages
+and maker-state fragments are never entries.
 
 ## Deployment verification
 

@@ -12,7 +12,7 @@ import {
 import type { PublicPassage } from '../lib/public-passage';
 import { decodePoemFragment } from '../lib/stateless-poem-link';
 import { segmentPassages } from '../lib/studio-state';
-import { journeyPath, passagePath } from '../lib/route-paths';
+import { passagePath } from '../lib/route-paths';
 import BlackoutStudio, { type KeptPoemWork } from './BlackoutStudio';
 
 interface PassageDiscoveryProps {
@@ -32,7 +32,6 @@ export function PassageDiscovery({
   journeys,
   passages,
 }: PassageDiscoveryProps) {
-  const journeyChooserRef = useRef<HTMLDetailsElement>(null);
   const journeySequenceExportRef = useRef<HTMLElement>(null);
   const journeyShareInFlight = useRef(false);
   const passageChooserRef = useRef<HTMLDetailsElement>(null);
@@ -209,7 +208,6 @@ export function PassageDiscovery({
 
   function choosePassage(passageId: string, journeyId: string | null = null) {
     leaveReceivedPoem();
-    journeyChooserRef.current?.removeAttribute('open');
     passageChooserRef.current?.removeAttribute('open');
     setActiveJourneyId(journeyId);
     setJourneyComplete(false);
@@ -365,17 +363,9 @@ export function PassageDiscovery({
 
   const discoveryControls = (
     <nav
-      className={`passage-discovery${homepage ? ' passage-discovery--homepage' : ''}`}
-      aria-label="Explore other pages"
+      className="passage-discovery passage-discovery--local"
+      aria-label="Choose another page"
     >
-      <p className="eyebrow passage-discovery-heading">Explore further</p>
-      <a
-        className="surprise-action"
-        href={passagePath(surpriseFallback.passageId)}
-        onClick={surpriseMe}
-      >
-        Choose for me
-      </a>
       <details className="passage-chooser" ref={passageChooserRef}>
         <summary>Choose another</summary>
         <ul>
@@ -410,22 +400,13 @@ export function PassageDiscovery({
           ))}
         </ul>
       </details>
-      <details className="journey-chooser" ref={journeyChooserRef}>
-        <summary>Follow a literary path</summary>
-        <ul>
-          {journeys.map((journey) => (
-            <li key={journey.journeyId}>
-              <div className="journey-card">
-                <h3>{journey.title}</h3>
-                <p>{journey.invitation}</p>
-                <a href={journeyPath(journey.journeyId)}>
-                  Begin this {journey.passageIds.length}-page path
-                </a>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </details>
+      <a
+        className="surprise-action"
+        href={passagePath(surpriseFallback.passageId)}
+        onClick={surpriseMe}
+      >
+        Choose for me
+      </a>
     </nav>
   );
 
@@ -607,7 +588,7 @@ export function PassageDiscovery({
               </button>
             ) : null}
             <a href={passagePath(currentPassage.passageId)}>Leave this path</a>
-            <a href="/">Choose another path</a>
+            <a href="/explore/">Choose another path</a>
           </div>
           <p className="journey-export-status" aria-live="polite">
             {journeyExportStatus}
@@ -706,8 +687,6 @@ export function PassageDiscovery({
           }
         />
       )}
-
-      {homepage && !journeyComplete ? discoveryControls : null}
     </>
   );
 }

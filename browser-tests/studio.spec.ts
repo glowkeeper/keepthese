@@ -278,16 +278,24 @@ test('storage failure is explained without stopping the creative flow', async ({
 test('the complete shelf changes passages and keeps their work separate', async ({
   page,
 }) => {
-  await page.getByText('Choose another', { exact: true }).click();
-  await expect(page.getByText('20 pages, carefully chosen')).toHaveCount(0);
-  await expect(page.locator('.passage-chooser li')).toHaveCount(20);
   await page.getByText('How to choose words', { exact: true }).click();
   await expect(page.locator('.studio-help')).toHaveAttribute('open', '');
+  if (page.viewportSize()!.width >= 1000) {
+    expect(
+      await page.locator('.studio-help > p').evaluate((paragraph) => {
+        const range = document.createRange();
+        range.selectNodeContents(paragraph);
+        return range.getClientRects().length;
+      }),
+    ).toBe(1);
+  }
 
   await page.getByRole('button', { exact: true, name: 'Keep Life' }).click();
   await expect(page.locator('.storage-status')).toHaveText(
     'Saved privately in this browser.',
   );
+  await page.getByRole('link', { name: 'Explore' }).click();
+  await expect(page.locator('.explore-passage-list li')).toHaveCount(20);
   await page
     .getByRole('link', { name: /Persuasion Jane Austen Chapter IV/ })
     .click();
@@ -324,6 +332,8 @@ test('the complete shelf changes passages and keeps their work separate', async 
 test('choose for me replaces the current page in one action', async ({
   page,
 }) => {
+  await page.goto('/explore/');
+  await expect(page.locator('astro-island')).not.toHaveAttribute('ssr', '');
   await page.evaluate(() => {
     Math.random = () => 0.999;
   });
@@ -345,6 +355,8 @@ test('choose for me replaces the current page in one action', async ({
 test('modified random-choice clicks retain ordinary link behaviour', async ({
   page,
 }) => {
+  await page.goto('/explore/');
+  await expect(page.locator('astro-island')).not.toHaveAttribute('ssr', '');
   const defaultPrevented = await page
     .getByRole('link', { name: 'Choose for me' })
     .evaluate((link) => {
@@ -364,6 +376,7 @@ test('modified random-choice clicks retain ordinary link behaviour', async ({
 test('a finite literary path shows position and moves between its pages', async ({
   page,
 }) => {
+  await page.goto('/explore/');
   await page.getByText('Follow a literary path', { exact: true }).click();
   await expect(page.locator('.journey-card')).toHaveCount(3);
   expect(await page.content()).not.toContain(
@@ -400,6 +413,7 @@ test('a finite literary path shows position and moves between its pages', async 
 test('a literary path resolves into a five-poem sequence', async ({ page }) => {
   test.slow();
   await enablePngSharing(page);
+  await page.goto('/explore/');
   await page.getByText('Follow a literary path', { exact: true }).click();
   await page
     .getByRole('link', { name: 'Begin this 5-page path' })
@@ -529,8 +543,10 @@ test('a literary path resolves into a five-poem sequence', async ({ page }) => {
   expect(actionLayout).toBe(true);
 
   await page.getByRole('link', { name: 'Choose another path' }).click();
-  await expect(page).toHaveURL(/\/$/);
-  await expect(page.locator('.studio')).toBeVisible();
+  await expect(page).toHaveURL(/\/explore\/$/);
+  await expect(
+    page.getByRole('heading', { name: 'Explore', exact: true }),
+  ).toBeVisible();
 });
 
 test('release metadata and local brand assets are complete', async ({
@@ -541,7 +557,7 @@ test('release metadata and local brand assets are complete', async ({
     'A blackout poetry studio',
   );
   await expect(page.locator('.introduction')).toHaveText(
-    'Find the poem that was waiting in the page.',
+    'Find the poem waiting on the page.',
   );
   await expect(page.locator('.studio')).toHaveCSS('margin-top', '0px');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
@@ -556,6 +572,10 @@ test('release metadata and local brand assets are complete', async ({
     'aria-label',
     'Keep These',
   );
+  await expect(page.getByRole('link', { name: 'Explore' })).toHaveAttribute(
+    'href',
+    '/explore/',
+  );
   await expect(
     page.getByRole('link', { name: 'How-to', exact: true }),
   ).toHaveAttribute('href', '/blackout-poetry/');
@@ -567,7 +587,18 @@ test('release metadata and local brand assets are complete', async ({
     'href',
     '/privacy/',
   );
-  await expect(page.locator('.site-footer')).toContainText('© 2026 Keep These');
+  await expect(page.locator('.site-footer')).toContainText(
+    '© 2026 Steve Huckle',
+  );
+  await expect(
+    page.locator('.site-footer').getByRole('link', { name: 'Privacy' }),
+  ).toHaveAttribute('href', '/privacy/');
+  await expect(
+    page.locator('.site-footer').getByRole('link', { name: 'How-to' }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole('link', { name: 'Steve Huckle' }),
+  ).toHaveAttribute('href', 'https://huckle.studio');
 
   for (const path of [
     '/favicon.svg',
@@ -586,37 +617,124 @@ test('the homepage opens with the studio before discovery', async ({
 
   await expect(page.getByText('Begin with this page')).toBeVisible();
   await expect(page.getByText('20 pages, carefully chosen')).toHaveCount(0);
-  await expect(page.getByRole('link', { name: 'Choose for me' })).toBeVisible();
-  await expect(page.getByText('Choose another', { exact: true })).toBeVisible();
+  await expect(page.locator('.passage-discovery')).toHaveCount(0);
 
   const desktopLayout = await page.evaluate(() => {
     const header = document.querySelector('.site-header');
+    const introduction = document.querySelector('.site-header .introduction');
+    const navigation = document.querySelector('.site-navigation');
     const source = document.querySelector('.source-page');
     const studio = document.querySelector('.studio');
-    const discovery = document.querySelector('.passage-discovery');
-    if (!header || !source || !studio || !discovery) return null;
+    const studioIntroduction = document.querySelector('.studio-introduction');
+    const wordmark = document.querySelector('.wordmark');
+    if (
+      !header ||
+      !introduction ||
+      !navigation ||
+      !source ||
+      !studio ||
+      !studioIntroduction ||
+      !wordmark
+    )
+      return null;
     return {
-      discoveryFollowsStudio: Boolean(
-        studio.compareDocumentPosition(discovery) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
-      ),
       headerGap:
-        studio.getBoundingClientRect().top -
+        studioIntroduction.getBoundingClientRect().top -
         header.getBoundingClientRect().bottom,
+      introductionBelowWordmark:
+        introduction.getBoundingClientRect().top >=
+        wordmark.getBoundingClientRect().bottom,
+      navigationAtRight:
+        navigation.getBoundingClientRect().right >
+        wordmark.getBoundingClientRect().right,
       sourceTop: source.getBoundingClientRect().top,
+      studioIntroductionWidth: studioIntroduction.getBoundingClientRect().width,
     };
   });
 
   expect(desktopLayout).not.toBeNull();
-  expect(desktopLayout!.discoveryFollowsStudio).toBe(true);
-  expect(desktopLayout!.headerGap).toBeLessThan(80);
+  expect(desktopLayout!.headerGap).toBeGreaterThanOrEqual(40);
+  expect(desktopLayout!.headerGap).toBeLessThanOrEqual(48);
+  expect(desktopLayout!.introductionBelowWordmark).toBe(true);
+  expect(desktopLayout!.navigationAtRight).toBe(true);
   expect(desktopLayout!.sourceTop).toBeLessThan(900);
+  expect(desktopLayout!.studioIntroductionWidth).toBeGreaterThan(1100);
 
   await page.setViewportSize({ height: 844, width: 390 });
   await expect(page.locator('.site-header')).toBeVisible();
   await expect(page.locator('.studio')).toBeVisible();
   await expect(page.locator('.source-page')).toBeVisible();
-  await expect(page.locator('.passage-discovery')).toBeVisible();
+  await expect(page.locator('.site-navigation')).toBeVisible();
+});
+
+test('the Explore page presents the finite shelf and literary paths', async ({
+  page,
+}) => {
+  await page.goto('/explore/');
+
+  await expect(page).toHaveTitle(
+    'Explore pages for blackout poetry — Keep These',
+  );
+  await expect(
+    page.getByRole('heading', { name: 'Explore', exact: true }),
+  ).toBeVisible();
+  await expect(page.locator('.site-header .eyebrow')).toHaveText(
+    'A blackout poetry studio',
+  );
+  await expect(page.locator('.site-header .introduction')).toHaveText(
+    'Find the poem waiting on the page.',
+  );
+  await expect(page.locator('.site-header .introduction')).toHaveCSS(
+    'border-bottom-width',
+    '1px',
+  );
+  await expect(page.locator('.site-header')).toHaveCSS(
+    'border-bottom-width',
+    '0px',
+  );
+  const headerGap = await page.evaluate(() => {
+    const header = document.querySelector('.site-header');
+    const introduction = document.querySelector('.explore-introduction');
+    if (!header || !introduction) return null;
+    return (
+      introduction.getBoundingClientRect().top -
+      header.getBoundingClientRect().bottom
+    );
+  });
+  expect(headerGap).not.toBeNull();
+  expect(headerGap!).toBeLessThan(80);
+  const sectionGap = await page.evaluate(() => {
+    const introduction = document.querySelector('.explore-introduction');
+    const shelf = document.querySelector('.explore-page');
+    if (!introduction || !shelf) return null;
+    return (
+      shelf.getBoundingClientRect().top -
+      introduction.getBoundingClientRect().bottom
+    );
+  });
+  expect(sectionGap).not.toBeNull();
+  expect(sectionGap!).toBeLessThanOrEqual(48);
+  await expect(page.locator('.explore-passage-list > li')).toHaveCount(20);
+  await expect(page.locator('.explore-journey-list > li')).toHaveCount(3);
+  if (page.viewportSize()!.width >= 1000) {
+    expect(
+      await page.locator('.explore-introduction > p').evaluate((paragraph) => {
+        const range = document.createRange();
+        range.selectNodeContents(paragraph);
+        return range.getClientRects().length;
+      }),
+    ).toBe(1);
+  }
+  await expect(
+    page.getByRole('link', { name: 'Choose for me' }),
+  ).toHaveAttribute(
+    'href',
+    '/passages/frankenstein-1831-chapter-4-life-and-death/',
+  );
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://keepthese.com/explore/',
+  );
 });
 
 test('search metadata describes the site and exact canonical route set', async ({
@@ -639,7 +757,8 @@ test('search metadata describes the site and exact canonical route set', async (
   expect(sitemapResponse.status()).toBe(200);
   expect(sitemapResponse.headers()['content-type']).toContain('xml');
   const sitemap = await sitemapResponse.text();
-  expect([...sitemap.matchAll(/<loc>/gu)]).toHaveLength(27);
+  expect([...sitemap.matchAll(/<loc>/gu)]).toHaveLength(28);
+  expect(sitemap).toContain('<loc>https://keepthese.com/explore/</loc>');
   expect(sitemap).toContain('<loc>https://keepthese.com/about/</loc>');
   expect(sitemap).toContain('<loc>https://keepthese.com/privacy/</loc>');
   expect(sitemap).toContain(
@@ -670,6 +789,28 @@ test('a passage route provides editorial context and opens its studio page', asy
   await expect(page.locator('.passage-context')).toHaveText(
     'In Chapter IV of Austen’s final completed novel, Anne Elliot reflects on the advice that separated her from an early attachment.',
   );
+  const passageFlowGaps = await page.evaluate(() => {
+    const breadcrumb = document
+      .querySelector('.passage-breadcrumb')
+      ?.getBoundingClientRect();
+    const controls = document
+      .querySelector('.passage-discovery--local')
+      ?.getBoundingClientRect();
+    const studio = document
+      .querySelector('.studio-introduction')
+      ?.getBoundingClientRect();
+    if (!breadcrumb || !controls || !studio) return null;
+    return {
+      breadcrumbToControls: controls.top - breadcrumb.bottom,
+      controlsToStudio: studio.top - controls.bottom,
+    };
+  });
+  expect(passageFlowGaps).not.toBeNull();
+  expect(passageFlowGaps!.breadcrumbToControls).toBeCloseTo(
+    passageFlowGaps!.controlsToStudio,
+    0,
+  );
+  expect(passageFlowGaps!.controlsToStudio).toBeLessThanOrEqual(32);
   await expect(page.getByText('Begin with', { exact: true })).toHaveCount(0);
   const breadcrumbData = JSON.parse(
     (await page.locator('script[type="application/ld+json"]').textContent()) ??
@@ -682,13 +823,11 @@ test('a passage route provides editorial context and opens its studio page', asy
       name: /Persuasion.*Jane Austen.*Chapter IV/,
     }),
   ).toHaveAttribute('aria-current', 'page');
-  await page.getByText('Follow a literary path', { exact: true }).click();
-  await expect(
-    page
-      .locator('.journey-card')
-      .filter({ hasText: 'Divided and becoming' })
-      .getByRole('link'),
-  ).toHaveAttribute('href', '/journeys/divided-and-becoming/');
+  await expect(page.getByText('Follow a literary path')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Explore' })).toHaveAttribute(
+    'href',
+    '/explore/',
+  );
 });
 
 test('a journey route provides its reading context and starts at page one', async ({
@@ -703,6 +842,42 @@ test('a journey route provides its reading context and starts at page one', asyn
   await expect(
     page.getByRole('heading', { name: "Alice's Adventures in Wonderland" }),
   ).toBeVisible();
+  const journeyFlowGaps = await page.evaluate(() => {
+    const context = document
+      .querySelector('.discovery-context')
+      ?.getBoundingClientRect();
+    const controls = document
+      .querySelector('.passage-discovery--local')
+      ?.getBoundingClientRect();
+    const journey = document
+      .querySelector('.active-journey')
+      ?.getBoundingClientRect();
+    const studio = document
+      .querySelector('.studio-introduction')
+      ?.getBoundingClientRect();
+    if (!context || !controls || !journey || !studio) return null;
+    return [
+      controls.top - context.bottom,
+      journey.top - controls.bottom,
+      studio.top - journey.bottom,
+    ];
+  });
+  expect(journeyFlowGaps).not.toBeNull();
+  expect(Math.max(...journeyFlowGaps!)).toBeCloseTo(
+    Math.min(...journeyFlowGaps!),
+    0,
+  );
+  if (page.viewportSize()!.width >= 1000) {
+    await expect(page.locator('.discovery-context')).toHaveCSS(
+      'max-width',
+      '1152px',
+    );
+    expect(
+      await page
+        .locator('.discovery-context > p:last-of-type')
+        .evaluate((paragraph) => paragraph.getBoundingClientRect().width),
+    ).toBeGreaterThan(1100);
+  }
   const breadcrumbData = JSON.parse(
     (await page.locator('script[type="application/ld+json"]').textContent()) ??
       '',
@@ -730,12 +905,25 @@ test('the blackout poetry guide explains the authorship boundary', async ({
   await page.goto('/blackout-poetry/');
 
   await expect(page.locator('.site-header .eyebrow')).toHaveText(
-    'A guide to blackout poetry',
+    'A blackout poetry studio',
   );
 
   await expect(
     page.getByRole('heading', { name: 'How to make blackout poetry' }),
   ).toBeVisible();
+  await expect(page.locator('.practice-guide > h1 + p')).toHaveText(
+    'Blackout poetry begins with close reading. Keep the words that speak and let the rest fall away.',
+  );
+  await expect(page.locator('.practice-guide > h1 + h2')).toHaveCount(0);
+  if (page.viewportSize()!.width >= 1000) {
+    expect(
+      await page.locator('.practice-guide > h1').evaluate((heading) => {
+        const range = document.createRange();
+        range.selectNodeContents(heading);
+        return range.getClientRects().length;
+      }),
+    ).toBe(1);
+  }
   await expect(page.locator('.practice-guide')).toContainText(
     'Keep These does not generate a poem or suggest which words belong together.',
   );
@@ -755,29 +943,51 @@ test('about and privacy pages explain the project and its private design', async
 }) => {
   await page.goto('/about/');
   await expect(page.locator('.site-header .eyebrow')).toHaveText(
-    'The project and its principles',
+    'A blackout poetry studio',
   );
   await expect(page.locator('.site-header .introduction')).toHaveText(
-    'An instrument for finding poems in existing writing.',
+    'Find the poem waiting on the page.',
   );
   await expect(
-    page.getByRole('heading', { name: 'About Keep These' }),
+    page.getByRole('heading', { level: 1, name: 'About', exact: true }),
   ).toBeVisible();
+  const aboutTitleSize = await page
+    .getByRole('heading', { level: 1, name: 'About', exact: true })
+    .evaluate((heading) => getComputedStyle(heading).fontSize);
   await expect(page.locator('.practice-guide')).toContainText(
     'Keep These is a blackout-poetry app that never chooses words or composes a poem for you.',
   );
   await expect(
     page.getByRole('link', { name: 'blackout-poetry app' }),
   ).toHaveAttribute('href', '/blackout-poetry/');
+  await expect(
+    page.getByRole('link', { name: 'Return to the studio' }),
+  ).toHaveCount(0);
+
+  await page.goto('/explore/');
+  const exploreTitle = page.getByRole('heading', {
+    level: 1,
+    name: 'Explore',
+    exact: true,
+  });
+  await expect(exploreTitle).toBeVisible();
+  expect(
+    await exploreTitle.evaluate(
+      (heading) => getComputedStyle(heading).fontSize,
+    ),
+  ).toBe(aboutTitleSize);
 
   await page.goto('/privacy/');
   await expect(page.locator('.site-header .eyebrow')).toHaveText(
-    'How your work stays private',
+    'A blackout poetry studio',
   );
   await expect(page.getByRole('heading', { name: 'Privacy' })).toBeVisible();
   await expect(page.locator('.practice-guide')).toContainText(
     'no accounts, analytics, advertising trackers, or poem uploads',
   );
+  await expect(
+    page.getByRole('link', { name: 'Return to the studio' }),
+  ).toHaveCount(0);
 });
 
 test('editorial entry points remain readable without JavaScript', async ({
@@ -785,6 +995,16 @@ test('editorial entry points remain readable without JavaScript', async ({
 }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
+
+  await page.goto('/explore/');
+  await expect(page.locator('.explore-passage-list > li')).toHaveCount(20);
+  await expect(page.locator('.explore-journey-list > li')).toHaveCount(3);
+  await expect(
+    page.getByRole('link', { name: 'Choose for me' }),
+  ).toHaveAttribute(
+    'href',
+    '/passages/frankenstein-1831-chapter-4-life-and-death/',
+  );
 
   await page.goto('/passages/persuasion-1818-chapter-4-prudence-and-romance/');
   await expect(page.locator('.discovery-context')).toHaveCount(0);

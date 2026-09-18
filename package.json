@@ -14,6 +14,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
+    "stop": "astro dev stop",
     "build": "npm run typecheck && astro build && node scripts/verify-search-output.mjs",
     "preview": "astro preview",
     "test": "vitest run",
