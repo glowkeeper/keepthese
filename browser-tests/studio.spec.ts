@@ -278,8 +278,8 @@ test('storage failure is explained without stopping the creative flow', async ({
 test('the complete shelf changes passages and keeps their work separate', async ({
   page,
 }) => {
-  await page.getByText('Choose a page', { exact: true }).click();
-  await expect(page.getByText('20 pages, carefully chosen')).toBeVisible();
+  await page.getByText('Choose another', { exact: true }).click();
+  await expect(page.getByText('20 pages, carefully chosen')).toHaveCount(0);
   await expect(page.locator('.passage-chooser li')).toHaveCount(20);
   await page.getByText('How to choose words', { exact: true }).click();
   await expect(page.locator('.studio-help')).toHaveAttribute('open', '');
@@ -306,7 +306,7 @@ test('the complete shelf changes passages and keeps their work separate', async 
       .first(),
   ).toHaveAttribute('href', 'https://www.gutenberg.org/ebooks/105');
 
-  await page.getByText('Choose a page', { exact: true }).click();
+  await page.getByText('Choose another', { exact: true }).click();
   await page
     .getByRole('link', {
       name: /Frankenstein; Or, The Modern Prometheus Mary Wollstonecraft Shelley/,
@@ -321,13 +321,13 @@ test('the complete shelf changes passages and keeps their work separate', async 
   await expect(page.getByLabel('Your poem text')).toHaveText('Life');
 });
 
-test('surprise me replaces the current page in one action', async ({
+test('choose for me replaces the current page in one action', async ({
   page,
 }) => {
   await page.evaluate(() => {
     Math.random = () => 0.999;
   });
-  await page.getByRole('link', { name: 'Surprise me' }).click();
+  await page.getByRole('link', { name: 'Choose for me' }).click();
 
   await expect(page).toHaveURL(
     /\/passages\/pointed-firs-1896-dunnet-landing\/$/,
@@ -342,11 +342,11 @@ test('surprise me replaces the current page in one action', async ({
   );
 });
 
-test('modified Surprise clicks retain ordinary link behaviour', async ({
+test('modified random-choice clicks retain ordinary link behaviour', async ({
   page,
 }) => {
   const defaultPrevented = await page
-    .getByRole('link', { name: 'Surprise me' })
+    .getByRole('link', { name: 'Choose for me' })
     .evaluate((link) => {
       const event = new MouseEvent('click', {
         bubbles: true,
@@ -579,6 +579,46 @@ test('release metadata and local brand assets are complete', async ({
   }
 });
 
+test('the homepage opens with the studio before discovery', async ({
+  page,
+}) => {
+  await page.setViewportSize({ height: 900, width: 1280 });
+
+  await expect(page.getByText('Begin with this page')).toBeVisible();
+  await expect(page.getByText('20 pages, carefully chosen')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Choose for me' })).toBeVisible();
+  await expect(page.getByText('Choose another', { exact: true })).toBeVisible();
+
+  const desktopLayout = await page.evaluate(() => {
+    const header = document.querySelector('.site-header');
+    const source = document.querySelector('.source-page');
+    const studio = document.querySelector('.studio');
+    const discovery = document.querySelector('.passage-discovery');
+    if (!header || !source || !studio || !discovery) return null;
+    return {
+      discoveryFollowsStudio: Boolean(
+        studio.compareDocumentPosition(discovery) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+      ),
+      headerGap:
+        studio.getBoundingClientRect().top -
+        header.getBoundingClientRect().bottom,
+      sourceTop: source.getBoundingClientRect().top,
+    };
+  });
+
+  expect(desktopLayout).not.toBeNull();
+  expect(desktopLayout!.discoveryFollowsStudio).toBe(true);
+  expect(desktopLayout!.headerGap).toBeLessThan(80);
+  expect(desktopLayout!.sourceTop).toBeLessThan(900);
+
+  await page.setViewportSize({ height: 844, width: 390 });
+  await expect(page.locator('.site-header')).toBeVisible();
+  await expect(page.locator('.studio')).toBeVisible();
+  await expect(page.locator('.source-page')).toBeVisible();
+  await expect(page.locator('.passage-discovery')).toBeVisible();
+});
+
 test('search metadata describes the site and exact canonical route set', async ({
   page,
 }) => {
@@ -636,7 +676,7 @@ test('a passage route provides editorial context and opens its studio page', asy
       '',
   );
   expect(breadcrumbData.itemListElement[1].name).toBe('Persuasion');
-  await page.getByText('Choose a page', { exact: true }).click();
+  await page.getByText('Choose another', { exact: true }).click();
   await expect(
     page.getByRole('link', {
       name: /Persuasion.*Jane Austen.*Chapter IV/,
@@ -762,10 +802,9 @@ test('editorial entry points remain readable without JavaScript', async ({
     'href',
     '/passages/frankenstein-1831-chapter-4-life-and-death/',
   );
-  await expect(page.getByRole('link', { name: 'Surprise me' })).toHaveAttribute(
-    'href',
-    '/passages/jane-eyre-1847-chapter-10-wide-world/',
-  );
+  await expect(
+    page.getByRole('link', { name: 'Choose for me' }),
+  ).toHaveAttribute('href', '/passages/jane-eyre-1847-chapter-10-wide-world/');
 
   await context.close();
 });

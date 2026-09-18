@@ -37,6 +37,7 @@ function browserStorage(): Storage | null {
 }
 
 interface BlackoutStudioProps {
+  introductionLabel?: string;
   journeyAction?: {
     label: string;
     onKeep: (work: KeptPoemWork) => void;
@@ -54,6 +55,7 @@ export interface KeptPoemWork {
 }
 
 export function BlackoutStudio({
+  introductionLabel,
   journeyAction,
   passage,
   preservePrivateWork = false,
@@ -383,6 +385,11 @@ export function BlackoutStudio({
   return (
     <section className="studio" aria-labelledby="studio-heading">
       <div className="studio-introduction">
+        {introductionLabel ? (
+          <p className="eyebrow studio-introduction-label">
+            {introductionLabel}
+          </p>
+        ) : null}
         <h2 id="studio-heading" tabIndex={-1}>
           <cite>{passage.work.title}</cite>
         </h2>
