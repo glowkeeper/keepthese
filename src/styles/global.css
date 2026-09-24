@@ -130,6 +130,7 @@ h1 {
 .site-navigation {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem 1.25rem;
   margin-top: 0.75rem;
   font-family: system-ui, sans-serif;
@@ -556,6 +557,53 @@ h1 {
 
 .site-footer p {
   margin: 0;
+}
+
+/*
+ * Site share controls are buttons, not links, because they do not navigate.
+ * They take the navigation's colour and underline so they read as part of the
+ * same chrome rather than as a new component.
+ */
+.share-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #762713;
+  font: inherit;
+  cursor: pointer;
+}
+
+.share-button:not(.share-button--icon) {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/*
+ * The glyph is drawn at 1.2em, which alone would be under the 24px minimum
+ * target in WCAG 2.2 success criterion 2.5.8, so the button carries the target
+ * size and centres the glyph inside it.
+ */
+.share-button--icon {
+  display: inline-flex;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.share-button--icon svg {
+  width: 1.2em;
+  height: 1.2em;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.share-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
 }
 
 .error-page {
@@ -1188,6 +1236,7 @@ h1 {
 
   .site-header .site-navigation {
     grid-area: navigation;
+    align-self: start;
     justify-self: end;
     margin-top: 0;
   }
