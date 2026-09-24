@@ -13,6 +13,7 @@ const { title, description, canonicalPath, structuredData } = Astro.props;
 const canonicalUrl = new URL(canonicalPath, Astro.site);
 const socialImageUrl = new URL('/brand/keep-these-og.png', Astro.site);
 const isHomepage = canonicalPath === '/';
+const siteUrl = new URL('/', Astro.site).href;
 ---
 
 <!doctype html>
@@ -82,17 +83,49 @@ const isHomepage = canonicalPath === '/';
           <a href="/explore/">Explore</a>
           <a href="/blackout-poetry/">How-to</a>
           <a href="/about/">About</a>
+          <button
+            class="share-button share-button--icon"
+            type="button"
+            data-share-site
+            data-share-url={siteUrl}
+            aria-label="Share Keep These"
+          >
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <circle cx="18" cy="5" r="2.5"></circle>
+              <circle cx="6" cy="12" r="2.5"></circle>
+              <circle cx="18" cy="19" r="2.5"></circle>
+              <path d="m8.2 10.8 7.6-4.5M8.2 13.2l7.6 4.5"></path>
+            </svg>
+          </button>
         </nav>
       </header>
       <slot />
       <footer class="site-footer">
         <nav aria-label="Footer">
           <a href="/privacy/">Privacy</a>
+          <button
+            class="share-button"
+            type="button"
+            data-share-site
+            data-share-url={siteUrl}
+          >
+            Share Keep These
+          </button>
+          <span
+            class="visually-hidden"
+            data-share-feedback
+            aria-live="polite"
+            aria-atomic="true"></span>
         </nav>
         <p>
           <small>© 2026 <a href="https://huckle.studio">Steve Huckle</a></small>
         </p>
       </footer>
     </main>
+    <script>
+      import { connectShareControls } from '../lib/site-share';
+
+      connectShareControls();
+    </script>
   </body>
 </html>
