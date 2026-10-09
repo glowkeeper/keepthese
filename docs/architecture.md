@@ -144,8 +144,28 @@ Version 1 is published as the existing static Astro build on Cloudflare Pages
 at `https://keepthese.com`. Git-connected preview and production deployments
 provide the release path; successful production deployments provide rollback.
 The release uses no Cloudflare runtime adapter, Functions, Worker, bindings,
-storage, accounts, or analytics. Detailed deployment, verification, and
+storage, or accounts. Detailed deployment, verification, and
 recovery procedures are recorded in the [release procedure](release.md).
+
+## Visit measurement decision
+
+On 9 October 2026 the maintainer decided to count visits with Cloudflare Web
+Analytics (issue #100). It is enabled in the Cloudflare Pages project, which
+injects the beacon at the edge, so the repository holds no snippet, token,
+Function, or binding. The only repository consequence is a Content-Security-Policy
+in `public/_headers` that additionally allows `https://static.cloudflareinsights.com`
+for scripts and `https://cloudflareinsights.com` for connections.
+
+Web Analytics reports aggregate page views, approximate country, referrer,
+browser, device type, and Web Vitals. It uses no cookies or persistent
+identifiers, so no consent banner or opt-out is provided, and the privacy page
+describes it. It measures visits only: no poem, selection, passage choice,
+share, export, or other studio event is observed or sent, and studio state
+remains browser-local. Custom event analytics, gameplay-style counters, and
+any database or Function for them are not part of this decision and would need
+a new recorded decision. A future service worker (installable or offline
+behaviour) could serve pages without the beacon and would need to account for
+that.
 
 ## Playable sketch decision
 

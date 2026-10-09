@@ -45,8 +45,14 @@ The constraints are part of its character:
 - work kept privately on the person's device;
 - a finished image or project file that belongs to its maker;
 - a route back to the original book;
-- no feed, metrics, notifications, generative button, account prompt, endless
-  library, cloud dependency, or pressure to publish.
+- no feed, visible metrics, notifications, generative button, account prompt,
+  endless library, cloud dependency, or pressure to publish.
+
+The prohibition on metrics concerns what makers see and are nudged by. On 9
+October 2026 the maintainer decided that aggregate, maintainer-only visit counts
+from Cloudflare Web Analytics are permitted (issue #100). They use no cookies or
+persistent identifiers, observe nothing inside the studio, and are never shown
+to makers. See the visit measurement decision in `docs/architecture.md`.
 
 The creative principles behind these constraints are recorded in
 `CREATIVE_CHARTER.md`. Rules for choosing, verifying, presenting, and crediting

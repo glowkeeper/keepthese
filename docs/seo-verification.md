@@ -69,8 +69,9 @@ or client-side tracking. If the maintainer connects it:
 5. review impressions, clicks, click-through rate, pages, and queries as
    discovery evidence rather than as measures of creative value.
 
-Do not add a browser analytics script, consent banner, advertising identifier,
-or user-level event tracking for this process.
+Do not add Google Analytics, a consent banner, advertising identifier, or
+user-level event tracking for this process. Aggregate visit counts use
+Cloudflare Web Analytics, described in [architecture](architecture.md#visit-measurement-decision).
 
 ## Issue 68 implementation record
 

@@ -1042,8 +1042,19 @@ test('about and privacy pages explain the project and its private design', async
   );
   await expect(page.getByRole('heading', { name: 'Privacy' })).toBeVisible();
   await expect(page.locator('.practice-guide')).toContainText(
-    'no accounts, analytics, advertising trackers, or poem uploads',
+    'no accounts, advertising trackers, or poem uploads',
   );
+  await expect(page.locator('.practice-guide')).toContainText(
+    'Cloudflare Web Analytics',
+  );
+  await expect(page.locator('.practice-guide')).toContainText(
+    'no persistent identifiers',
+  );
+  await expect(
+    page.getByRole('link', {
+      name: 'Cloudflare’s Web Analytics information',
+    }),
+  ).toHaveAttribute('href', 'https://www.cloudflare.com/web-analytics/');
   await expect(
     page.getByRole('link', { name: 'Return to the studio' }),
   ).toHaveCount(0);

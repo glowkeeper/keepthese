@@ -35,11 +35,12 @@ offer a bug bounty or guarantee a particular response time.
 
 ## Scope notes
 
-The hosted application has no account system, backend, poem database, analytics
-service, or runtime Cloudflare binding. Browser-local storage, PNG generation,
-URL-fragment poem sharing, the static deployment pipeline, dependencies, and
-repository configuration can still have security or privacy consequences and
-are in scope for responsible reports.
+The hosted application has no account system, backend, poem database, or
+runtime Cloudflare binding. Aggregate visit counts come from Cloudflare Web
+Analytics, enabled in the Pages project rather than in this repository.
+Browser-local storage, PNG generation, URL-fragment poem sharing, the static
+deployment pipeline, dependencies, and repository configuration can still have
+security or privacy consequences and are in scope for responsible reports.
 
 Third-party archives and catalogues linked from Keep These operate under their
 own security policies.

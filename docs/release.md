@@ -9,9 +9,10 @@ site consists only of static files, can deploy from the existing GitHub
 repository, supplies isolated pull-request previews, and retains successful
 production deployments for rollback.
 
-No Cloudflare adapter, Pages Function, Worker, database, account system,
-analytics product, or runtime binding is used. Creative work remains in the
-maker's browser and PNG generation remains on their device.
+No Cloudflare adapter, Pages Function, Worker, database, account system, or
+runtime binding is used. Aggregate visit counts come from Cloudflare Web
+Analytics (see below). Creative work remains in the maker's browser and PNG
+generation remains on their device.
 
 ## Release identity
 
@@ -39,7 +40,9 @@ changes are inspectable and reproducible.
 4. Attach `www.keepthese.com`, then create a permanent Cloudflare redirect from
    `www.keepthese.com/*` to `https://keepthese.com/$1` while preserving the
    remaining path and query string.
-5. Do not enable Web Analytics or add runtime bindings. Keep the generated
+5. Enable Web Analytics for the Pages project from its **Metrics** settings so
+   Cloudflare injects the beacon at the edge; add no snippet or site token to
+   the repository and add no runtime bindings. Keep the generated
    `keepthese.pages.dev` hostname available for diagnosis, not as the canonical
    public address.
 
