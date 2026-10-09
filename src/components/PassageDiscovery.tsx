@@ -10,7 +10,11 @@ import {
   sharePng,
 } from '../lib/png-export';
 import type { PublicPassage } from '../lib/public-passage';
-import { decodePoemFragment } from '../lib/stateless-poem-link';
+import { archiveIdFromHash, loadFromArchive } from '../lib/poem-archive';
+import {
+  decodePoemFragment,
+  type DecodedPoemLink,
+} from '../lib/stateless-poem-link';
 import { segmentPassages } from '../lib/studio-state';
 import { passagePath } from '../lib/route-paths';
 import BlackoutStudio, { type KeptPoemWork } from './BlackoutStudio';
@@ -23,6 +27,30 @@ interface PassageDiscoveryProps {
   passageRouteId?: string;
   journeys: PublicLiteraryJourney[];
   passages: PublicPassage[];
+}
+
+function browserStorage(): Storage | null {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
+/** Presents a saved poem the way a poem link is, so one path opens both. */
+function archivedPoemAsLink(id: string): DecodedPoemLink {
+  const entry = loadFromArchive(browserStorage(), id);
+  if (!entry) return { kind: 'invalid' };
+  return {
+    kind: 'poem',
+    value: {
+      blackout: entry.blackout,
+      material: entry.material,
+      passageId: entry.passageId,
+      selectedIds: entry.selectedIds,
+      textVersion: entry.textVersion,
+    },
+  };
 }
 
 export function PassageDiscovery({
@@ -38,6 +66,7 @@ export function PassageDiscovery({
   const passageChooserRef = useRef<HTMLDetailsElement>(null);
   const [receivedPoem, setReceivedPoem] = useState<{
     fragment: string;
+    kind: 'archive' | 'shared';
     passageId: string;
     work: KeptPoemWork;
   } | null>(null);
@@ -87,7 +116,10 @@ export function PassageDiscovery({
 
   useEffect(() => {
     function openPoemFromFragment() {
-      const decoded = decodePoemFragment(window.location.hash);
+      const archiveId = archiveIdFromHash(window.location.hash);
+      const decoded: DecodedPoemLink = archiveId
+        ? archivedPoemAsLink(archiveId)
+        : decodePoemFragment(window.location.hash);
       if (decoded.kind === 'none') {
         setReceivedPoem(null);
         setPoemLinkNotice('');
@@ -96,7 +128,9 @@ export function PassageDiscovery({
       if (decoded.kind === 'invalid') {
         setReceivedPoem(null);
         setPoemLinkNotice(
-          'This poem link is damaged or uses a version Keep These does not support.',
+          archiveId
+            ? 'That saved poem could not be found in this browser. It may have been deleted, or this browser may not be the one it was saved in.'
+            : 'This poem link is damaged or uses a version Keep These does not support.',
         );
         return;
       }
@@ -118,7 +152,9 @@ export function PassageDiscovery({
       ) {
         setReceivedPoem(null);
         setPoemLinkNotice(
-          'This poem link refers to a page version that is not available here.',
+          archiveId
+            ? 'This saved poem was made from a version of its page that is not available here, so it cannot be reopened. Its words and credit are still in My poems.'
+            : 'This poem link refers to a page version that is not available here.',
         );
         return;
       }
@@ -147,6 +183,7 @@ export function PassageDiscovery({
       setCurrentPassageId(passage.passageId);
       setReceivedPoem({
         fragment: window.location.hash,
+        kind: archiveId ? 'archive' : 'shared',
         passageId: passage.passageId,
         work: {
           blackout: decoded.value.blackout,
@@ -232,7 +269,10 @@ export function PassageDiscovery({
   function leaveReceivedPoem() {
     setReceivedPoem(null);
     setPoemLinkNotice('');
-    if (window.location.hash.startsWith('#poem=')) {
+    if (
+      window.location.hash.startsWith('#poem=') ||
+      window.location.hash.startsWith('#archive=')
+    ) {
       window.history.replaceState(
         null,
         '',
@@ -434,14 +474,28 @@ export function PassageDiscovery({
           aria-labelledby="received-poem-heading"
         >
           <div>
-            <p className="eyebrow">A poem shared with you</p>
+            <p className="eyebrow">
+              {receivedPoem.kind === 'archive'
+                ? 'From your archive'
+                : 'A poem shared with you'}
+            </p>
             <h2 id="received-poem-heading" tabIndex={-1}>
-              Someone found these words in{' '}
-              <cite>{currentPassage.work.title}</cite>
+              {receivedPoem.kind === 'archive' ? (
+                <>
+                  A working copy of your poem from{' '}
+                  <cite>{currentPassage.work.title}</cite>
+                </>
+              ) : (
+                <>
+                  Someone found these words in{' '}
+                  <cite>{currentPassage.work.title}</cite>
+                </>
+              )}
             </h2>
             <p>
-              Explore their reading here, with its author and source attached.
-              Your own saved work for this page remains untouched.
+              {receivedPoem.kind === 'archive'
+                ? 'This is a copy. Your saved poem stays exactly as it is and your unfinished work for this page remains untouched. Save to your archive again to keep a new version.'
+                : 'Explore their reading here, with its author and source attached. Your own saved work for this page remains untouched.'}
             </p>
           </div>
           <button
@@ -453,7 +507,9 @@ export function PassageDiscovery({
             }}
             type="button"
           >
-            Make your own from this page
+            {receivedPoem.kind === 'archive'
+              ? 'Make a new poem from this page'
+              : 'Make your own from this page'}
           </button>
         </section>
       ) : null}
@@ -686,6 +742,7 @@ export function PassageDiscovery({
           key={`${currentPassage.passageId}:${receivedPoem?.fragment ?? 'private'}`}
           passage={currentPassage}
           preservePrivateWork={Boolean(receivedPoem)}
+          temporaryWorkKind={receivedPoem?.kind}
           sessionWork={
             receivedPoem?.passageId === currentPassage.passageId
               ? receivedPoem.work

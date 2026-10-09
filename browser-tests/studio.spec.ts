@@ -798,10 +798,11 @@ test('search metadata describes the site and exact canonical route set', async (
   expect(sitemapResponse.status()).toBe(200);
   expect(sitemapResponse.headers()['content-type']).toContain('xml');
   const sitemap = await sitemapResponse.text();
-  expect([...sitemap.matchAll(/<loc>/gu)]).toHaveLength(28);
+  expect([...sitemap.matchAll(/<loc>/gu)]).toHaveLength(29);
   expect(sitemap).toContain('<loc>https://keepthese.com/explore/</loc>');
   expect(sitemap).toContain('<loc>https://keepthese.com/about/</loc>');
   expect(sitemap).toContain('<loc>https://keepthese.com/privacy/</loc>');
+  expect(sitemap).toContain('<loc>https://keepthese.com/my-poems/</loc>');
   expect(sitemap).toContain(
     '<loc>https://keepthese.com/passages/frankenstein-1831-chapter-4-life-and-death/</loc>',
   );
@@ -809,6 +810,7 @@ test('search metadata describes the site and exact canonical route set', async (
     '<loc>https://keepthese.com/journeys/thresholds-and-departures/</loc>',
   );
   expect(sitemap).not.toContain('#poem=');
+  expect(sitemap).not.toContain('#archive=');
   expect(sitemap).not.toContain('/404');
 });
 

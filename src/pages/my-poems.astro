@@ -1,0 +1,31 @@
+---
+import MyPoems from '../components/MyPoems';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { loadSiteContent } from '../lib/site-content';
+
+const { passages } = await loadSiteContent();
+const description =
+  'Poems you have chosen to save in this browser. They stay on your device, with no account and no upload.';
+---
+
+<SiteLayout
+  canonicalPath="/my-poems/"
+  description={description}
+  title="My poems — Keep These"
+>
+  <section class="page-introduction my-poems-introduction">
+    <h1>My poems</h1>
+    <p>
+      Poems you choose to save from the studio are kept here, on this device
+      only. Nothing is uploaded, there is no account, and nothing is saved
+      unless you ask.
+    </p>
+    <p>
+      Saved poems live in this browser’s storage, so clearing site data, using a
+      private window, or switching browser or device means they will not be
+      here. Download a PNG, or the text, of any poem you want to keep somewhere
+      else.
+    </p>
+  </section>
+  <MyPoems passages={passages} client:load />
+</SiteLayout>

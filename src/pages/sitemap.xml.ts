@@ -13,6 +13,7 @@ export const GET: APIRoute = async ({ site }) => {
     '/blackout-poetry/',
     '/about/',
     '/privacy/',
+    '/my-poems/',
     ...passages.map(({ passageId }) => passagePath(passageId)),
     ...journeys.map(({ journeyId }) => journeyPath(journeyId)),
   ];

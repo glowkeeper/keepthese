@@ -26,6 +26,7 @@ import {
   saveStudioState,
   type StudioMaterial,
 } from '../lib/studio-persistence';
+import { saveToArchive } from '../lib/poem-archive';
 import { poemShareUrl } from '../lib/stateless-poem-link';
 
 function browserStorage(): Storage | null {
@@ -45,6 +46,8 @@ interface BlackoutStudioProps {
   passage: PublicPassage;
   preservePrivateWork?: boolean;
   sessionWork?: KeptPoemWork;
+  /** What a `preservePrivateWork` copy is, for wording only. */
+  temporaryWorkKind?: 'archive' | 'shared';
 }
 
 export interface KeptPoemWork {
@@ -60,6 +63,7 @@ export function BlackoutStudio({
   passage,
   preservePrivateWork = false,
   sessionWork,
+  temporaryWorkKind = 'shared',
 }: BlackoutStudioProps) {
   const [state, dispatch] = useReducer(studioReducer, initialStudioState);
   const [activeWordId, setActiveWordId] = useState('word-0');
@@ -82,6 +86,10 @@ export function BlackoutStudio({
   const [exportStatus, setExportStatus] = useState(
     'PNG export is created here and stays on this device.',
   );
+  const [archiveStatus, setArchiveStatus] = useState<{
+    key: string;
+    kind: 'full' | 'saved' | 'unavailable';
+  } | null>(null);
   const [poemLink, setPoemLink] = useState('');
   const [poemLinkKey, setPoemLinkKey] = useState('');
   const [poemLinkStatus, setPoemLinkStatus] = useState(
@@ -106,6 +114,9 @@ export function BlackoutStudio({
     .join(' ');
   const shareArtworkKey = `${passage.passageId}:${material}:${state.blackout}:${state.selectedIds.join(',')}`;
   const shareArtworkReady = preparedShare?.key === shareArtworkKey;
+  const currentArchiveStatus =
+    archiveStatus?.key === shareArtworkKey ? archiveStatus.kind : null;
+  const poemAlreadySaved = currentArchiveStatus === 'saved';
   const currentPoemLink = poemLinkKey === shareArtworkKey ? poemLink : '';
   const currentPoemLinkStatus =
     poemLinkKey === shareArtworkKey
@@ -155,7 +166,9 @@ export function BlackoutStudio({
         setStorageReady(true);
         setStorageStatus(
           preservePrivateWork
-            ? 'This shared poem is open only in this tab. Your saved work for this page has not been changed.'
+            ? temporaryWorkKind === 'archive'
+              ? 'This copy of your saved poem is open only in this tab. The saved poem and your unfinished work for this page have not been changed.'
+              : 'This shared poem is open only in this tab. Your saved work for this page has not been changed.'
             : 'Work kept in this path was restored for revision.',
         );
       });
@@ -193,6 +206,7 @@ export function BlackoutStudio({
     passage.textVersion,
     preservePrivateWork,
     sessionWork,
+    temporaryWorkKind,
   ]);
 
   useEffect(() => {
@@ -254,7 +268,9 @@ export function BlackoutStudio({
     setRestoredWork(false);
     if (preservePrivateWork) {
       setStorageStatus(
-        'The shared version was cleared from this tab. Your saved work was not changed.',
+        temporaryWorkKind === 'archive'
+          ? 'The copy was cleared from this tab. Your saved poem and your unfinished work were not changed.'
+          : 'The shared version was cleared from this tab. Your saved work was not changed.',
       );
       return;
     }
@@ -324,6 +340,30 @@ export function BlackoutStudio({
       shareInFlight.current = false;
       setIsSharing(false);
     }
+  }
+
+  function saveToMyArchive() {
+    if (state.selectedIds.length === 0) return;
+    const result = saveToArchive(browserStorage(), {
+      blackout: state.blackout,
+      material,
+      passageId: passage.passageId,
+      poem,
+      selectedIds: state.selectedIds,
+      source: {
+        author: passage.work.author.name,
+        chapter: passage.passageLocation.chapter,
+        recordUrl: passage.source.recordUrl,
+        requiredCredit: passage.attribution.requiredCredit,
+        sourceLabel: passage.attribution.sourceLabel,
+        title: passage.work.title,
+      },
+      textVersion: passage.textVersion,
+    });
+    setArchiveStatus({
+      key: shareArtworkKey,
+      kind: result.kind,
+    });
   }
 
   async function copyPoemLink() {
@@ -593,6 +633,14 @@ export function BlackoutStudio({
               Copy poem link
             </button>
             <button
+              className="archive-action"
+              disabled={state.selectedIds.length === 0 || poemAlreadySaved}
+              onClick={saveToMyArchive}
+              type="button"
+            >
+              {poemAlreadySaved ? 'Saved to my archive' : 'Save to my archive'}
+            </button>
+            <button
               disabled={
                 state.selectedIds.length === 0 &&
                 !state.blackout &&
@@ -602,7 +650,9 @@ export function BlackoutStudio({
               type="button"
             >
               {preservePrivateWork
-                ? 'Clear shared changes'
+                ? temporaryWorkKind === 'archive'
+                  ? 'Clear changes to this copy'
+                  : 'Clear shared changes'
                 : 'Discard saved work'}
             </button>
           </div>
@@ -612,6 +662,18 @@ export function BlackoutStudio({
           </p>
           <p className="poem-link-status" aria-live="polite">
             {currentPoemLinkStatus}
+          </p>
+          <p className="archive-status" aria-live="polite">
+            {currentArchiveStatus === 'saved' ? (
+              <>
+                Saved to your archive on this device.{' '}
+                <a href="/my-poems/">View my poems</a>
+              </>
+            ) : currentArchiveStatus === 'full' ? (
+              'This browser’s storage is full, so the poem was not saved. Your poem is still here; download a PNG to keep a copy, or delete saved poems in My poems to make room.'
+            ) : currentArchiveStatus === 'unavailable' ? (
+              'This browser would not let Keep These save here; private windows and blocked site data can do this. Your poem is still here; download a PNG to keep a copy.'
+            ) : null}
           </p>
           {currentPoemLink ? (
             <input

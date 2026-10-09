@@ -182,6 +182,20 @@ offered only through a quiet footer button where the browser supports it. The
 caching boundaries, update behaviour, and limitations are recorded in
 [offline and install](offline-and-install.md), which is the authority for them.
 
+## Personal archive decision
+
+On 9 October 2026 the maintainer decided that Keep These has an optional
+on-device archive (issue 16, under parent issue 4). A poem is saved only when
+the maker chooses "Save to my archive". Each saved poem is an immutable snapshot
+in browser local storage, one record per poem under `keep-these:archive:`, kept
+beside but never touching the per-passage unfinished-work autosave. Reopening
+opens a working copy through `#archive=<id>` that never overwrites the saved
+poem or unfinished work. The archive is the My poems page, linked from the
+footer. It adds no account, server, upload, new dependency, or project-file
+format, and shows no popularity or streak figures. The data contract, storage
+limits, loss risks, and migration approach are recorded in
+[personal archive](personal-archive.md), which is the authority for them.
+
 ## Daily passage decision
 
 On 9 October 2026 the maintainer decided how the daily passage works (issue 21,
