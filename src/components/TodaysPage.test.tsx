@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { act, cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import firstRecord from '../content/passages/frankenstein-1831-chapter-4.json';
@@ -28,6 +28,25 @@ describe('Today’s page', () => {
       `/passages/${encodeURIComponent(passages[1]!.passageId)}/`,
     );
     expect(link.textContent).toContain(passages[1]!.work.title);
+  });
+
+  it('moves to the next passage at 00:00 UTC without any other event', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('1970-01-01T23:59:00Z'));
+    render(<TodaysPage passages={passages} />);
+    const href = () =>
+      screen.getByRole('link', { name: /Today’s page/ }).getAttribute('href');
+    expect(href()).toBe(
+      `/passages/${encodeURIComponent(passages[0]!.passageId)}/`,
+    );
+
+    act(() => {
+      vi.advanceTimersByTime(61_000);
+    });
+
+    expect(href()).toBe(
+      `/passages/${encodeURIComponent(passages[1]!.passageId)}/`,
+    );
   });
 
   it('uses no streak, countdown, or completion language', () => {

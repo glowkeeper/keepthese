@@ -27,11 +27,10 @@ test('the homepage offers today’s page for the UTC day without moving the stud
     `/passages/${chooseDailyPassage(ids, now)}/`,
   );
 
-  const rolled = new Date('2026-10-10T00:00:30Z');
-  await page.clock.setFixedTime(rolled);
-  await page.evaluate(() =>
-    document.dispatchEvent(new Event('visibilitychange')),
-  );
+  // Leave the page open and visible for 31 minutes: the link must change at
+  // 00:00 UTC on its own, with no visibility event.
+  const rolled = new Date('2026-10-10T00:01:00Z');
+  await page.clock.runFor(31 * 60 * 1000);
   await expect(link).toHaveAttribute(
     'href',
     `/passages/${chooseDailyPassage(ids, rolled)}/`,
@@ -77,4 +76,12 @@ test('Explore and passage pages offer today’s page too', async ({ page }) => {
   await expect(page.getByRole('link', { name: /Today’s page/ })).toBeVisible();
   await page.goto('/passages/alice-1865-chapter-1-daisy-chain/');
   await expect(page.getByRole('link', { name: /Today’s page/ })).toBeVisible();
+});
+
+test('journey pages keep their scoped navigation without today’s page', async ({
+  page,
+}) => {
+  await page.goto('/journeys/thresholds-and-departures/');
+  await expect(page.getByRole('link', { name: 'Choose for me' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Today’s page/ })).toHaveCount(0);
 });

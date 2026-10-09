@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { chooseDailyPassage, utcDayNumber } from './daily-passage';
+import {
+  chooseDailyPassage,
+  millisecondsUntilNextUtcDay,
+  utcDayNumber,
+} from './daily-passage';
 
 const shelf = ['a', 'b', 'c'];
 
@@ -29,6 +33,16 @@ describe('daily passage', () => {
     expect(chooseDailyPassage(shelf, new Date('2026-10-09T23:30:00Z'))).toBe(
       before,
     );
+  });
+
+  it('measures the time to the next 00:00 UTC', () => {
+    expect(millisecondsUntilNextUtcDay(new Date('2026-10-09T23:30:00Z'))).toBe(
+      30 * 60 * 1000,
+    );
+    expect(millisecondsUntilNextUtcDay(new Date('2026-10-10T00:00:00Z'))).toBe(
+      86_400_000,
+    );
+    expect(millisecondsUntilNextUtcDay(new Date('nope'))).toBeNull();
   });
 
   it('rotates through the whole shelf in order and then repeats', () => {

@@ -408,7 +408,7 @@ export function PassageDiscovery({
       >
         Choose for me
       </a>
-      <TodaysPage passages={passages} />
+      {passageRouteId ? <TodaysPage passages={passages} /> : null}
     </nav>
   );
 

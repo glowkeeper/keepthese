@@ -5,6 +5,13 @@ export function utcDayNumber(date: Date): number {
   return Math.floor(date.getTime() / millisecondsPerDay);
 }
 
+/** Milliseconds from `date` until the next 00:00 UTC, or null if invalid. */
+export function millisecondsUntilNextUtcDay(date: Date): number | null {
+  const day = utcDayNumber(date);
+  if (!Number.isFinite(day)) return null;
+  return (day + 1) * millisecondsPerDay - date.getTime();
+}
+
 /**
  * Chooses the passage for a UTC day by rotating through the shelf in its
  * published order. The same day always yields the same passage, and an empty
