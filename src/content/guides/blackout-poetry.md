@@ -23,6 +23,14 @@ choose ink or graphite for the finished page. You can download an attributed PNG
 or copy a stateless link. Unfinished work stays in this browser; Keep These has
 no accounts or poem uploads, and counts visits only in aggregate.
 
+## Save a poem for later
+
+When a poem feels worth keeping, choose Save to my archive. It is kept in this
+browser on your device, never uploaded, and listed on the My poems page, from
+the link in the footer. You can reopen a working copy, download the text, copy a
+poem link, or delete it. Saved poems are only in this browser, so download
+anything you cannot afford to lose.
+
 ## Use it offline or keep it on your device
 
 After you have opened Keep These once, it works without a connection: choose

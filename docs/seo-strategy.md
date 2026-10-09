@@ -112,6 +112,7 @@ a poem but never chooses words for them.
 | Practice guide | `/blackout-poetry/` | Learn what the form is, how this hands-on practice works, and then try it | Concise original explanation, steps that match the interface, authorship and source relationship, route into a real passage |
 | About | `/about/` | Understand the purpose and boundaries of Keep These | Concise product purpose, human-authorship boundary, source relationship, and route into making |
 | Privacy | `/privacy/` | Understand what remains on the device and what a shared link sends | Plain description of local autosave, device-made exports, stateless fragments, external links, and deletion control |
+| My poems | `/my-poems/` | Reach the poems a maker has chosen to save in this browser, and understand where they live and how they can be lost | Plain statement that saved poems stay on this device with no account, honest storage and loss limits, and a client-filled list or empty state |
 | Passage | `/passages/{passageId}/` | Meet and make from one specific verified literary page | Concise original context, complete source passage, work, author, first-publication year, passage location, source acknowledgement and route, immediate studio entry |
 | Journey | `/journeys/{journeyId}/` | Understand and begin one finite thematic sequence | Original title and invitation, ordered member pages with work and author, clear five-page boundary, route to begin |
 

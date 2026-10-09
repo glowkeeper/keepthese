@@ -47,6 +47,9 @@ test('after one visit the whole site and the studio work with no network', async
     page.getByRole('heading', { name: 'Choose a page' }),
   ).toBeVisible();
   await expect(page.getByRole('link', { name: /Today’s page/ })).toBeVisible();
+  // Saved poems are in local storage, so the archive page works offline too.
+  await page.goto('/my-poems/');
+  await expect(page.getByRole('heading', { name: 'My poems' })).toBeVisible();
   await page.goto('/about');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await page.goto('/passages/alice-1865-chapter-1-daisy-chain/');

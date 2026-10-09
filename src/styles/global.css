@@ -1306,3 +1306,119 @@ h1 {
   flex-basis: 100%;
   font-size: 0.9rem;
 }
+
+.archive-status {
+  margin: 0.5rem 0 0;
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+}
+
+.archive-status a {
+  color: #762713;
+  text-underline-offset: 0.2em;
+}
+
+.my-poems {
+  max-width: 48rem;
+  margin: var(--flow-gap) 0 0;
+  font-family: system-ui, sans-serif;
+}
+
+.my-poems h2 {
+  margin: 0;
+}
+
+.my-poems-status {
+  min-height: 1.5rem;
+  margin: 0;
+}
+
+.my-poems-status:focus {
+  outline: none;
+}
+
+.my-poems-storage,
+.my-poems-notice {
+  max-width: 40rem;
+  color: #544d44;
+  line-height: 1.5;
+}
+
+.my-poems-list {
+  display: grid;
+  gap: 1.5rem;
+  margin: var(--flow-gap) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.my-poems-list article {
+  padding: 1.25rem;
+  border: 1px solid rgb(41 38 33 / 25%);
+  background: rgb(248 242 231 / 55%);
+}
+
+.my-poems-list h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.my-poem-text {
+  margin: 0.75rem 0;
+  padding: 0 0 0 1rem;
+  border-left: 3px solid #29261f;
+  font-family: Georgia, serif;
+  font-size: 1.35rem;
+  line-height: 1.5;
+}
+
+.my-poem-source,
+.my-poem-saved,
+.my-poem-unavailable {
+  margin: 0.5rem 0 0;
+  color: #544d44;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.my-poem-source a,
+.my-poem-actions a,
+.my-poems a {
+  color: #762713;
+  text-underline-offset: 0.2em;
+}
+
+.my-poem-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+
+.my-poem-actions a,
+.my-poem-actions button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #762713;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.my-poem-confirm {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  align-items: center;
+}
+
+.my-poem-delete {
+  color: #8a1c0f;
+}
