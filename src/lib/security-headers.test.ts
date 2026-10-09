@@ -28,10 +28,22 @@ describe('Content-Security-Policy', async () => {
     ]);
   });
 
-  it('keeps every other fetch directive same-origin or closed', () => {
-    expect(csp.get('default-src')).toEqual(["'self'"]);
-    expect(csp.get('img-src')).toEqual(["'self'", 'data:', 'blob:']);
-    expect(csp.get('font-src')).toEqual(["'self'"]);
-    expect(csp.get('object-src')).toEqual(["'none'"]);
+  it('pins the complete directive set so no other directive widens', () => {
+    expect(Object.fromEntries(csp)).toEqual({
+      'base-uri': ["'self'"],
+      'connect-src': ["'self'", 'https://cloudflareinsights.com'],
+      'default-src': ["'self'"],
+      'font-src': ["'self'"],
+      'form-action': ["'self'"],
+      'frame-ancestors': ["'none'"],
+      'img-src': ["'self'", 'data:', 'blob:'],
+      'object-src': ["'none'"],
+      'script-src': [
+        "'self'",
+        "'unsafe-inline'",
+        'https://static.cloudflareinsights.com',
+      ],
+      'style-src': ["'self'", "'unsafe-inline'"],
+    });
   });
 });
