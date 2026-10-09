@@ -626,6 +626,7 @@ test('the homepage opens with the studio before discovery', async ({
     const source = document.querySelector('.source-page');
     const studio = document.querySelector('.studio');
     const studioIntroduction = document.querySelector('.studio-introduction');
+    const todaysPageLine = document.querySelector('.todays-page-line');
     const wordmark = document.querySelector('.wordmark');
     if (
       !header ||
@@ -634,13 +635,17 @@ test('the homepage opens with the studio before discovery', async ({
       !source ||
       !studio ||
       !studioIntroduction ||
+      !todaysPageLine ||
       !wordmark
     )
       return null;
     return {
       headerGap:
-        studioIntroduction.getBoundingClientRect().top -
+        todaysPageLine.getBoundingClientRect().top -
         header.getBoundingClientRect().bottom,
+      lineToStudioGap:
+        studioIntroduction.getBoundingClientRect().top -
+        todaysPageLine.getBoundingClientRect().bottom,
       introductionBelowWordmark:
         introduction.getBoundingClientRect().top >=
         wordmark.getBoundingClientRect().bottom,
@@ -653,8 +658,12 @@ test('the homepage opens with the studio before discovery', async ({
   });
 
   expect(desktopLayout).not.toBeNull();
-  expect(desktopLayout!.headerGap).toBeGreaterThanOrEqual(40);
-  expect(desktopLayout!.headerGap).toBeLessThanOrEqual(48);
+  // Today's page sits just under the header; the studio keeps its original
+  // 40–48px of space below that line.
+  expect(desktopLayout!.headerGap).toBeGreaterThanOrEqual(8);
+  expect(desktopLayout!.headerGap).toBeLessThanOrEqual(24);
+  expect(desktopLayout!.lineToStudioGap).toBeGreaterThanOrEqual(40);
+  expect(desktopLayout!.lineToStudioGap).toBeLessThanOrEqual(48);
   expect(desktopLayout!.introductionBelowWordmark).toBe(true);
   expect(desktopLayout!.navigationAtRight).toBe(true);
   expect(desktopLayout!.sourceTop).toBeLessThan(900);

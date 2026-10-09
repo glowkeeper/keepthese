@@ -4,6 +4,7 @@ import { chooseSurprisePassage } from '../lib/passage-discovery';
 import type { PublicLiteraryJourney } from '../lib/literary-journey';
 import type { PublicPassage } from '../lib/public-passage';
 import { journeyPath, passagePath } from '../lib/route-paths';
+import TodaysPage from './TodaysPage';
 
 interface ExplorePageProps {
   journeys: PublicLiteraryJourney[];
@@ -48,6 +49,7 @@ export function ExplorePage({ journeys, passages }: ExplorePageProps) {
         <p className="explore-section-introduction">
           Choose any page on the shelf, or let chance choose for you.
         </p>
+        <TodaysPage passages={passages} />
         <ul className="explore-passage-list">
           {passages.map((passage) => (
             <li key={passage.passageId}>

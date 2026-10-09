@@ -14,6 +14,7 @@ import { decodePoemFragment } from '../lib/stateless-poem-link';
 import { segmentPassages } from '../lib/studio-state';
 import { passagePath } from '../lib/route-paths';
 import BlackoutStudio, { type KeptPoemWork } from './BlackoutStudio';
+import TodaysPage from './TodaysPage';
 
 interface PassageDiscoveryProps {
   homepage?: boolean;
@@ -407,12 +408,19 @@ export function PassageDiscovery({
       >
         Choose for me
       </a>
+      {passageRouteId ? <TodaysPage passages={passages} /> : null}
     </nav>
   );
 
   return (
     <>
-      {homepage ? null : discoveryControls}
+      {homepage ? (
+        <div className="todays-page-line">
+          <TodaysPage passages={passages} />
+        </div>
+      ) : (
+        discoveryControls
+      )}
 
       {poemLinkNotice ? (
         <p className="poem-link-notice" role="status">

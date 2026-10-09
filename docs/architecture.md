@@ -167,6 +167,39 @@ a new recorded decision. A future service worker (installable or offline
 behaviour) could serve pages without the beacon and would need to account for
 that.
 
+## Daily passage decision
+
+On 9 October 2026 the maintainer decided how the daily passage works (issue 21,
+under parent issue 4).
+
+- **The day is the UTC calendar day**, so everyone sees the same passage at the
+  same moment. It changes at 00:00 UTC, which is 01:00 in the UK during summer
+  time. The link says the choice is made in UTC for screen-reader users.
+- **The passage is a pure rotation** through the published shelf in
+  `passageOrder` (`src/lib/site-content.ts`): the UTC day number modulo the
+  number of passages. There is no schedule file. A given day always yields the
+  same passage, an empty shelf or an invalid date yields no passage rather than
+  an error, and the rotation cannot run out.
+- **Known trade-off:** adding or removing a passage changes the shelf length and
+  so reshuffles every future day. Reordering `passageOrder` does the same. This
+  was accepted in preference to maintaining a schedule file; a dated schedule
+  could be added later if the reshuffle matters.
+- **The site is static, so the day is worked out in the browser** by
+  `TodaysPage`. It recomputes when the tab becomes visible again, so a tab left
+  open across midnight UTC corrects itself. Nothing is rendered until then, and
+  its space is reserved so the page does not shift. Without JavaScript nothing
+  is shown and nothing else changes.
+- **Where it appears:** a "Today's page" link above the studio on the homepage
+  (the maintainer accepted the extra space this takes; the pinned gaps are now
+  header to line, and line to studio), at the top of the shelf on Explore, and
+  beside "Choose for me" on passage pages. It opens the passage's ordinary
+  page, so provenance and source attribution are exactly those of any other
+  visit.
+- **No pressure or record:** there is no streak, countdown, completion marker,
+  notification, stored visit history, or request to a server. Nothing about the
+  daily passage is persisted or measured; visit counting remains the aggregate
+  Web Analytics decision above.
+
 ## Playable sketch decision
 
 The Version 0 interaction and its accessibility and verification baselines are
