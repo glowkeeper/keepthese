@@ -21,7 +21,7 @@ Select and remove words until the language has the rhythm you want. Undo is
 always available. When the poem feels ready, let the unkept words fall away and
 choose ink or graphite for the finished page. You can download an attributed PNG
 or copy a stateless link. Unfinished work stays in this browser; Keep These has
-no accounts, analytics or poem uploads.
+no accounts or poem uploads, and counts visits only in aggregate.
 
 ## Stay in conversation with the source
 

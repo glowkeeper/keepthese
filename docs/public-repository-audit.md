@@ -80,7 +80,11 @@ The signature, assignment, and entropy scans found no credential, token,
 password, private key, or unexplained secret candidate in the reachable tree or
 history. GitHub contains no Actions secret or variable names, deploy keys, or
 repository webhooks. The application requires no runtime environment variable,
-remote API, backend, account, analytics system, or Cloudflare binding.
+remote API, backend, account, analytics script, or Cloudflare binding. (After
+this audit, issue #100 added aggregate visit counting through Cloudflare Web
+Analytics, enabled in the Pages project; it adds no repository secret,
+variable, or binding. See the
+[visit measurement decision](architecture.md#visit-measurement-decision).)
 
 The `.gitignore` now excludes `.env`, `.env.*`, and `*.local`, while permitting
 a value-free `.env.example`. The development guide states that no credentials
