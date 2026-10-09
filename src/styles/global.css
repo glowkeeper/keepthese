@@ -1286,3 +1286,18 @@ h1 {
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   }
 }
+
+.todays-page-line {
+  margin: var(--flow-gap) 0 0;
+}
+
+.todays-page-slot {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+}
+
+.todays-page cite {
+  margin-left: 0.3em;
+  font-style: italic;
+}
