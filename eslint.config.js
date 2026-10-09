@@ -21,6 +21,19 @@ export default defineConfig(
     },
   },
   {
+    files: ['scripts/service-worker.template.js'],
+    languageOptions: {
+      globals: {
+        Request: 'readonly',
+        Response: 'readonly',
+        URL: 'readonly',
+        caches: 'readonly',
+        fetch: 'readonly',
+        self: 'readonly',
+      },
+    },
+  },
+  {
     files: ['src/**/*.{ts,tsx}'],
     plugins: {
       'react-hooks': reactHooks,

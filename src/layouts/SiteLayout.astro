@@ -27,6 +27,7 @@ const siteUrl = new URL('/', Astro.site).href;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" href="/brand/keep-these-square.png" sizes="512x512" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Keep These" />
@@ -111,21 +112,42 @@ const siteUrl = new URL('/', Astro.site).href;
           >
             Share Keep These
           </button>
+          <button class="share-button" type="button" data-install-button hidden>
+            Install Keep These
+          </button>
+          <button class="share-button" type="button" data-update-button hidden>
+            Update now
+          </button>
           <span
             class="visually-hidden"
             data-share-feedback
             aria-live="polite"
             aria-atomic="true"></span>
+          <span
+            class="visually-hidden"
+            data-offline-feedback
+            aria-live="polite"
+            aria-atomic="true"></span>
         </nav>
+        <p class="offline-status" data-offline-status hidden></p>
         <p>
           <small>© 2026 <a href="https://huckle.studio">Steve Huckle</a></small>
         </p>
       </footer>
     </main>
     <script>
+      import {
+        browserOfflineServices,
+        connectOfflineSupport,
+      } from '../lib/offline-install';
       import { connectShareControls } from '../lib/site-share';
 
       connectShareControls();
+      // The worker only exists in the production build, where it is generated
+      // from the finished site; in development it would cache stale files.
+      if (import.meta.env.PROD) {
+        void connectOfflineSupport(document, browserOfflineServices());
+      }
     </script>
   </body>
 </html>

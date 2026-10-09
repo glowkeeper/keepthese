@@ -14,11 +14,11 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run typecheck && astro build && node scripts/verify-search-output.mjs",
+    "build": "npm run typecheck && astro build && node scripts/build-service-worker.mjs && node scripts/verify-search-output.mjs",
     "preview": "astro preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:browser": "playwright test",
+    "test:browser": "playwright test && playwright test -c playwright.offline.config.ts",
     "typecheck": "astro check",
     "lint": "eslint . --max-warnings 0",
     "lint:markdown": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",

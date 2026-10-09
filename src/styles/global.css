@@ -1301,3 +1301,8 @@ h1 {
   margin-left: 0.3em;
   font-style: italic;
 }
+
+.offline-status {
+  flex-basis: 100%;
+  font-size: 0.9rem;
+}

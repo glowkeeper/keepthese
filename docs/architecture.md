@@ -24,7 +24,7 @@ application and a collection of small islands that would make connected studio
 state difficult to coordinate.
 
 The foundation includes no server adapter, router library, global state
-library, content management system, offline tooling, or backend client. Astro
+library, content management system, or backend client. Astro
 continues to emit static files. On-demand rendering remains a later option for
 an individually justified route rather than the default architecture.
 
@@ -163,9 +163,24 @@ describes it. It measures visits only: no poem, selection, passage choice,
 share, export, or other studio event is observed or sent, and studio state
 remains browser-local. Custom event analytics, gameplay-style counters, and
 any database or Function for them are not part of this decision and would need
-a new recorded decision. A future service worker (installable or offline
-behaviour) could serve pages without the beacon and would need to account for
-that.
+a new recorded decision. The service worker added for offline use leaves other
+origins alone, so it never caches or alters the beacon; offline visits are
+simply not counted.
+
+## Offline and install decision
+
+On 9 October 2026 the maintainer decided that Keep These is installable and
+works offline (issue 15, under parent issue 4). A small hand-written service
+worker, generated into `dist/sw.js` after the Astro build from a template in
+`scripts/`, precaches the site's own static files and answers cached requests
+first. It adds no dependency, Function, binding, or server, and it only exists
+in the production build. It never handles another origin, never touches browser
+storage where unfinished poems live, and never reloads or takes over a page by
+itself: a new version waits until Keep These is reopened or the maker chooses
+"Update now". A web manifest and a 192-pixel icon make the site installable,
+offered only through a quiet footer button where the browser supports it. The
+caching boundaries, update behaviour, and limitations are recorded in
+[offline and install](offline-and-install.md), which is the authority for them.
 
 ## Daily passage decision
 

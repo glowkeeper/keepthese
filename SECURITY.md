@@ -36,7 +36,8 @@ offer a bug bounty or guarantee a particular response time.
 ## Scope notes
 
 The hosted application has no account system, backend, poem database, or
-runtime Cloudflare binding. Aggregate visit counts come from Cloudflare Web
+runtime Cloudflare binding. It ships a service worker that caches only its own
+static files for offline use. Aggregate visit counts come from Cloudflare Web
 Analytics, enabled in the Pages project rather than in this repository.
 Browser-local storage, PNG generation, URL-fragment poem sharing, the static
 deployment pipeline, dependencies, and repository configuration can still have
