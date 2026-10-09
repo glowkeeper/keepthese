@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "Keep These",
+  "short_name": "Keep These",
+  "description": "A blackout poetry studio. Make poems from a carefully chosen shelf of classic writing.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#e8e0d1",
+  "theme_color": "#e8e0d1",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    {
+      "src": "/brand/keep-these-square.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

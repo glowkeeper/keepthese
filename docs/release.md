@@ -59,12 +59,25 @@ changes are inspectable and reproducible.
 5. Merge to `main`. Wait for the production deployment, then repeat the smoke
    checks on `https://keepthese.com` and verify that `www` redirects there.
 
+## Offline behaviour and updates
+
+The build writes `dist/sw.js`, a service worker that caches the site for offline
+use, and ships `manifest.webmanifest`; both are served with `no-cache` so that
+browsers find a new deployment promptly. A new deployment reaches returning
+visitors as a waiting update they can apply with "Update now" or receive the
+next time they reopen Keep These; it never reloads a page by itself. After each
+production deployment, load the site once, then confirm in the browser's
+developer tools that the worker is activated, the manifest has no errors, and
+the page works with the network switched off. See
+[offline and install](offline-and-install.md).
+
 ## Recovery
 
 If production is unhealthy, use **Workers & Pages → keepthese → Deployments**
 to roll back to the most recent known-good production deployment. A rollback
 changes served files only; it does not alter the repository or browser-local
-poems. Diagnose the failed commit in a new branch and restore normal delivery
+poems. Browsers that already hold the newer worker treat the older one as
+another update. Diagnose the failed commit in a new branch and restore normal delivery
 through a reviewed pull request. DNS should remain attached to Pages during an
 application rollback.
 

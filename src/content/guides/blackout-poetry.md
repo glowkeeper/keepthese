@@ -23,6 +23,15 @@ choose ink or graphite for the finished page. You can download an attributed PNG
 or copy a stateless link. Unfinished work stays in this browser; Keep These has
 no accounts or poem uploads, and counts visits only in aggregate.
 
+## Use it offline or keep it on your device
+
+After you have opened Keep These once, it works without a connection: choose
+words, undo, and download your poem as before. Your unfinished work stays in
+this browser either way. To keep Keep These on your device, use the Install Keep
+These button at the bottom of a page where your browser offers one, or your
+browser's own install option. On iPhone and iPad, choose Share, then Add to Home
+Screen.
+
 ## Stay in conversation with the source
 
 The original work does not disappear from the encounter. Every page names its

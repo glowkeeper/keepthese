@@ -53,6 +53,10 @@ describe('public release assets', () => {
     await expect(pngDimensions('public/apple-touch-icon.png')).resolves.toEqual(
       { height: 180, width: 180 },
     );
+    await expect(pngDimensions('public/icon-192.png')).resolves.toEqual({
+      height: 192,
+      width: 192,
+    });
   });
 
   it('ships a full-size social image', async () => {
