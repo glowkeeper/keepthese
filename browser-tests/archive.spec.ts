@@ -142,6 +142,12 @@ test('the archive page lists saved poems, reopens a copy, exports text, and dele
   // Delete, with a confirmation that can be declined.
   await page.goto('/my-poems/');
   await page.getByRole('button', { name: /Delete the poem/ }).click();
+  // Keyboard and screen-reader users land on the question, not on the page.
+  await expect(
+    page.getByRole('group', {
+      name: 'Delete this poem? This cannot be undone.',
+    }),
+  ).toBeFocused();
   await page.getByRole('button', { name: 'Keep it' }).click();
   await expect(
     page.getByRole('button', { name: /Delete the poem/ }),

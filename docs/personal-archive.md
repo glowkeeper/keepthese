@@ -55,12 +55,15 @@ how much storage they use, so storage limits can be explained honestly.
 
 ## Reopening and page versions
 
-A poem can be reopened only while its page and text version still exist and every
-selected word is still valid. If a page is later revised, the poem is kept with
-its words and credit, is labelled as made from an earlier version, and is not
-offered for reopening or linking. Its text can still be downloaded. Corrupt or
-newer-format records are never deleted by Keep These; the page says how many
-could not be read.
+A poem can be reopened only while its page and text version still exist and
+every selected word is still valid. If a page is later revised, the poem is kept
+with its words and credit, is labelled as made from an earlier version, and is
+not offered for reopening or linking. Its text can still be downloaded.
+
+Corrupt, newer-format, or malformed records (including word choices that are
+duplicated or out of source order, which poem links cannot represent) are never
+deleted by Keep These. The page counts them as unreadable and, if none can be
+read, says so instead of claiming nothing is saved.
 
 ## Storage limits and loss risks
 

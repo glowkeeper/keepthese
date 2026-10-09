@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   archiveHash,
@@ -26,20 +26,31 @@ function browserStorage(): Storage | null {
   }
 }
 
-/** A poem can be reopened only while its page version and words still exist. */
-function canReopen(entry: ArchivedPoem, passages: PublicPassage[]): boolean {
-  const passage = passages.find(
-    ({ passageId }) => passageId === entry.passageId,
-  );
-  if (!passage || passage.textVersion !== entry.textVersion) return false;
-  const wordIds = new Set(
-    segmentPassages(passage.text).flatMap((segments) =>
-      segments.flatMap((segment) =>
-        segment.kind === 'word' ? [segment.id] : [],
+/** The valid word identifiers of each page version, worked out once. */
+function wordIdsByPassage(
+  passages: PublicPassage[],
+): Map<string, ReadonlySet<string>> {
+  return new Map(
+    passages.map((passage) => [
+      `${passage.passageId}:${passage.textVersion}`,
+      new Set(
+        segmentPassages(passage.text).flatMap((segments) =>
+          segments.flatMap((segment) =>
+            segment.kind === 'word' ? [segment.id] : [],
+          ),
+        ),
       ),
-    ),
+    ]),
   );
-  return entry.selectedIds.every((id) => wordIds.has(id));
+}
+
+/** A poem can be reopened only while its page version and words still exist. */
+function canReopen(
+  entry: ArchivedPoem,
+  wordIds: Map<string, ReadonlySet<string>>,
+): boolean {
+  const valid = wordIds.get(`${entry.passageId}:${entry.textVersion}`);
+  return Boolean(valid) && entry.selectedIds.every((id) => valid!.has(id));
 }
 
 function downloadText(entry: ArchivedPoem) {
@@ -66,6 +77,8 @@ export function MyPoems({ passages }: MyPoemsProps) {
   const [status, setStatus] = useState('');
   const statusRef = useRef<HTMLParagraphElement>(null);
   const deleteButtons = useRef(new Map<string, HTMLButtonElement>());
+  const confirmation = useRef<HTMLSpanElement>(null);
+  const validWordIds = useMemo(() => wordIdsByPassage(passages), [passages]);
 
   function refresh() {
     setArchive(listArchive(browserStorage()));
@@ -74,6 +87,14 @@ export function MyPoems({ passages }: MyPoemsProps) {
   useEffect(() => {
     queueMicrotask(refresh);
   }, []);
+
+  // Activating Delete removes the focused button, so focus moves to the
+  // question that replaces it. It goes to the group, not the destructive
+  // button: Space acts on key-up, so focusing "Delete poem" could confirm a
+  // deletion by accident. One Tab reaches the choices.
+  useEffect(() => {
+    if (confirmingId) confirmation.current?.focus();
+  }, [confirmingId]);
 
   async function copyLink(entry: ArchivedPoem) {
     const link = poemShareUrl(window.location, {
@@ -133,13 +154,23 @@ export function MyPoems({ passages }: MyPoemsProps) {
       </p>
 
       {archive.poems.length === 0 ? (
-        <section aria-labelledby="my-poems-empty-heading">
-          <h2 id="my-poems-empty-heading">Nothing saved yet</h2>
-          <p>
-            When a poem feels worth keeping, choose “Save to my archive” in the
-            studio and it will appear here. <a href="/">Make a poem</a>
-          </p>
-        </section>
+        archive.unreadable > 0 ? (
+          <section aria-labelledby="my-poems-empty-heading">
+            <h2 id="my-poems-empty-heading">No readable poems</h2>
+            <p>
+              Keep These found saved records in this browser but could not read
+              any of them, so none can be shown. They have not been removed.
+            </p>
+          </section>
+        ) : (
+          <section aria-labelledby="my-poems-empty-heading">
+            <h2 id="my-poems-empty-heading">Nothing saved yet</h2>
+            <p>
+              When a poem feels worth keeping, choose “Save to my archive” in
+              the studio and it will appear here. <a href="/">Make a poem</a>
+            </p>
+          </section>
+        )
       ) : (
         <section aria-labelledby="my-poems-heading">
           <h2 id="my-poems-heading">Saved poems</h2>
@@ -153,7 +184,7 @@ export function MyPoems({ passages }: MyPoemsProps) {
           </p>
           <ul className="my-poems-list">
             {archive.poems.map((entry) => {
-              const reopenable = canReopen(entry, passages);
+              const reopenable = canReopen(entry, validWordIds);
               const headingId = `my-poem-${entry.id}`;
               return (
                 <li key={entry.id}>
@@ -219,9 +250,13 @@ export function MyPoems({ passages }: MyPoemsProps) {
                         <span
                           className="my-poem-confirm"
                           role="group"
-                          aria-label="Confirm deleting this poem"
+                          aria-label="Delete this poem? This cannot be undone."
+                          ref={confirmation}
+                          tabIndex={-1}
                         >
-                          Delete this poem? This cannot be undone.
+                          <span aria-hidden="true">
+                            Delete this poem? This cannot be undone.
+                          </span>
                           <button
                             className="my-poem-delete"
                             onClick={() => remove(entry)}

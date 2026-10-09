@@ -209,6 +209,16 @@ export function poemTextFilename(entry: ArchivedPoem): string {
   return `keep-these-${slug || 'poem'}.txt`;
 }
 
+/** Poem links need word indexes that are unique and in source order. */
+function isStrictlyIncreasing(ids: string[]): boolean {
+  const indexes = ids.map((id) => Number(id.slice('word-'.length)));
+  return indexes.every(
+    (index, position) =>
+      Number.isSafeInteger(index) &&
+      (position === 0 || index > indexes[position - 1]!),
+  );
+}
+
 function isQuotaError(error: unknown): boolean {
   if (typeof error !== 'object' || error === null) return false;
   const { code, name } = error as { code?: unknown; name?: unknown };
@@ -241,6 +251,7 @@ function isArchivedPoem(value: unknown): value is ArchivedPoem {
     record.selectedIds.every(
       (id) => typeof id === 'string' && wordIdPattern.test(id),
     ) &&
+    isStrictlyIncreasing(record.selectedIds as string[]) &&
     typeof source === 'object' &&
     source !== null &&
     [

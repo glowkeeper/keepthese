@@ -10,9 +10,16 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import firstRecord from '../content/passages/frankenstein-1831-chapter-4.json';
 import { archiveKey, saveToArchive } from '../lib/poem-archive';
+import { segmentPassages } from '../lib/studio-state';
 import { passageSchema } from '../lib/passage-schema';
 import { toPublicPassage } from '../lib/public-passage';
 import MyPoems from './MyPoems';
+
+// Counts how often a page is split into words, passing the real work through.
+vi.mock('../lib/studio-state', async (importOriginal) => {
+  const original = await importOriginal<typeof import('../lib/studio-state')>();
+  return { ...original, segmentPassages: vi.fn(original.segmentPassages) };
+});
 
 const passage = toPublicPassage(passageSchema.parse(firstRecord));
 const source = {
@@ -51,7 +58,10 @@ async function renderPage() {
   });
 }
 
-beforeEach(() => window.localStorage.clear());
+beforeEach(() => {
+  window.localStorage.clear();
+  vi.mocked(segmentPassages).mockClear();
+});
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
@@ -199,6 +209,58 @@ describe('My poems', () => {
     expect(screen.getByText(/1 saved record could not be read/)).toBeTruthy();
     expect(screen.getByText(/Nothing has been removed/)).toBeTruthy();
     expect(window.localStorage.getItem(archiveKey('bad'))).toBe('{broken');
+  });
+
+  it('does not say nothing is saved when every record is unreadable', async () => {
+    window.localStorage.setItem(archiveKey('bad'), '{broken');
+    await renderPage();
+
+    expect(
+      screen.getByRole('heading', { name: 'No readable poems' }),
+    ).toBeTruthy();
+    expect(screen.queryByText('Nothing saved yet')).toBeNull();
+    expect(screen.getByText(/1 saved record could not be read/)).toBeTruthy();
+    expect(window.localStorage.getItem(archiveKey('bad'))).toBe('{broken');
+  });
+
+  it('moves focus to the confirmation when Delete is activated, and back on Keep it', async () => {
+    savePoem('a', '2026-10-09T09:00:00Z');
+    await renderPage();
+    const deleteButton = screen.getByRole('button', {
+      name: /Delete the poem/,
+    });
+    deleteButton.focus();
+
+    fireEvent.click(deleteButton);
+
+    const group = screen.getByRole('group', {
+      name: 'Delete this poem? This cannot be undone.',
+    });
+    expect(document.activeElement).toBe(group);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Keep it' }));
+    await act(async () => {
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+    });
+    expect(document.activeElement).toBe(
+      screen.getByRole('button', { name: /Delete the poem/ }),
+    );
+  });
+
+  it('splits each page into words once, however many poems or re-renders', async () => {
+    savePoem('a', '2026-10-01T09:00:00Z');
+    savePoem('b', '2026-10-02T09:00:00Z');
+    savePoem('c', '2026-10-03T09:00:00Z');
+    await renderPage();
+    const afterFirstRender = vi.mocked(segmentPassages).mock.calls.length;
+
+    fireEvent.click(
+      screen.getAllByRole('button', { name: /Delete the poem/ })[0]!,
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Keep it' }));
+
+    expect(afterFirstRender).toBe(1);
+    expect(vi.mocked(segmentPassages).mock.calls).toHaveLength(1);
   });
 
   it('says so, without losing anything, when the browser blocks storage', async () => {
