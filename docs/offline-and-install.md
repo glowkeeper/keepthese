@@ -84,7 +84,9 @@ The footer shows one plain sentence at a time: ready to use offline, offline, or
 an update is ready. That sentence is not a live region, so moving between pages
 does not repeat it. A separate visually hidden live region announces only
 changes: going offline or back online, an update becoming ready, an update being
-applied, and the app being installed. The buttons are ordinary buttons with
+applied, and the app being installed. Nothing is said about being offline or back
+online until a worker has installed and activated, because only then is the
+claim that Keep These still works true. The buttons are ordinary buttons with
 text labels and the site's existing focus styles. Nothing depends on colour or
 motion.
 

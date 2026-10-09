@@ -23,6 +23,7 @@ export const OFFLINE_MESSAGES = {
   updateReady:
     'An update is ready. It applies the next time you open Keep These, and your saved work is kept.',
   updating: 'Updating Keep These…',
+  online: 'You are back online.',
   installed: 'Keep These is installed.',
 } as const;
 
@@ -70,16 +71,25 @@ export async function connectOfflineSupport(
     '[data-update-button]',
   );
 
-  const state = { ready: false, updateReady: false, offline: false };
+  // `capable` means a worker has installed and activated, so every file is
+  // cached. Nothing is said about being offline until then, because until then
+  // Keep These cannot promise that it still works.
+  const state = {
+    capable: false,
+    ready: false,
+    updateReady: false,
+    offline: false,
+  };
 
   function render() {
-    const text = state.offline
-      ? OFFLINE_MESSAGES.offline
-      : state.updateReady
-        ? OFFLINE_MESSAGES.updateReady
-        : state.ready
-          ? OFFLINE_MESSAGES.ready
-          : '';
+    const text =
+      state.capable && state.offline
+        ? OFFLINE_MESSAGES.offline
+        : state.updateReady
+          ? OFFLINE_MESSAGES.updateReady
+          : state.ready
+            ? OFFLINE_MESSAGES.ready
+            : '';
     if (status) {
       status.textContent = text;
       status.hidden = text === '';
@@ -93,17 +103,18 @@ export async function connectOfflineSupport(
     if (feedback) feedback.textContent = text;
   }
 
-  // Offline and online are announced from the moment they change.
+  // Going offline and coming back are announced from the moment they change,
+  // but only once a worker can back the promise (see `capable`).
   state.offline = !services.isOnline();
   services.events.addEventListener('offline', () => {
     state.offline = true;
     render();
-    announce(OFFLINE_MESSAGES.offline);
+    if (state.capable) announce(OFFLINE_MESSAGES.offline);
   });
   services.events.addEventListener('online', () => {
     state.offline = false;
     render();
-    announce('');
+    if (state.capable) announce(OFFLINE_MESSAGES.online);
   });
 
   if (installButton && !services.isStandalone()) {
@@ -139,6 +150,7 @@ export async function connectOfflineSupport(
   });
 
   function offerUpdate(waiting: ServiceWorker) {
+    state.capable = true;
     state.updateReady = true;
     render();
     announce(OFFLINE_MESSAGES.updateReady);
@@ -159,6 +171,7 @@ export async function connectOfflineSupport(
       if (worker.state === 'installed' && container?.controller) {
         offerUpdate(worker);
       } else if (worker.state === 'activated' && !state.updateReady) {
+        state.capable = true;
         state.ready = true;
         render();
         announce(OFFLINE_MESSAGES.ready);
@@ -171,6 +184,7 @@ export async function connectOfflineSupport(
     if (registration.waiting && container.controller) {
       offerUpdate(registration.waiting);
     } else if (registration.active && container.controller) {
+      state.capable = true;
       state.ready = true;
     }
     if (registration.installing) watch(registration.installing);

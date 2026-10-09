@@ -148,7 +148,9 @@ describe('offline and install controls', () => {
 
   it('tells the maker when they are offline and when they are back', async () => {
     const ui = footer();
-    const { events, services } = setup();
+    const registration = new FakeRegistration();
+    registration.active = new FakeWorker();
+    const { events, services } = setup({ controller: true, registration });
     await connectOfflineSupport(document, services);
 
     events.dispatchEvent(new Event('offline'));
@@ -156,7 +158,75 @@ describe('offline and install controls', () => {
     expect(ui.feedback.textContent).toBe(OFFLINE_MESSAGES.offline);
 
     events.dispatchEvent(new Event('online'));
+    expect(ui.status.textContent).toBe(OFFLINE_MESSAGES.ready);
+    expect(ui.feedback.textContent).toBe(OFFLINE_MESSAGES.online);
+  });
+
+  it('keeps an update visible, and announces reconnection, when back online', async () => {
+    const ui = footer();
+    const registration = new FakeRegistration();
+    registration.active = new FakeWorker();
+    registration.waiting = new FakeWorker();
+    const { events, services } = setup({ controller: true, registration });
+    await connectOfflineSupport(document, services);
+
+    events.dispatchEvent(new Event('offline'));
+    events.dispatchEvent(new Event('online'));
+
+    expect(ui.status.textContent).toBe(OFFLINE_MESSAGES.updateReady);
+    expect(ui.feedback.textContent).toBe(OFFLINE_MESSAGES.online);
+  });
+
+  it('makes no offline claim before a worker is ready', async () => {
+    const ui = footer();
+    const registration = new FakeRegistration();
+    registration.installing = new FakeWorker();
+    const { events, services } = setup({ online: false, registration });
+    await connectOfflineSupport(document, services);
+
+    // Offline from the start, and offline events, while still installing.
     expect(ui.status.hidden).toBe(true);
+    events.dispatchEvent(new Event('offline'));
+    events.dispatchEvent(new Event('online'));
+    events.dispatchEvent(new Event('offline'));
+    expect(ui.status.hidden).toBe(true);
+    expect(ui.feedback.textContent).toBe('');
+
+    // Once the worker has activated, the claim becomes true and is shown.
+    registration.installing.become('activated');
+    expect(ui.status.textContent).toBe(OFFLINE_MESSAGES.offline);
+  });
+
+  it('makes no offline claim when the worker cannot be registered', async () => {
+    const ui = footer();
+    const { events, services } = setup({
+      online: false,
+      register: async () => {
+        throw new Error('blocked');
+      },
+    });
+    await connectOfflineSupport(document, services);
+
+    events.dispatchEvent(new Event('offline'));
+    events.dispatchEvent(new Event('online'));
+
+    expect(ui.status.hidden).toBe(true);
+    expect(ui.feedback.textContent).toBe('');
+  });
+
+  it('makes no offline claim in a browser without service workers', async () => {
+    const ui = footer();
+    const { events, services } = setup({ online: false });
+    await connectOfflineSupport(document, {
+      ...services,
+      serviceWorker: undefined,
+    });
+
+    events.dispatchEvent(new Event('offline'));
+    events.dispatchEvent(new Event('online'));
+
+    expect(ui.status.hidden).toBe(true);
+    expect(ui.feedback.textContent).toBe('');
   });
 
   it('offers installing quietly, and only when the browser does', async () => {
