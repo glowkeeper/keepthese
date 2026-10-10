@@ -9,6 +9,10 @@ import { expect, test, type Browser, type Page } from '@playwright/test';
 // same step, rather than pinning pixel values, so they hold at every viewport
 // width.
 
+// These tests load many pages in one test, which is quick locally but several
+// times slower on CI, so they are given room instead of the 30 second default.
+const slowTestTimeout = 90_000;
+
 async function gapBetween(page: Page, upper: string, lower: string) {
   return page.evaluate(
     ([upperSelector, lowerSelector]) => {
@@ -183,6 +187,7 @@ async function studioTopOnDay(
 test('the studio does not move when Today’s page appears, for the longest title at any width', async ({
   browser,
 }) => {
+  test.setTimeout(slowTestTimeout);
   for (const width of [320, 360, 393, 430, 600, 700, 800, 1280]) {
     const viewport = { height: 800, width };
     const baseline = await studioTopWithoutScript(browser, viewport);
@@ -199,6 +204,7 @@ test('the studio does not move when Today’s page appears, for the longest titl
 test('the studio does not move for any passage on the narrowest phone', async ({
   browser,
 }) => {
+  test.setTimeout(slowTestTimeout);
   const viewport = { height: 800, width: 320 };
   const baseline = await studioTopWithoutScript(browser, viewport);
 
@@ -254,6 +260,12 @@ const firstLines = [
   ],
 ] as const;
 
+// The browser trims a text box to the font's declared capital height, while the
+// measurement below uses the outline of the letter H, and the two can differ by
+// about a pixel at these sizes in some fonts. The problems this guards against
+// are several pixels (fonts) to twenty (a wrong step), so two pixels is tight.
+const maximumCapLineDifference = 2;
+
 async function capLineGap(page: Page, selector: string) {
   return page.evaluate((firstText) => {
     const element = document.querySelector(firstText)!;
@@ -283,6 +295,7 @@ async function capLineGap(page: Page, selector: string) {
 test('the visible gap from the header to the first line is the same on every route', async ({
   page,
 }) => {
+  test.setTimeout(slowTestTimeout);
   for (const width of [320, 390, 768, 1280, 1600]) {
     await page.setViewportSize({ height: 900, width });
     const gaps: Record<string, number> = {};
@@ -295,7 +308,7 @@ test('the visible gap from the header to the first line is the same on every rou
       expect(
         Math.abs(gap - reference),
         `${name} is ${gap.toFixed(1)}px from the header against ${reference.toFixed(1)}px on the homepage at ${width}px`,
-      ).toBeLessThanOrEqual(1.5);
+      ).toBeLessThanOrEqual(maximumCapLineDifference);
     }
   }
 });
@@ -311,6 +324,7 @@ const fontSets = [
 test('the visible gap does not depend on which fonts the browser uses', async ({
   page,
 }, testInfo) => {
+  test.setTimeout(slowTestTimeout);
   test.skip(
     testInfo.project.name !== 'desktop-chromium',
     'sets its own viewports',
@@ -332,7 +346,7 @@ test('the visible gap does not depend on which fonts the browser uses', async ({
         expect(
           Math.abs(gap - reference),
           `${name} is ${gap.toFixed(1)}px against ${reference.toFixed(1)}px on the homepage in ${serif} and ${sans} at ${width}px`,
-        ).toBeLessThanOrEqual(1);
+        ).toBeLessThanOrEqual(maximumCapLineDifference);
       }
     }
   }
@@ -345,23 +359,41 @@ test('the homepage gap does not change with the length of the day’s title', as
     testInfo.project.name !== 'desktop-chromium',
     'sets its own viewports',
   );
+  test.setTimeout(slowTestTimeout);
   for (const width of [390, 600]) {
+    // One page per width, moved from day to day by changing the clock and
+    // letting the page recompute, which is what a tab left open does.
+    const context = await browser.newContext({
+      viewport: { height: 800, width },
+    });
+    const page = await context.newPage();
+    await page.clock.install({ time: noonOfEpochDay(0) });
+    await page.goto('/');
+    const title = page.locator('.todays-page cite');
+    await expect(title).toBeVisible();
+
     const gaps = new Set<number>();
-    for (let day = 0; day < shelfSize; day += 1) {
-      const context = await browser.newContext({
-        viewport: { height: 800, width },
-      });
-      const page = await context.newPage();
-      await page.clock.install({ time: noonOfEpochDay(day) });
-      await page.goto('/');
-      await expect(
-        page.getByRole('link', { name: /Today’s page/ }),
-      ).toBeVisible();
+    const seen = new Set<string>();
+    let previous = await title.textContent();
+    gaps.add(
+      Math.round((await capLineGap(page, '.todays-page-text')) * 10) / 10,
+    );
+    seen.add(previous!);
+    for (let day = 1; day < shelfSize; day += 1) {
+      await page.clock.setFixedTime(noonOfEpochDay(day));
+      await page.evaluate(() =>
+        document.dispatchEvent(new Event('visibilitychange')),
+      );
+      await expect(title).not.toHaveText(previous!);
+      previous = await title.textContent();
+      seen.add(previous!);
       gaps.add(
         Math.round((await capLineGap(page, '.todays-page-text')) * 10) / 10,
       );
-      await context.close();
     }
+    await context.close();
+
+    expect(seen.size, `every passage was shown at ${width}px`).toBe(shelfSize);
     expect([...gaps], `homepage gaps by day at ${width}px`).toHaveLength(1);
   }
 });
