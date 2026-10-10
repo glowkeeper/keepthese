@@ -1306,12 +1306,16 @@ h1 {
 }
 
 .todays-page-line {
+  /* The link's own vertical padding, shared with the trimmed margin below. */
+  --todays-page-padding: 0.7rem;
   margin: var(--flow-gap) 0 0;
 }
 
 .todays-page-slot {
   display: flex;
-  align-items: center;
+  /* Top-aligned, so the gap under the header is the same whether today's title
+     takes one line or two; any spare reserved height falls below the link. */
+  align-items: flex-start;
   min-height: 2.75rem;
 }
 
@@ -1333,7 +1337,7 @@ h1 {
 .todays-page {
   display: block;
   min-height: 0;
-  padding: 0.7rem 0;
+  padding: var(--todays-page-padding) 0;
   line-height: 1.3;
 }
 
@@ -1350,6 +1354,32 @@ h1 {
 .todays-page cite {
   margin-left: 0.3em;
   font-style: italic;
+}
+
+/*
+ * Where the browser can trim a text box to its capital line, the first line of
+ * every route sits exactly --first-content-gap under the header whatever font
+ * is used, because the empty space above the letters is trimmed away instead of
+ * being estimated. Elsewhere the em compensations above stand in for it.
+ * Flex containers are trimmed through their items.
+ */
+@supports (text-box: trim-start cap alphabetic) {
+  .page-introduction > h1:first-child,
+  .passage-breadcrumb > *,
+  .discovery-context > nav:first-child > *,
+  .todays-page {
+    text-box: trim-start cap alphabetic;
+  }
+
+  .page-introduction > h1:first-child,
+  .passage-breadcrumb,
+  .discovery-context > nav:first-child {
+    margin-top: var(--first-content-gap);
+  }
+
+  .todays-page-line {
+    margin-top: calc(var(--first-content-gap) - var(--todays-page-padding));
+  }
 }
 
 .offline-status {

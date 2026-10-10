@@ -1,10 +1,13 @@
 import { expect, test, type Browser, type Page } from '@playwright/test';
 
-// The site's vertical rhythm is built from three steps: the gap from the
-// header to a page's first content, the gap between neighbouring items in one
-// group, and the larger gap between major sections. These tests assert that
-// comparable elements use the same step, rather than pinning pixel values, so
-// they hold at every viewport width.
+// The site's vertical rhythm is built from four steps (see
+// docs/visual-direction.md): the visible gap from the header to the first line
+// (`--first-content-gap`), the gap from an introduction to its first section
+// (`--content-start-gap`), the gap between neighbouring items in one group
+// (`--flow-gap`), and the larger gap between major sections and the footer
+// (`--major-section-gap`). These tests assert that comparable elements use the
+// same step, rather than pinning pixel values, so they hold at every viewport
+// width.
 
 async function gapBetween(page: Page, upper: string, lower: string) {
   return page.evaluate(
@@ -294,5 +297,71 @@ test('the visible gap from the header to the first line is the same on every rou
         `${name} is ${gap.toFixed(1)}px from the header against ${reference.toFixed(1)}px on the homepage at ${width}px`,
       ).toBeLessThanOrEqual(1.5);
     }
+  }
+});
+
+// The same measurement with the site's fonts swapped out. This is what makes
+// the match hold on platforms whose fallback fonts differ from the maintainer's.
+const fontSets = [
+  ['monospace', 'monospace'],
+  ['Georgia', 'Verdana'],
+  ['Times New Roman', 'Arial'],
+] as const;
+
+test('the visible gap does not depend on which fonts the browser uses', async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== 'desktop-chromium',
+    'sets its own viewports',
+  );
+  for (const [serif, sans] of fontSets) {
+    for (const width of [390, 1280]) {
+      await page.setViewportSize({ height: 900, width });
+      const gaps: Record<string, number> = {};
+      for (const [name, path, selector] of firstLines) {
+        await ready(page, path, selector);
+        await page.addStyleTag({
+          content: `:root, h1 { font-family: ${serif}, serif !important }
+            .surprise-action, .passage-breadcrumb, .discovery-context nav, .eyebrow, .site-header { font-family: ${sans}, sans-serif !important }`,
+        });
+        gaps[name] = await capLineGap(page, selector);
+      }
+      const reference = gaps.home!;
+      for (const [name, gap] of Object.entries(gaps)) {
+        expect(
+          Math.abs(gap - reference),
+          `${name} is ${gap.toFixed(1)}px against ${reference.toFixed(1)}px on the homepage in ${serif} and ${sans} at ${width}px`,
+        ).toBeLessThanOrEqual(1);
+      }
+    }
+  }
+});
+
+test('the homepage gap does not change with the length of the day’s title', async ({
+  browser,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== 'desktop-chromium',
+    'sets its own viewports',
+  );
+  for (const width of [390, 600]) {
+    const gaps = new Set<number>();
+    for (let day = 0; day < shelfSize; day += 1) {
+      const context = await browser.newContext({
+        viewport: { height: 800, width },
+      });
+      const page = await context.newPage();
+      await page.clock.install({ time: noonOfEpochDay(day) });
+      await page.goto('/');
+      await expect(
+        page.getByRole('link', { name: /Today’s page/ }),
+      ).toBeVisible();
+      gaps.add(
+        Math.round((await capLineGap(page, '.todays-page-text')) * 10) / 10,
+      );
+      await context.close();
+    }
+    expect([...gaps], `homepage gaps by day at ${width}px`).toHaveLength(1);
   }
 });
