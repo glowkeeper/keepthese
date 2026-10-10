@@ -51,9 +51,14 @@ test('today’s page opens that passage with its source credit', async ({
   ).toBeVisible();
 });
 
-test('the studio does not move when the link appears', async ({ browser }) => {
+test('the studio does not move when the link appears', async ({
+  browser,
+  page: projectPage,
+}) => {
+  // Use the project's own viewport (desktop or phone), not the default one.
+  const viewport = projectPage.viewportSize()!;
   const studioTop = async (javaScriptEnabled: boolean) => {
-    const context = await browser.newContext({ javaScriptEnabled });
+    const context = await browser.newContext({ javaScriptEnabled, viewport });
     const page = await context.newPage();
     await page.goto('http://127.0.0.1:4321/');
     if (javaScriptEnabled) {

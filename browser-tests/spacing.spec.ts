@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Browser, type Page } from '@playwright/test';
 
 // The site's vertical rhythm is built from three steps: the gap from the
 // header to a page's first content, the gap between neighbouring items in one
@@ -56,14 +56,14 @@ test('Today’s page reads as one line of text, wrapping like any link', async (
   await page.goto('/');
   const link = page.getByRole('link', { name: /Today’s page/ });
   await expect(link).toBeVisible();
-  await expect(link).toHaveCSS('display', 'block');
 
   // The title follows its label directly, not in a column of its own.
   const gap = await link.evaluate((element) => {
     const cite = element.querySelector('cite')!;
+    const text = element.querySelector('.todays-page-text')!;
     const label = document.createRange();
-    label.setStart(element.firstChild!, 0);
-    label.setEnd(element.firstChild!, element.firstChild!.textContent!.length);
+    label.setStart(text.firstChild!, 0);
+    label.setEnd(text.firstChild!, text.firstChild!.textContent!.length);
     return cite.getClientRects()[0]!.left - label.getBoundingClientRect().right;
   });
   expect(gap).toBeLessThan(16);
@@ -135,4 +135,99 @@ test('nothing overflows horizontally on the pages whose spacing changed', async 
       ),
     ).toBe(true);
   }
+});
+
+// Today's page is chosen in the browser from the UTC day, so a day is picked
+// by faking the clock. Day n of the epoch shows the n-th passage on the shelf
+// (there are 20), which lets every title be checked deterministically.
+const shelfSize = 20;
+const longestTitleDay = 4; // Narrative of the Life of Frederick Douglass.
+
+function noonOfEpochDay(day: number) {
+  return new Date(Date.UTC(1970, 0, 1 + day, 12));
+}
+
+async function studioTopWithoutScript(
+  browser: Browser,
+  viewport: { height: number; width: number },
+) {
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport,
+  });
+  const page = await context.newPage();
+  await page.goto('/');
+  const top = (await page.locator('.studio-introduction').boundingBox())!.y;
+  await context.close();
+  return top;
+}
+
+async function studioTopOnDay(
+  browser: Browser,
+  viewport: { height: number; width: number },
+  day: number,
+) {
+  const context = await browser.newContext({ viewport });
+  const page = await context.newPage();
+  await page.clock.install({ time: noonOfEpochDay(day) });
+  await page.goto('/');
+  const link = page.getByRole('link', { name: /Today’s page/ });
+  await expect(link).toBeVisible();
+  const [top, linkHeight, slotHeight] = await page.evaluate(() => [
+    document.querySelector('.studio-introduction')!.getBoundingClientRect().top,
+    document.querySelector('.todays-page')!.getBoundingClientRect().height,
+    document.querySelector('.todays-page-slot')!.getBoundingClientRect().height,
+  ]);
+  await context.close();
+  return { linkHeight: linkHeight!, slotHeight: slotHeight!, top: top! };
+}
+
+test('the studio does not move when Today’s page appears, for the longest title at any width', async ({
+  browser,
+}) => {
+  for (const width of [320, 360, 393, 430, 600, 700, 800, 1280]) {
+    const viewport = { height: 800, width };
+    const baseline = await studioTopWithoutScript(browser, viewport);
+    const hydrated = await studioTopOnDay(browser, viewport, longestTitleDay);
+
+    expect(hydrated.top, `studio top at ${width}px`).toBe(baseline);
+    expect(
+      hydrated.linkHeight,
+      `link fits its slot at ${width}px`,
+    ).toBeLessThanOrEqual(hydrated.slotHeight);
+  }
+});
+
+test('the studio does not move for any passage on the narrowest phone', async ({
+  browser,
+}) => {
+  const viewport = { height: 800, width: 320 };
+  const baseline = await studioTopWithoutScript(browser, viewport);
+
+  for (let day = 0; day < shelfSize; day += 1) {
+    const hydrated = await studioTopOnDay(browser, viewport, day);
+    expect(hydrated.top, `studio top on day ${day}`).toBe(baseline);
+  }
+});
+
+test('a title clamped to two lines keeps its full text as the link name', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    viewport: { height: 800, width: 320 },
+  });
+  const page = await context.newPage();
+  await page.clock.install({ time: noonOfEpochDay(longestTitleDay) });
+  await page.goto('/');
+  const link = page.getByRole('link', { name: /Today’s page/ });
+  await expect(link).toBeVisible();
+
+  await expect(link).toHaveAccessibleName(/an American Slave/);
+  const text = link.locator('.todays-page-text');
+  await expect(text).toHaveCSS('overflow', 'hidden');
+  const clipped = await text.evaluate(
+    (element) => element.scrollHeight > element.clientHeight,
+  );
+  expect(clipped).toBe(true);
+  await context.close();
 });

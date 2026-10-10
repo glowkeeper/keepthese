@@ -50,7 +50,9 @@ export function TodaysPage({ passages }: TodaysPageProps) {
           className="surprise-action todays-page"
           href={passagePath(passage.passageId)}
         >
-          Today’s page: <cite>{passage.work.title}</cite>
+          <span className="todays-page-text">
+            Today’s page: <cite>{passage.work.title}</cite>
+          </span>
           <span className="visually-hidden">(chosen for today in UTC)</span>
         </a>
       ) : null}

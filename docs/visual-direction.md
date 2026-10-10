@@ -229,10 +229,16 @@ role instead of adding a value.
 | Flow | `--flow-gap` | Between neighbouring items in one group, such as a discovery control and the studio it belongs to. |
 | Major | `--major-section-gap` | Between major sections, and from the last content to the footer. |
 
-Client-rendered elements reserve their space so nothing shifts when they appear,
-and an empty status region takes no space until it has something to say.
-`browser-tests/spacing.spec.ts` asserts that comparable elements share a step
-rather than pinning pixel values, so it holds at every viewport width.
+The Today's page link is only known once the browser has chosen the day's
+passage, so its slot reserves the space it can need: one line from 48rem up and
+two below. The link is held to two lines, so the reservation is exact whatever
+font the browser uses; the rare longest title on the narrowest phones ends in an
+ellipsis while its full text remains the link's accessible name. An empty status
+region, such as the My poems one, takes no space until it has something to say.
+Other content that the browser fills in after loading, such as the My poems
+list, is not covered by this guarantee. `browser-tests/spacing.spec.ts` asserts
+that comparable elements share a step rather than pinning pixel values, and that
+the studio does not move when Today's page appears.
 
 ## Ship test
 
