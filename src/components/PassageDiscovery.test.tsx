@@ -5,7 +5,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import firstRecord from '../content/passages/frankenstein-1831-chapter-4.json';
 import secondRecord from '../content/passages/persuasion-1818-chapter-4-prudence-and-romance.json';
@@ -53,7 +53,16 @@ function captureAnimationFrame() {
   return () => callback(0);
 }
 
+// Today's page changes with the UTC day, and its link names a passage, so these
+// tests pin the day: on 2 January 1970 the two-passage shelf offers the second
+// passage. Only Date is faked so timers and animation frames behave normally.
+beforeEach(() => {
+  vi.useFakeTimers({ toFake: ['Date'] });
+  vi.setSystemTime(new Date('1970-01-02T12:00:00Z'));
+});
+
 afterEach(() => {
+  vi.useRealTimers();
   cleanup();
   localStorage.clear();
   vi.restoreAllMocks();

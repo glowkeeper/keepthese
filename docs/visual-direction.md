@@ -217,6 +217,23 @@ dates, provenance, edits, and applicable reuse terms, and introduce no runtime
 generation dependency. OpenArt helps build the instrument; it does not play the
 instrument for the maker.
 
+## Vertical rhythm
+
+Spacing between blocks uses three steps, defined once in `src/styles/global.css`
+and used by every route. New elements should pick the step that matches their
+role instead of adding a value.
+
+| Step | Token | Used for |
+| --- | --- | --- |
+| Start | `--content-start-gap` | From the header to a page's first content, and from a page introduction to its first section. |
+| Flow | `--flow-gap` | Between neighbouring items in one group, such as a discovery control and the studio it belongs to. |
+| Major | `--major-section-gap` | Between major sections, and from the last content to the footer. |
+
+Client-rendered elements reserve their space so nothing shifts when they appear,
+and an empty status region takes no space until it has something to say.
+`browser-tests/spacing.spec.ts` asserts that comparable elements share a step
+rather than pinning pixel values, so it holds at every viewport width.
+
 ## Ship test
 
 The surface is ready when:
