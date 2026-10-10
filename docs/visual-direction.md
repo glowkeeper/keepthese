@@ -219,15 +219,28 @@ instrument for the maker.
 
 ## Vertical rhythm
 
-Spacing between blocks uses three steps, defined once in `src/styles/global.css`
+Spacing between blocks uses four steps, defined once in `src/styles/global.css`
 and used by every route. New elements should pick the step that matches their
 role instead of adding a value.
 
 | Step | Token | Used for |
 | --- | --- | --- |
-| Start | `--content-start-gap` | From the header to a page's first content, and from a page introduction to its first section. |
+| First line | `--first-content-gap` | The visible distance from the header to the first line of every route, measured to the cap line of its text rather than to its box. |
+| Start | `--content-start-gap` | From a page introduction to its first section, and the studio's default top padding where no discovery control sits above it. |
 | Flow | `--flow-gap` | Between neighbouring items in one group, such as a discovery control and the studio it belongs to. |
 | Major | `--major-section-gap` | Between major sections, and from the last content to the footer. |
+
+The first line of every route sits the same visible distance under the header:
+`--first-content-gap`, the flow step plus 1rem. A large title has more empty
+space above its letters than a short line, so equal box gaps look unequal.
+Where the browser supports `text-box` (Chromium and Safari), the first element's
+text box is trimmed to its capital line, so the gap is exact in any font. Where
+it does not, each kind of first element subtracts its own empty space in `em`
+(about 0.17em for a title and 0.29em for a small breadcrumb line), which is
+tuned to the site's preferred fonts and can be a pixel or two out in others.
+Match what is seen, not the box. The Today's page link is top-aligned in its
+reserved slot, so this gap does not depend on whether the day's title takes one
+line or two.
 
 The Today's page link is only known once the browser has chosen the day's
 passage, so its slot reserves the space it can need: one line from 48rem up and
