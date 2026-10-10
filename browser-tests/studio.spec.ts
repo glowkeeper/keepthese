@@ -658,12 +658,13 @@ test('the homepage opens with the studio before discovery', async ({
   });
 
   expect(desktopLayout).not.toBeNull();
-  // Today's page sits just under the header; the studio keeps its original
-  // 40–48px of space below that line.
+  // Today's page sits just under the header, and the studio follows it by the
+  // same flow step passage routes use below their discovery controls (see
+  // browser-tests/spacing.spec.ts), so the gaps above and below the line match.
   expect(desktopLayout!.headerGap).toBeGreaterThanOrEqual(8);
   expect(desktopLayout!.headerGap).toBeLessThanOrEqual(24);
-  expect(desktopLayout!.lineToStudioGap).toBeGreaterThanOrEqual(40);
-  expect(desktopLayout!.lineToStudioGap).toBeLessThanOrEqual(48);
+  expect(desktopLayout!.lineToStudioGap).toBeGreaterThanOrEqual(8);
+  expect(desktopLayout!.lineToStudioGap).toBeLessThanOrEqual(24);
   expect(desktopLayout!.introductionBelowWordmark).toBe(true);
   expect(desktopLayout!.navigationAtRight).toBe(true);
   expect(desktopLayout!.sourceTop).toBeLessThan(900);
@@ -754,6 +755,7 @@ test('the Explore page presents the finite shelf and literary paths', async ({
     );
   });
   expect(sectionGap).not.toBeNull();
+  expect(sectionGap!).toBeGreaterThanOrEqual(24);
   expect(sectionGap!).toBeLessThanOrEqual(48);
   await expect(page.locator('.explore-passage-list > li')).toHaveCount(20);
   await expect(page.locator('.explore-journey-list > li')).toHaveCount(3);

@@ -778,7 +778,7 @@ h1 {
 .explore-page {
   display: grid;
   gap: var(--major-section-gap);
-  margin-top: var(--flow-gap);
+  margin-top: var(--content-start-gap);
 }
 
 .explore-page h2 {
@@ -1102,6 +1102,7 @@ h1 {
 }
 
 .passage-discovery--local + .studio,
+.todays-page-line + .studio,
 .active-journey + .studio,
 .received-poem + .studio {
   padding-top: var(--flow-gap);
@@ -1297,6 +1298,38 @@ h1 {
   min-height: 2.75rem;
 }
 
+/*
+ * A long title wraps on narrow screens, and the title is only known once the
+ * browser has chosen today's page. The link is therefore held to at most two
+ * lines (the rare longest title on the narrowest phones ends in an ellipsis;
+ * its full text stays the link's accessible name), and the slot reserves
+ * exactly two lines below 48rem so the page never shifts when it appears. That
+ * holds whatever font the browser falls back to, because the clamp, not the
+ * text width, sets the worst case. From 48rem up every title fits on one line.
+ */
+@media (max-width: 47.99rem) {
+  .todays-page-slot {
+    min-height: 4rem;
+  }
+}
+
+.todays-page {
+  display: block;
+  min-height: 0;
+  padding: 0.7rem 0;
+  line-height: 1.3;
+}
+
+/* The clamp sits on an element with no padding, so it clips exactly at the
+   second line instead of showing the top of a third inside the padding. */
+.todays-page-text {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
 .todays-page cite {
   margin-left: 0.3em;
   font-style: italic;
@@ -1320,7 +1353,7 @@ h1 {
 
 .my-poems {
   max-width: 48rem;
-  margin: var(--flow-gap) 0 0;
+  margin: var(--content-start-gap) 0 0;
   font-family: system-ui, sans-serif;
 }
 
@@ -1329,8 +1362,12 @@ h1 {
 }
 
 .my-poems-status {
-  min-height: 1.5rem;
   margin: 0;
+}
+
+/* The live region is always present, but only takes space once it has text. */
+.my-poems-status:not(:empty) {
+  margin-bottom: var(--flow-gap);
 }
 
 .my-poems-status:focus {

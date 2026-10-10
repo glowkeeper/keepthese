@@ -217,6 +217,29 @@ dates, provenance, edits, and applicable reuse terms, and introduce no runtime
 generation dependency. OpenArt helps build the instrument; it does not play the
 instrument for the maker.
 
+## Vertical rhythm
+
+Spacing between blocks uses three steps, defined once in `src/styles/global.css`
+and used by every route. New elements should pick the step that matches their
+role instead of adding a value.
+
+| Step | Token | Used for |
+| --- | --- | --- |
+| Start | `--content-start-gap` | From the header to a page's first content, and from a page introduction to its first section. |
+| Flow | `--flow-gap` | Between neighbouring items in one group, such as a discovery control and the studio it belongs to. |
+| Major | `--major-section-gap` | Between major sections, and from the last content to the footer. |
+
+The Today's page link is only known once the browser has chosen the day's
+passage, so its slot reserves the space it can need: one line from 48rem up and
+two below. The link is held to two lines, so the reservation is exact whatever
+font the browser uses; the rare longest title on the narrowest phones ends in an
+ellipsis while its full text remains the link's accessible name. An empty status
+region, such as the My poems one, takes no space until it has something to say.
+Other content that the browser fills in after loading, such as the My poems
+list, is not covered by this guarantee. `browser-tests/spacing.spec.ts` asserts
+that comparable elements share a step rather than pinning pixel values, and that
+the studio does not move when Today's page appears.
+
 ## Ship test
 
 The surface is ready when:
