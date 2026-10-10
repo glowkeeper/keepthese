@@ -225,9 +225,16 @@ role instead of adding a value.
 
 | Step | Token | Used for |
 | --- | --- | --- |
-| Start | `--content-start-gap` | From the header to a page's first content, and from a page introduction to its first section. |
+| First line | `--first-content-gap` | The visible distance from the header to the first line of every route, measured to the cap line of its text rather than to its box. |
+| Start | `--content-start-gap` | From a page introduction to its first section. |
 | Flow | `--flow-gap` | Between neighbouring items in one group, such as a discovery control and the studio it belongs to. |
 | Major | `--major-section-gap` | Between major sections, and from the last content to the footer. |
+
+The first line of every route sits the same visible distance under the header:
+`--first-content-gap`, the flow step plus 1rem. A large title has more empty
+space above its letters than a short line, so each kind of first element
+subtracts its own, in `em`, from that gap (about 0.17em for a title and 0.29em
+for a small breadcrumb line). Match what is seen, not the box.
 
 The Today's page link is only known once the browser has chosen the day's
 passage, so its slot reserves the space it can need: one line from 48rem up and

@@ -2,6 +2,13 @@
   --content-start-gap: clamp(1.75rem, 4vw, 2.75rem);
   --content-width: 72rem;
   --flow-gap: clamp(0.75rem, 1.5vw, 1rem);
+  /*
+   * The visible distance from the header to the cap line of a page's first
+   * line, on every route. Box edges are not what is seen: a large title has
+   * far more empty line height above its letters than a short line of text,
+   * so each first element subtracts its own (see below).
+   */
+  --first-content-gap: calc(var(--flow-gap) + 1rem);
   --major-section-gap: clamp(3rem, 5vw, 4rem);
   color: #292621;
   background: #e8e0d1;
@@ -1086,13 +1093,18 @@ h1 {
 }
 
 .page-introduction {
-  margin-top: var(--content-start-gap);
+  margin-top: 0;
 }
 
 .page-introduction h1 {
   margin: 0;
   font-size: clamp(2.25rem, 6vw, 4rem);
   line-height: 1.05;
+}
+
+/* A title's line box holds about 0.17em of empty space above its capitals. */
+.page-introduction > h1:first-child {
+  margin-top: calc(var(--first-content-gap) - 0.17em);
 }
 
 .page-introduction h1 + p {
@@ -1112,7 +1124,8 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-  margin-top: var(--content-start-gap);
+  /* A small line holds about 0.29em of empty space above its capitals. */
+  margin-top: calc(var(--first-content-gap) - 0.29em);
   color: #655e55;
   font-family: system-ui, sans-serif;
   font-size: 0.82rem;
@@ -1136,6 +1149,10 @@ h1 {
   color: #655e55;
   font-family: system-ui, sans-serif;
   font-size: 0.82rem;
+}
+
+.discovery-context > nav:first-child {
+  margin-top: calc(var(--first-content-gap) - 0.29em);
 }
 
 .discovery-context nav a,

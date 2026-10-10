@@ -70,27 +70,22 @@ test('Today’s page reads as one line of text, wrapping like any link', async (
   expect(gap).toBeGreaterThanOrEqual(0);
 });
 
-for (const [name, path, selector, section] of [
-  ['Explore', '/explore/', '.explore-introduction', '.explore-page'],
-  ['My poems', '/my-poems/', '.my-poems-introduction', '.my-poems'],
-] as const) {
-  test(`${name} starts its first section as pages start their content`, async ({
-    page,
-  }) => {
-    await ready(page, path, selector);
+test('Explore and My poems start their first section at the same distance', async ({
+  page,
+}) => {
+  const gaps = new Set<number>();
+  for (const [path, introduction, section] of [
+    ['/explore/', '.explore-introduction', '.explore-page'],
+    ['/my-poems/', '.my-poems-introduction', '.my-poems'],
+  ] as const) {
+    await ready(page, path, introduction);
     await expect(page.locator(section)).toBeVisible();
-
-    const headerToIntroduction = await gapBetween(
-      page,
-      '.site-header',
-      selector,
-    );
-    const introductionToSection = await gapBetween(page, selector, section);
-
-    expect(headerToIntroduction).not.toBeNull();
-    expect(introductionToSection).toBe(headerToIntroduction);
-  });
-}
+    const gap = await gapBetween(page, introduction, section);
+    expect(gap).not.toBeNull();
+    gaps.add(gap!);
+  }
+  expect([...gaps]).toHaveLength(1);
+});
 
 test('the My poems status line takes no space until it has something to say', async ({
   page,
@@ -230,4 +225,74 @@ test('a title clamped to two lines keeps its full text as the link name', async 
   );
   expect(clipped).toBe(true);
   await context.close();
+});
+
+// What is seen is the distance from the header to the cap line of the first
+// line of text, not the distance between boxes: a large title has far more
+// empty line height above its letters than a short line, so equal box gaps look
+// unequal. The cap line is measured from the font itself, so it does not depend
+// on which letter a title happens to start with.
+const firstLines = [
+  ['home', '/', '.todays-page-text'],
+  ['explore', '/explore/', '.page-introduction > h1'],
+  ['about', '/about/', '.page-introduction > h1'],
+  ['how-to', '/blackout-poetry/', '.page-introduction > h1'],
+  ['privacy', '/privacy/', '.page-introduction > h1'],
+  ['my poems', '/my-poems/', '.page-introduction > h1'],
+  [
+    'passage',
+    '/passages/alice-1865-chapter-1-daisy-chain/',
+    '.passage-breadcrumb a',
+  ],
+  [
+    'journey',
+    '/journeys/thresholds-and-departures/',
+    '.discovery-context > nav a',
+  ],
+] as const;
+
+async function capLineGap(page: Page, selector: string) {
+  return page.evaluate((firstText) => {
+    const element = document.querySelector(firstText)!;
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+    let node: Node | null;
+    do {
+      node = walker.nextNode();
+    } while (node && !node.textContent?.trim());
+    const range = document.createRange();
+    range.selectNodeContents(node!);
+    const rect = range.getClientRects()[0]!;
+    const style = getComputedStyle(node!.parentElement!);
+    const context = document.createElement('canvas').getContext('2d')!;
+    context.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+    const metrics = context.measureText('H');
+    const capLine =
+      rect.top +
+      metrics.fontBoundingBoxAscent -
+      metrics.actualBoundingBoxAscent;
+    return (
+      capLine -
+      document.querySelector('.site-header')!.getBoundingClientRect().bottom
+    );
+  }, selector);
+}
+
+test('the visible gap from the header to the first line is the same on every route', async ({
+  page,
+}) => {
+  for (const width of [320, 390, 768, 1280, 1600]) {
+    await page.setViewportSize({ height: 900, width });
+    const gaps: Record<string, number> = {};
+    for (const [name, path, selector] of firstLines) {
+      await ready(page, path, selector);
+      gaps[name] = await capLineGap(page, selector);
+    }
+    const reference = gaps.home!;
+    for (const [name, gap] of Object.entries(gaps)) {
+      expect(
+        Math.abs(gap - reference),
+        `${name} is ${gap.toFixed(1)}px from the header against ${reference.toFixed(1)}px on the homepage at ${width}px`,
+      ).toBeLessThanOrEqual(1.5);
+    }
+  }
 });
